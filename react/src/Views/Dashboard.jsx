@@ -1,17 +1,10 @@
-import React from "react";
-import SimpleCard from "../Components/Card/CardDashboard";
-import Example from "../Components/Charts/LineDiagram";
+import TabsChart from "../Components/TabsChart/Tabs";
 
 export default function Dashboard() {
     return (
-        <div>
-            <div className="flex flex-wrap">
-                <Example className="w-auto" />
-                <div className="flex">
-                    <SimpleCard />
-                    <SimpleCard />
-                </div>
-            </div>
+        <div className="w-full mt-4">
+            <h1>Dashborad</h1>
+            <TabsChart />
         </div>
     );
 }
