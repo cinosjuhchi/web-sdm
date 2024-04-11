@@ -19,6 +19,7 @@ export default function SimpleRegistrationForm() {
                     <img src={LogoPolri} alt="" width={128} />
                     <img src={LogoKorpolairud} alt="" width={128} />
                 </div>
+                
             </div>
             <div className="m-auto">
                 <Card
