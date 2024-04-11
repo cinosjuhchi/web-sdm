@@ -1,9 +1,7 @@
-import MultiLevelSidebar from "../Components/Sidebar/Sidebar";
+import Sidebar from "../Components/Sidebar/Sidebar";
 
 function View() {
-    return (
-        <MultiLevelSidebar></MultiLevelSidebar>
-        );
+    return <Sidebar></Sidebar>;
 }
 
 export default View;
