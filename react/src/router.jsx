@@ -4,6 +4,7 @@ import SignIn from "./Views/SignIn";
 import { Navigate } from "react-router-dom";
 import DefaultLayout from "../src/Layouts/DefaultLayout";
 import Dashboard from "./Views/Dashboard";
+import View from "./Views/View"
 
 const router = createBrowserRouter([
     {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
             },
         ],
     },
-    
+
     {
         path: "/",
         element: <GuestLayout />,
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <SignIn />,
+            },
+            {
+                path: "/view",
+                element: <View />,
             },
         ],
     },
