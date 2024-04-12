@@ -42,7 +42,7 @@ function Sidebar() {
         <div
             className={`${
                 open ? "w-72" : "w-20"
-            } h-screen bg-white duration-300 px-4 fixed `}
+            } h-screen bg-white duration-300 px-4`}
         >
             <ul className="py-2">
                 {Menus.map((menu, index) => (
