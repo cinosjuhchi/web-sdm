@@ -5,6 +5,7 @@ export default function Dashboard() {
         <div className="w-full mt-4">
             <h1>Dashborad</h1>
             <TabsChart />
+            <TabsChart />
         </div>
     );
 }

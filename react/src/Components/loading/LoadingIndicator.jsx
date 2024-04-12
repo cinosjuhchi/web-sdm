@@ -10,9 +10,9 @@ const LoadingIndicator = () => {
                     <TypeAnimation
                         preRenderFirstString={true}
                         sequence={[
-                            500,
+                            200,
                             "Selamat Datang di Web Kwaldik", // initially rendered starting point
-                            1000,
+                            500,
                             "Tunggu Beberapa Saat...",
                         ]}
                         speed={50}

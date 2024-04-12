@@ -3,10 +3,13 @@ import Sidebar from "../Components/Sidebar/Sidebar";
 
 function View() {
     return (
-        <>
-            <Navbar></Navbar>
-            <Sidebar></Sidebar>
-        </>
+        <div className="wrap bg-putih300">
+            <Navbar />
+            <div className="flex">
+                <Sidebar />
+                <div className="content p-4">Content</div>
+            </div>
+        </div>
     );
 }
 
