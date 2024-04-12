@@ -1,6 +1,5 @@
 import SyncLoader from "react-spinners/RiseLoader";
 import { TypeAnimation } from "react-type-animation";
-import React from "react";
 import { Typography } from "@material-tailwind/react";
 const LoadingIndicator = () => {
     return (
