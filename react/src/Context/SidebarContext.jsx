@@ -1,16 +1,17 @@
-// // SidebarContext.js
-// import React, { createContext, useContext, useState } from "react";
+/* eslint-disable react/prop-types */
+import { createContext, useState } from "react";
 
-// const SidebarContext = createContext();
+const SidebarContext = createContext();
 
-// export const useSidebarContext = () => useContext(SidebarContext);
+const SidebarContextProvider = ({ children }) => {
+    const [open, setOpen] = useState(true);
 
-// export const SidebarProvider = ({ children }) => {
-//     const [open, setOpen] = useState(true);
+    return (
+        <SidebarContext.Provider value={{ open, setOpen }}>
+            {children}
+        </SidebarContext.Provider>
+    );
+};
 
-//     return (
-//         <SidebarContext.Provider value={{ open, setOpen }}>
-//             {children}
-//         </SidebarContext.Provider>
-//     );
-// };
+export const SidebarK = SidebarContext;
+export default SidebarContextProvider;

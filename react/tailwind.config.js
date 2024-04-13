@@ -18,7 +18,11 @@ module.exports = withMT({
             jakarta: ["Plus Jakarta Sans", "sans-serif"],
         },
 
-        extend: {},
+        extend: {
+            height: {
+                128: "34rem",
+            },
+        },
     },
     plugins: [],
 });

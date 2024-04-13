@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import {
     ArrowLeftStartOnRectangleIcon,
     HomeIcon,
@@ -7,9 +7,13 @@ import {
 import LogoKor from "../../assets/logo/logoKorpolairud.png";
 import LogoDit from "../../assets/logo/logoPolAir.png";
 import LogoUdara from "../../assets/logo/logoPolUdara.png";
+import { SidebarK } from "../../Context/SidebarContext";
+import { useLocation } from "react-router-dom"; // Import useLocation from react-router-dom
 
 function Sidebar() {
-    const [open, setOpen] = useState(true);
+    const { open } = useContext(SidebarK);
+    const location = useLocation(); // Initialize useLocation
+
     const Menus = [
         { title: "Dashboard", link: "/", icon: <HomeIcon className="w-8" /> },
         {
@@ -36,21 +40,27 @@ function Sidebar() {
             title: "Keluar",
             link: "/login",
             icon: <ArrowLeftStartOnRectangleIcon className="w-8" />,
+            left: true,
         },
     ];
+
     return (
         <div
             className={`${
                 open ? "w-72" : "w-20"
-            } h-screen bg-white duration-300 px-4`}
+            } h-[calc(100vh-4rem)] bg-white duration-300 px-4 sticky top-16 z-50`}
         >
             <ul className="py-2">
                 {Menus.map((menu, index) => (
                     <a key={index} href={menu.link}>
                         <li
                             key={index}
-                            className={`${
-                                !open ? "px-2 py-2" : "px-3 py-2"
+                            className={`${!open ? "px-2 py-2" : "px-3 py-2"} ${
+                                location.pathname === menu.link
+                                    ? "bg-biru text-white rounded-md"
+                                    : ""
+                            } ${
+                                menu.left ? "hover:bg-red-400" : "hover:bg-biru"
                             } flex items-center gap-3 cursor-pointer hover:bg-biru hover:text-white transition-all hover:rounded-md mt-2`}
                         >
                             <div className="scale-100">{menu.icon}</div>
