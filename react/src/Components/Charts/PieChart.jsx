@@ -48,7 +48,7 @@ export default function Example() {
                 color="transparent"
                 className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-                <div className="w-max rounded-lg bg-biru p-3 text-white font-bold">
+                <div className="w-max rounded-lg bg-black p-3 text-white font-bold">
                     <AcademicCapIcon className="h-10 w-10" />
                 </div>
                 <div>
