@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import {
     ArrowLeftStartOnRectangleIcon,
+    ChevronDownIcon,
     HomeIcon,
     Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
@@ -27,16 +28,19 @@ function Sidebar() {
             title: "Korpolairud",
             link: "/view",
             icon: <img src={LogoKor} width={32} className="scale-100" />,
+            drop: true,
         },
         {
             title: "Ditpolairud",
             link: "/view",
             icon: <img src={LogoDit} width={32} className="scale-100" />,
+            drop: true,
         },
         {
             title: "Ditpoludara",
             link: "/view",
             icon: <img src={LogoUdara} width={32} className="scale-100" />,
+            drop: true,
         },
         {
             title: "Mutasi",
@@ -66,40 +70,43 @@ function Sidebar() {
                                     : ""
                             } ${
                                 menu.left ? "hover:bg-red-400" : "hover:bg-biru"
-                            } flex items-center gap-3 cursor-pointer hover:bg-biru hover:text-white transition-all hover:rounded-md mt-2`}
+                            } flex items-center justify-between gap-3 cursor-pointer hover:bg-biru hover:text-white transition-all hover:rounded-md mt-2`}
                         >
-                            <div className="scale-100">{menu.icon}</div>
-                            <span
-                                className={`${
-                                    !open && "hidden"
-                                } origin-left duration-300`}
-                            >
-                                {menu.title}
-                            </span>
+                            <div className="link flex gap-3 items-center">
+                                <div className="scale-100">{menu.icon}</div>
+                                <span
+                                    className={`${
+                                        !open && "hidden"
+                                    } origin-left duration-300`}
+                                >
+                                    {menu.title}
+                                </span>
+                            </div>
+
+                            <ChevronDownIcon
+                                className={`${!open ? "hidden" : "w-4"} 
+                                ${
+                                    menu.drop ? "" : "hidden"
+                                } justify-end duration-300`}
+                                strokeWidth={3}
+                            ></ChevronDownIcon>
                         </li>
                     </a>
                 ))}
                 <a onClick={onLogout}>
-                    <li className="px-2 py-2  hover:bg-red-400 flex items-center gap-3 cursor-pointer hover:bg-biru hover:text-white transition-all hover:rounded-md mt-2">
+                    <li
+                        className={`${
+                            !open ? "hover:bg-red-400" : "hover:bg-red-400"
+                        } flex items-center gap-3 cursor-pointer px-3 py-2 hover:text-white transition-all hover:rounded-md mt-2`}
+                    >
                         <div className="scale-100">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                                data-slot="icon"
-                                className="w-8"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-                                ></path>
-                            </svg>
+                            <ArrowLeftStartOnRectangleIcon className="w-8" />
                         </div>
-                        <span className="hidden origin-left duration-300">
+                        <span
+                            className={`${
+                                !open && "hidden"
+                            } origin-left duration-300`}
+                        >
                             Keluar
                         </span>
                     </li>
