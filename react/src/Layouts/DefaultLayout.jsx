@@ -5,12 +5,12 @@ import SidebarContextProvider from "../Context/SidebarContext";
 import { useStateContext } from "../Context/AuthContext";
 
 export default function DefaultLayout() {
-    const {user, token} = useStateContext();
-    if(!token){
-        return <Navigate to='/login'/>
+    const { user, token } = useStateContext();
+    if (!token) {
+        return <Navigate to="/login" />;
     }
     return (
-        <div className="wrap">
+        <div className="wrap box-border">
             <SidebarContextProvider>
                 <Navbar className="fixed" />
                 <div className="flex bg-blue-gray-100">
@@ -18,7 +18,7 @@ export default function DefaultLayout() {
                         <Sidebar />
                     </div>
                     <div className="main-content w-full p-4 mb-4">
-                        <h3>Hello {user.nama}</h3>            
+                        <h3>Hello {user.nama}</h3>
                         <Outlet />
                     </div>
                 </div>
