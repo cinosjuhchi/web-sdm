@@ -25,6 +25,12 @@ class AuthController extends Controller
         return response(compact('user', 'token'));
     }
 
+
+    public function me(Request $request)
+    {
+        return response()->json(Auth::user());
+    }
+
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
@@ -41,10 +47,8 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-    {
-        /** @var \App\Models\User $user */
-        $user = $request->user();
-        $user->currentAccessToken()->delete();
+    {        
+        $request->user()->currentAccessToken()->delete();
         return response('', 204);
     }
 }
