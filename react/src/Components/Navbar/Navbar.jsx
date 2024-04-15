@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { SidebarK } from "../../Context/SidebarContext";
-import Search from "../Button/Search";
 import { PlusIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 function Navbar() {
@@ -30,12 +29,9 @@ function Navbar() {
             </div>
 
             <div className="right flex gap-4">
-                <div className="search">
-                    <Search></Search>
-                </div>
                 <a
                     href="/tambah_data"
-                    className="px-4 bg-jingga rounded-md text-md flex items-center gap-1"
+                    className="px-4 py-2 bg-jingga rounded-md text-md flex items-center gap-1"
                 >
                     <PlusIcon className="w-5" strokeWidth={3} />
                     Tambah

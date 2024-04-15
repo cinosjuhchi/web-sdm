@@ -1,4 +1,4 @@
-import Example from "./LineDiagram";
+import Example from "./PieChart";
 
 function ContainChart() {
     return (
