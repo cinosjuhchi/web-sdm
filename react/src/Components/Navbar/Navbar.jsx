@@ -31,7 +31,7 @@ function Navbar() {
             <div className="right flex gap-4">
                 <a
                     href="/tambah_data"
-                    className="px-4 py-2 bg-jingga rounded-md text-md flex items-center gap-1"
+                    className="px-4 py-2 bg-jingga rounded-md text-md flex items-center gap-1 hover:bg-yellow-800 hover:scale-105 duration-300 active:scale-100 transition-all"
                 >
                     <PlusIcon className="w-5" strokeWidth={3} />
                     Tambah

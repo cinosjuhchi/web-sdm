@@ -41,7 +41,7 @@ export function CardDashboard() {
                 <a
                     key={index}
                     href={menu.link}
-                    className="card rounded-md px-4 py-4 bg-white hover:bg-biru hover:scale-105 transition-all duration-300 group max-h-min h-24 flex"
+                    className="card rounded-md px-4 py-4 bg-white hover:bg-biru hover:scale-105 active:scale-100 transition-all duration-300 group max-h-min h-24 flex"
                 >
                     <div
                         className="card-body flex gap-3 items-center"
