@@ -1,11 +1,11 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import LoadingIndicator from "../Components/loading/LoadingIndicator";
-import { userStateContext } from "../Context/AuthContext";
+import { useStateContext } from "../Context/AuthContext";
 
 export default function GuestLayout() {
     
-    const { userToken } = userStateContext();
+    const {user, token} = useStateContext();
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         // Logika untuk memuat data atau sumber daya lainnya
@@ -15,9 +15,9 @@ export default function GuestLayout() {
             
         },[]); // Contoh, ganti dengan logika memuat yang sesuai
     }, []);
-    if(userToken){
+    
+    if(token){
         return <Navigate to='/'/>
     }
-
     return <div>{loading ? <LoadingIndicator /> : <Outlet />}</div>;
 }
