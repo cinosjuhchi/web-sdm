@@ -16,7 +16,6 @@ import {
 } from "@material-tailwind/react";
 
 const TABLE_HEAD = [
-    "No",
     "NRP",
     "Nama",
     "Pangkat",
@@ -30,7 +29,6 @@ const TABLE_HEAD = [
 
 const TABLE_ROWS = [
     {
-        no: "1",
         nrp: "123456789",
         nama: "John Michael Lorem Ipsum",
         pangkat: "Brada",
@@ -42,7 +40,6 @@ const TABLE_ROWS = [
         date: "23/04/18",
     },
     {
-        no: "2",
         nrp: "123456788",
         nama: "John Michael",
         pangkat: "Brada",
@@ -54,7 +51,6 @@ const TABLE_ROWS = [
         date: "23/04/18",
     },
     {
-        no: "3",
         nrp: "123456788",
         nama: "John Michael",
         pangkat: "Brada",
@@ -66,7 +62,6 @@ const TABLE_ROWS = [
         date: "23/04/18",
     },
     {
-        no: "4",
         nrp: "123456788",
         nama: "John Michael",
         pangkat: "Brada",
@@ -78,7 +73,6 @@ const TABLE_ROWS = [
         date: "23/04/18",
     },
     {
-        no: "5",
         nrp: "123456788",
         nama: "John Michael",
         pangkat: "Brada",
@@ -142,7 +136,6 @@ export default function TableDashboard() {
                         {TABLE_ROWS.map(
                             (
                                 {
-                                    no,
                                     nrp,
                                     nama,
                                     pangkat,
@@ -161,15 +154,6 @@ export default function TableDashboard() {
 
                                 return (
                                     <tr key={nrp}>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
-                                                <div className="flex flex-col">
-                                                    <p className="font-normal text-sm text-black">
-                                                        {no}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
                                                 <div className="flex flex-col">
