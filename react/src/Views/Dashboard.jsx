@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axiosClient from "../axios";
 import Card from "../Components/Card/CardDashboard";
-import { MembersTable } from "../Components/Table/TableDashboard";
+import TableDashboard from "../Components/Table/TableDashboard";
 import TabsChart from "../Components/TabsChart/Tabs";
 import { useStateContext } from "../Context/AuthContext";
 
@@ -24,10 +24,10 @@ export default function Dashboard() {
       })
     return (
         <div className="w-full gap-y-4 flex flex-col">
-            <h1 className="text-2xl font-bold">Dashboard | {nama}</h1>
-            <Card></Card>
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <Card />
             <TabsChart />
-            <MembersTable></MembersTable>
+            <TableDashboard />
         </div>
     );
 }
