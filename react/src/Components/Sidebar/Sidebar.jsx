@@ -41,7 +41,7 @@ function Sidebar() {
             link: "/login",
             icon: <ArrowLeftStartOnRectangleIcon className="w-8" />,
             left: true,
-            onClick:{handleLogout}
+            
         },
     ];
 

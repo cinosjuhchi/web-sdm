@@ -2,8 +2,37 @@ import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import LogoKorpolairud from "../assets/logo/logoKorpolairud.png";
 import LogoSdm from "../assets/logo/logoSdm.png";
 import LogoPolri from "../assets/logo/logoPolri.png";
+import { useState } from "react";
+import axiosClient from "../axios";
+import { useStateContext } from "../Context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 export default function SimpleRegistrationForm() {
+const [email, setEmail] = useState("");
+  const { setUser, setToken } = useStateContext();
+  const [password, setPassword] = useState("");
+  
+  const onSubmit = (ev) => {
+      ev.preventDefault()
+      const member = {
+      email: email, 
+      password: password,
+      }
+      axiosClient.post('/login', member)
+      .then(({data}) => {
+        setUser(data.user)
+        setToken(data.token);
+        console.log('berhasil')
+      })
+      .catch(err => {
+        const response = err.response;
+        if(response && response.status == 422){
+          console.log(response.data.errors);
+        }
+      })
+  }
+
+  
     return (
         <div className="flex">
             <div className="test w-5/12 h-screen bg-biru text-putih300 flex items-center justify-center flex-col gap-4">
@@ -12,7 +41,7 @@ export default function SimpleRegistrationForm() {
                         SISTEM KWALDIK PERSONEL
                         <br />
                         KORPOLAIRUD BAHARKAM POLRI
-                    </Typography>
+                    </Typography>                    
                 </div>
                 <div className="logo flex gap-4">
                     <img src={LogoSdm} alt="" width={128} />
@@ -39,18 +68,22 @@ export default function SimpleRegistrationForm() {
                     >
                         Masuk sebagai Admin
                     </Typography>
-                    <form className="mt-6 mb-2 w-80 max-w-screen-lg sm:w-96">
+                    <form onSubmit={onSubmit} className="mt-6 mb-2 w-80 max-w-screen-lg sm:w-96">
                         <div className="mb-1 flex flex-col gap-6">
                             <Typography
                                 variant="h6"
                                 color="blue-gray"
                                 className="-mb-3 font-jakarta"
                             >
-                                Nomor Registrasi Pokok (NRP)
+                                Nomor Registrasi Pokok (NRP) (email)
                             </Typography>
+                            {email}
                             <Input
                                 size="lg"
                                 placeholder="contoh: 12345678"
+                                name="email"
+                                value={email}
+                                onChange={ev => setEmail(ev.currentTarget.value)}
                                 className=" !border-t-blue-gray-200 focus:!border-biru font-jakarta"
                                 labelProps={{
                                     className:
@@ -67,6 +100,9 @@ export default function SimpleRegistrationForm() {
                             <Input
                                 type="password"
                                 size="lg"
+                                name="password"
+                                value={password}
+                                onChange={ev => setPassword(ev.currentTarget.value)}
                                 placeholder="********"
                                 className=" !border-t-blue-gray-200 focus:!border-biru font-jakarta"
                                 labelProps={{
@@ -76,6 +112,7 @@ export default function SimpleRegistrationForm() {
                             />
                         </div>
                         <Button
+                            type="submit"
                             className="mt-6 bg-biru text-md font-jakarta"
                             fullWidth
                         >

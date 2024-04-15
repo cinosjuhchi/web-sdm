@@ -5,6 +5,7 @@ import LogoPolri from "../assets/logo/logoPolri.png";
 import axiosClient from "../axios"
 import { useState } from "react";
 import { useStateContext } from "../Context/AuthContext.jsx";
+import { Navigate } from "react-router-dom";
 
 export default function SignUp() {
 
