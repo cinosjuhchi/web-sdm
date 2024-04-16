@@ -1,6 +1,10 @@
 import { useContext } from "react";
 import { SidebarK } from "../../Context/SidebarContext";
-import { PlusIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+    PlusIcon,
+    XMarkIcon,
+    Bars3BottomLeftIcon,
+} from "@heroicons/react/24/outline";
 
 function Navbar() {
     const { open, setOpen } = useContext(SidebarK);
@@ -16,7 +20,7 @@ function Navbar() {
                             onClick={() => setOpen(!open)}
                         />
                     ) : (
-                        <Bars3Icon
+                        <Bars3BottomLeftIcon
                             className="w-8 transition-transform transform rotate-0"
                             strokeWidth={2.5}
                             onClick={() => setOpen(!open)}

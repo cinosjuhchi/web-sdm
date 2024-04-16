@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
     ArrowLeftStartOnRectangleIcon,
     ChevronDownIcon,
+    ChevronRightIcon,
     HomeIcon,
     Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
@@ -14,9 +15,40 @@ import axiosClient from "../../axios";
 import { useStateContext } from "../../Context/AuthContext";
 
 function Sidebar() {
+    // Sidebar
     const { open } = useContext(SidebarK);
     const { setUser, setToken } = useStateContext();
+
+    // Dropdown
+    const [dropdownOpen, setDropdownOpen] = useState({
+        korpolairud: false,
+        ditpolairud: false,
+        ditpoludara: false,
+    });
+
+    const toggleDropdown = (dropdown) => {
+        if (open) {
+            setDropdownOpen((prev) => {
+                const updatedState = {
+                    ...prev,
+                    [dropdown]: !prev[dropdown],
+                };
+
+                // Close other dropdowns if a dropdown is opened
+                Object.keys(updatedState).forEach((key) => {
+                    if (key !== dropdown && updatedState[key]) {
+                        updatedState[key] = false;
+                    }
+                });
+
+                return updatedState;
+            });
+        }
+    };
+    // End Dropdown
+
     const location = useLocation(); // Initialize useLocation
+
     const onLogout = (ev) => {
         ev.preventDefault();
         axiosClient.post("/logout").then(() => setToken(null));
@@ -26,25 +58,51 @@ function Sidebar() {
         { title: "Dashboard", link: "/", icon: <HomeIcon className="w-8" /> },
         {
             title: "Korpolairud",
-            link: "/view",
-            icon: <img src={LogoKor} width={32} className="scale-100" />,
+            icon: (
+                <img
+                    src={LogoKor}
+                    width={32}
+                    height={32}
+                    className="scale-100"
+                />
+            ),
             drop: true,
+            dropdownItems: [
+                { title: "Rekapitulasi Korpolairud", link: "/view" },
+                { title: "Perincian Korpolairud", link: "/rekap" },
+            ],
+            dropdownType: "korpolairud",
         },
         {
             title: "Ditpolairud",
-            link: "/view",
-            icon: <img src={LogoDit} width={32} className="scale-100" />,
+            icon: (
+                <img
+                    src={LogoDit}
+                    width={32}
+                    height={32}
+                    className="scale-100"
+                />
+            ),
             drop: true,
+            dropdownItems: [
+                { title: "Rekapitulasi Ditpolairud", link: "/rekap" },
+                { title: "Perincian Ditpolairud", link: "/perincian" },
+            ],
+            dropdownType: "ditpolairud",
         },
         {
             title: "Ditpoludara",
-            link: "/view",
             icon: <img src={LogoUdara} width={32} className="scale-100" />,
             drop: true,
+            dropdownItems: [
+                { title: "Rekapitulasi Ditpoludara", link: "/rekap" },
+                { title: "Perincian Ditpoludara", link: "/perincian" },
+            ],
+            dropdownType: "ditpoludara",
         },
         {
             title: "Mutasi",
-            link: "/view",
+            link: "/mutasi",
             icon: <Square3Stack3DIcon className="w-8" />,
         },
     ];
@@ -53,24 +111,41 @@ function Sidebar() {
         <div
             className={`${
                 open ? "w-72" : "w-20"
-            } h-[calc(100vh-4rem)] bg-white duration-300 px-4 sticky top-16 z-50`}
+            } h-[calc(100vh-4rem)] bg-white duration-300 px-4 sticky top-16 z-50 select-none`}
         >
             <ul className="py-2">
                 {Menus.map((menu, index) => (
                     <a
                         key={index}
-                        href={menu.link}
-                        onClick={menu.left ? { onLogout } : null}
+                        href={
+                            open
+                                ? menu.link
+                                : menu.dropdownItems &&
+                                  menu.dropdownItems.length > 0
+                                ? menu.dropdownItems[0].link
+                                : menu.link
+                        }
                     >
                         <li
                             key={index}
-                            className={`${!open ? "px-2 py-2" : "px-3 py-2"} ${
-                                location.pathname === menu.link
+                            className={`${!open ? "px-2 py-2" : "px-3 py-2"} 
+                            ${
+                                location.pathname === menu.link ||
+                                (menu.dropdownItems &&
+                                    menu.dropdownItems.find(
+                                        (item) =>
+                                            item.link === location.pathname
+                                    ))
                                     ? "bg-biru text-white rounded-md"
                                     : ""
                             } ${
                                 menu.left ? "hover:bg-red-400" : "hover:bg-biru"
                             } flex items-center justify-between gap-3 cursor-pointer hover:bg-biru hover:text-white transition-all hover:rounded-md mt-2`}
+                            onClick={
+                                menu.drop && open
+                                    ? () => toggleDropdown(menu.dropdownType)
+                                    : null
+                            }
                         >
                             <div className="link flex gap-3 items-center">
                                 <div className="scale-100">{menu.icon}</div>
@@ -85,12 +160,40 @@ function Sidebar() {
 
                             <ChevronDownIcon
                                 className={`${!open ? "hidden" : "w-4"} 
+                                ${menu.drop ? "" : "hidden"} 
                                 ${
-                                    menu.drop ? "" : "hidden"
+                                    dropdownOpen[menu.dropdownType]
+                                        ? "transform rotate-180"
+                                        : ""
                                 } justify-end duration-300`}
                                 strokeWidth={3}
                             ></ChevronDownIcon>
                         </li>
+
+                        {/* Dropdown */}
+                        {menu.drop && dropdownOpen[menu.dropdownType] && (
+                            <ul
+                                className={`mt-2 duration-300 text-sm 
+                                ${
+                                    dropdownOpen[menu.dropdownType]
+                                        ? "block"
+                                        : ""
+                                } ${!open ? "hidden" : "block"}`}
+                            >
+                                {menu.dropdownItems.map((item, idx) => (
+                                    <a href={item.link} key={idx}>
+                                        <li className="px-4 py-3 flex gap-2 hover:bg-biru hover:text-white rounded-md">
+                                            <ChevronRightIcon
+                                                strokeWidth={2}
+                                                className="w-4"
+                                            />
+                                            {item.title}
+                                        </li>
+                                    </a>
+                                ))}
+                            </ul>
+                        )}
+                        {/* End Dropdown */}
                     </a>
                 ))}
                 <a onClick={onLogout}>
