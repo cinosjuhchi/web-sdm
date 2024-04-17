@@ -14,8 +14,7 @@ class PegawaiSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            [
-                "id"=> 1,
+            [                
                 "nrp"=> 67120531,
                 "nama"=> "MOHAMMAD YASSIN KOSASIH, S.I.K., M.Si., M.Tr.Opsla.",
                 "pangkat"=> "IRJEN POL",
@@ -26,8 +25,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => "INTEL, BRIMOB,, VIP PROTECTION USA"
             ],
-            [
-                "id"=> 2,
+            [                
                 "nrp"=> null,
                 "nama"=> null,
                 "pangkat"=> "BRIJEN POL",
@@ -38,8 +36,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 3,
+            [                
                 "nrp"=> 66070599,
                 "nama"=> "BUDI SANTOSO, S.H., M. M.",
                 "pangkat"=> "KOMBES POL",
@@ -50,8 +47,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => "PA IDIK PERAIRAN(1996)"
             ],
-            [
-                "id"=> 4,
+            [                
                 "nrp"=> 72020475,
                 "nama"=> "EDWARD INDHARMAWAN EKA CHANDRA, S.I.K., M.H.",
                 "pangkat"=> "KOMBES POL",
@@ -62,8 +58,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => " RESERSE(1996), BAHASA INGGRIS(1997)"
             ],
-            [
-                "id"=> 5,
+            [                
                 "nrp"=> 70110330,
                 "nama"=> "HERI SULISTYA BUDI SANTOSO, S.I.K., M. Hum.",
                 "pangkat"=> "KOMBES POL",
@@ -74,8 +69,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => " BRIMOB(1996), BHS INGGRIS(1998), KIBI PAJA AKPOL(2001), IDIK TP NARKOBA(2004), SISPAMOBVIT(2021)"
             ],
-            [
-                "id"=> 6,
+            [                
                 "nrp"=> 68060363,
                 "nama"=> "I WAYAN SUPARTHA YADNYA, S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -86,8 +80,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => "KIBI HANKAM(2002),"
             ],
-            [
-                "id"=> 7,
+            [                
                 "nrp"=> 75020376,
                 "nama"=> "PUJI HENDRO WIBOWO, S.H., S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -98,8 +91,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => " SERSE(1997), KIBI PAJA AKPOL(1997),  PA TIPITER(2000) IDIK TP NARKOBA(2005)"
             ],
-            [
-                "id"=> 8,
+            [                
                 "nrp"=> 69060420,
                 "nama"=> "MOCHAMAD ZAINUL, S.I.K., M.H.",
                 "pangkat"=> "KOMBES POL",
@@ -110,8 +102,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 9,
+            [                
                 "nrp"=> 69060169,
                 "nama"=> "RUDY SUHENDRA PARAPAT",
                 "pangkat"=> "KOMBES POL",
@@ -122,8 +113,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => "PENGGALANGAN INTELIJEN(1992), INTELIJEN(1994), SERSE (1994) PROPAM(2015)"
             ],
-            [
-                "id"=> 10,
+            [                
                 "nrp"=> 71120461,
                 "nama"=> "SADES OLOAN MARULI PARDEDE, S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -134,8 +124,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => " INTEL(2005),  BHS. PERANCIS(2006),  BHS. INGGRIS FT. RESKRIM(2008)"
             ],
-            [
-                "id"=> 11,
+            [                
                 "nrp"=> 69020272,
                 "nama"=> "ANDY KIRNANDA WIJAYA, S.H.",
                 "pangkat"=> "KOMBES POL",
@@ -146,8 +135,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => "DI PUSDIK RESINTEL(1998), BHS INGGRIS(2000), PUSDIK MIN(2006), "
             ],
-            [
-                "id"=> 12,
+            [                
                 "nrp"=> 75081004,
                 "nama"=> "AGUSMAN, S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -158,8 +146,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 13,
+            [                
                 "nrp"=> 66040663,
                 "nama"=> "HARUN ROSYID, S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -170,8 +157,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 14,
+            [                
                 "nrp"=> 72040509,
                 "nama"=> "GIUSEPPE REINHARD GULTOM, S.SoS., S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -182,8 +168,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 15,
+            [                
                 "nrp"=> 73050614,
                 "nama"=> "SURYO AJI, S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -194,8 +179,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 16,
+            [                
                 "nrp"=> 71100498,
                 "nama"=> "R. DJAROT AGUNG RIADI, S.I.K., M.Si.",
                 "pangkat"=> "KOMBES POL",
@@ -206,8 +190,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 17,
+            [                
                 "nrp"=> 70080440,
                 "nama"=> "EKO IRIANTO S.I.K.",
                 "pangkat"=> "KOMBES POL",
@@ -218,8 +201,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 18,
+            [                
                 "nrp"=> 74020324,
                 "nama"=> "NURODIN, S.I.K., M.H.",
                 "pangkat"=> "KOMBES POL",
@@ -230,8 +212,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 19,
+            [                
                 "nrp"=> 76101098,
                 "nama"=> "Dr. DEDY TABRANI, S.I.K., M. Si",
                 "pangkat"=> "KOMBES POL",
@@ -242,8 +223,7 @@ class PegawaiSeeder extends Seeder
                 "diklat"=> null,
                 "dikbangspes" => null
             ],
-            [
-                "id"=> 20,
+            [                
                 "nrp"=> 76070950,
                 "nama"=> "MARSDIANTO, S.H., S.I.K.",
                 "pangkat"=> "KOMBES POL",

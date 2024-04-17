@@ -4,6 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import PropTypes from 'prop-types';
+import { useQuery } from '@tanstack/react-query'
 import {
     Card,
     CardHeader,
@@ -15,6 +16,9 @@ import {
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
+import { useState } from "react";
+import axios from "axios";
+import axiosClient from "../../axios";
 
 const TABLE_HEAD = [
     "NRP",
@@ -32,7 +36,37 @@ TableDashboard.propTypes = {
     data: PropTypes.array.isRequired,
   };
 
-export default function TableDashboard({ data }) {
+export default function TableDashboard() {
+    const [currPage , setCurr] = useState();
+    const [lastPage , setLast] = useState();
+    const [nextPage , setNext] = useState();
+    const [prevPage , setPrev] = useState();
+
+    const fetchData = async () => {
+        const pegawai = await axiosClient.get(`/data-pegawai?page=${currPage}`) 
+        console.log(pegawai.data.links)
+        setCurr(pegawai.data.meta.current_page)
+        setLast(pegawai.data.meta.last_page)
+
+        return pegawai
+        
+      }
+
+      
+      
+    const { isPending, isError, data, error } = useQuery({
+        queryKey: ['pegawais'],
+        queryFn: fetchData,
+
+    });
+    
+
+    if (isPending) {
+        return <span>Loading...</span>;
+    }
+    if (isError) {
+        return <span>Error: {error.message}</span>;
+    }
     return (
         <Card className="h-full w-full rounded-md">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -80,7 +114,7 @@ export default function TableDashboard({ data }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((pegawai, index) => {
+                        {data.data.data.map((pegawai, index) => {
                             const isLast = index === pegawai.length - 1;
                             const classes = isLast
                                 ? "p-4"
@@ -155,7 +189,7 @@ export default function TableDashboard({ data }) {
                     color="blue-gray"
                     className="font-normal"
                 >
-                    Page 1 of 10
+                    Page {currPage} of {lastPage}
                 </Typography>
                 <div className="flex gap-2">
                     <Button variant="outlined" size="sm">

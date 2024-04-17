@@ -15,7 +15,7 @@ class PegawaiController extends Controller
     public function index()
     {
         $pegawai = Pegawai::paginate(10);
-        return response()->json(PegawaiResource::collection($pegawai));
+        return PegawaiResource::collection($pegawai);
     }
 
     /**
