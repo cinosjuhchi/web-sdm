@@ -24,4 +24,10 @@ axiosClient.interceptors.response.use((response) => {
   throw error;
 })
 
+export const fetchData = async () => {
+  const pegawai = await axiosClient.get('/data-pegawai')         
+  return pegawai
+  
+}
+
 export default axiosClient
