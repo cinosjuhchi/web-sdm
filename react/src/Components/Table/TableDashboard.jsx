@@ -38,10 +38,9 @@ export default function TableDashboard() {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const fetchData = async () => {
-        const pegawai = await axiosClient.get('/data-pegawai?page=' + currPage) 
-        setCurr(pegawai.data.meta.current_page)
-        setLast(pegawai.data.meta.last_page)
-        
+        const pegawai = await axiosClient.get("/data-pegawai?page=" + currPage);
+        setCurr(pegawai.data.meta.current_page);
+        setLast(pegawai.data.meta.last_page);
 
         return pegawai;
     };
@@ -194,11 +193,19 @@ export default function TableDashboard() {
                 <div className="flex gap-2">
                     <Button
                         variant="outlined"
+                        // onClick={handlePrev}
+                        // disabled={isButtonDisabled || currPage === 1}
+                        size="sm"
+                    >
+                        Awal
+                    </Button>
+                    <Button
+                        variant="outlined"
                         onClick={handlePrev}
                         disabled={isButtonDisabled || currPage === 1}
                         size="sm"
                     >
-                        Previous
+                        Sebelumnya
                     </Button>
 
                     <Button
@@ -207,7 +214,15 @@ export default function TableDashboard() {
                         disabled={isButtonDisabled || currPage === lastPage}
                         size="sm"
                     >
-                        Next
+                        Selanjutnya
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        // onClick={handleNext}
+                        // disabled={isButtonDisabled || currPage === lastPage}
+                        size="sm"
+                    >
+                        Akhir
                     </Button>
                 </div>
             </CardFooter>

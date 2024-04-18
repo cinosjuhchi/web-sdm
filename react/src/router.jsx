@@ -6,6 +6,12 @@ import DefaultLayout from "../src/Layouts/DefaultLayout";
 import Dashboard from "./Views/Dashboard";
 import SignUp from "./Views/SignUp";
 import PerincianKorpolairud from "./Views/Korpolairud/PerincianKorpolairud";
+import RekapKorpolairud from "./Views/Korpolairud/RekapKorpolairud";
+import PerincianDitpolairud from "./Views/Ditpolairud/PerincianDitpolairud";
+import RekapDitpolairud from "./Views/Ditpolairud/RekapDitpolairud";
+import PerincianDitpolaudara from "./Views/Ditpoludara/PerincianDitpoludara";
+import RekapDitpoludara from "./Views/Ditpoludara/RekapDitpoludara";
+import Mutasi from "./Views/Mutasi";
 
 const router = createBrowserRouter([
     {
@@ -23,6 +29,30 @@ const router = createBrowserRouter([
             {
                 path: "/perincian-korpolairud",
                 element: <PerincianKorpolairud />,
+            },
+            {
+                path: "/rekap-korpolairud",
+                element: <RekapKorpolairud />,
+            },
+            {
+                path: "/perincian-ditpolairud",
+                element: <PerincianDitpolairud />,
+            },
+            {
+                path: "/rekap-ditpolairud",
+                element: <RekapDitpolairud />,
+            },
+            {
+                path: "/perincian-ditpoludara",
+                element: <PerincianDitpolaudara />,
+            },
+            {
+                path: "/rekap-ditpoludara",
+                element: <RekapDitpoludara />,
+            },
+            {
+                path: "/mutasi",
+                element: <Mutasi />,
             },
         ],
     },
