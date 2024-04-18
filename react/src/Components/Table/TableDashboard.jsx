@@ -17,7 +17,7 @@ import {
     Tooltip,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import axios from "axios";
+
 import axiosClient from "../../axios";
 
 const TABLE_HEAD = [
