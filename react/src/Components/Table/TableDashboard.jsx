@@ -39,11 +39,9 @@ TableDashboard.propTypes = {
 export default function TableDashboard() {
     const [currPage , setCurr] = useState();
     const [lastPage , setLast] = useState();
-    const [nextPage , setNext] = useState();
-    const [prevPage , setPrev] = useState();
 
     const fetchData = async () => {
-        const pegawai = await axiosClient.get(`/data-pegawai?page=${currPage}`) 
+        const pegawai = await axiosClient.get('/data-pegawai?page=' + currPage) 
         console.log(pegawai.data.links)
         setCurr(pegawai.data.meta.current_page)
         setLast(pegawai.data.meta.last_page)
@@ -52,10 +50,21 @@ export default function TableDashboard() {
         
       }
 
+      const handleNext = () => {
+        setCurr(currPage + 1)
+        
+        return console.log(currPage)
+      }
+      const handlePrev = () => {
+        setCurr(currPage - 1)
+        
+        return console.log(currPage)
+      }
+
       
       
-    const { isPending, isError, data, error } = useQuery({
-        queryKey: ['pegawais'],
+    const { isPending, isError, data, error,  } = useQuery({
+        queryKey: ['pegawais', currPage],
         queryFn: fetchData,
 
     });
@@ -192,10 +201,11 @@ export default function TableDashboard() {
                     Page {currPage} of {lastPage}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" onClick={handlePrev} disabled={currPage === 1} size="sm">
                         Previous
                     </Button>
-                    <Button variant="outlined" size="sm">
+                    
+                    <Button variant="outlined" onClick={handleNext} disabled={currPage === lastPage} size="sm">
                         Next
                     </Button>
                 </div>
