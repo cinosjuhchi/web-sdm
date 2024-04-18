@@ -39,25 +39,33 @@ TableDashboard.propTypes = {
 export default function TableDashboard() {
     const [currPage , setCurr] = useState();
     const [lastPage , setLast] = useState();
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const fetchData = async () => {
         const pegawai = await axiosClient.get('/data-pegawai?page=' + currPage) 
         console.log(pegawai.data.links)
         setCurr(pegawai.data.meta.current_page)
         setLast(pegawai.data.meta.last_page)
+        
 
         return pegawai
         
       }
 
       const handleNext = () => {
-        setCurr(currPage + 1)
-        
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage + 1);
+            setIsButtonDisabled(false);
+        }, 1000);
         return console.log(currPage)
       }
       const handlePrev = () => {
-        setCurr(currPage - 1)
-        
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage - 1);
+            setIsButtonDisabled(false);
+        }, 1000);
         return console.log(currPage)
       }
 
@@ -201,11 +209,11 @@ export default function TableDashboard() {
                     Page {currPage} of {lastPage}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" onClick={handlePrev} disabled={currPage === 1} size="sm">
+                    <Button variant="outlined" onClick={handlePrev} disabled={isButtonDisabled || currPage === 1} size="sm">
                         Previous
                     </Button>
                     
-                    <Button variant="outlined" onClick={handleNext} disabled={currPage === lastPage} size="sm">
+                    <Button variant="outlined" onClick={handleNext} disabled={isButtonDisabled || currPage === lastPage} size="sm">
                         Next
                     </Button>
                 </div>
