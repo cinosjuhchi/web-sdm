@@ -2,9 +2,8 @@ import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon } from "@heroicons/react/24/solid";
-import PropTypes from 'prop-types';
-import { useQuery } from '@tanstack/react-query'
+import PropTypes from "prop-types";
+import { useQuery } from "@tanstack/react-query";
 import {
     Card,
     CardHeader,
@@ -13,8 +12,6 @@ import {
     Button,
     CardBody,
     CardFooter,
-    IconButton,
-    Tooltip,
 } from "@material-tailwind/react";
 import { useState } from "react";
 
@@ -29,54 +26,47 @@ const TABLE_HEAD = [
     "Fungsi Polri",
     "Diklat",
     "Dikbangpes",
-    "Aksi",
 ];
 
 TableDashboard.propTypes = {
     data: PropTypes.array.isRequired,
-  };
+};
 
 export default function TableDashboard() {
-    const [currPage , setCurr] = useState();
-    const [lastPage , setLast] = useState();
+    const [currPage, setCurr] = useState();
+    const [lastPage, setLast] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const fetchData = async () => {
-        const pegawai = await axiosClient.get('/data-pegawai?page=' + currPage) 
-        console.log(pegawai.data.links)
-        setCurr(pegawai.data.meta.current_page)
-        setLast(pegawai.data.meta.last_page)
-        
+        const pegawai = await axiosClient.get("/data-pegawai?page=" + currPage);
+        console.log(pegawai.data.links);
+        setCurr(pegawai.data.meta.current_page);
+        setLast(pegawai.data.meta.last_page);
 
-        return pegawai
-        
-      }
+        return pegawai;
+    };
 
-      const handleNext = () => {
+    const handleNext = () => {
         setIsButtonDisabled(true);
         setTimeout(() => {
             setCurr(currPage + 1);
             setIsButtonDisabled(false);
         }, 1000);
-        return console.log(currPage)
-      }
-      const handlePrev = () => {
+        return console.log(currPage);
+    };
+    const handlePrev = () => {
         setIsButtonDisabled(true);
         setTimeout(() => {
             setCurr(currPage - 1);
             setIsButtonDisabled(false);
         }, 1000);
-        return console.log(currPage)
-      }
+        return console.log(currPage);
+    };
 
-      
-      
-    const { isPending, isError, data, error,  } = useQuery({
-        queryKey: ['pegawais', currPage],
+    const { isPending, isError, data, error } = useQuery({
+        queryKey: ["pegawais", currPage],
         queryFn: fetchData,
-
     });
-    
 
     if (isPending) {
         return <span>Loading...</span>;
@@ -85,7 +75,7 @@ export default function TableDashboard() {
         return <span>Error: {error.message}</span>;
     }
     return (
-        <Card className="h-full w-full rounded-md">
+        <Card className="h-full w-full rounded-md grid grid-cols-1">
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="flex items-center justify-between">
                     <div>
@@ -119,7 +109,7 @@ export default function TableDashboard() {
                                 >
                                     <p className="flex items-center justify-between gap-2 font-normal leading-none text-sm text-black">
                                         {head}{" "}
-                                        {index !== TABLE_HEAD.length - 1 && (
+                                        {index !== TABLE_HEAD.length && (
                                             <ChevronUpDownIcon
                                                 strokeWidth={2}
                                                 className="h-4 w-4"
@@ -187,13 +177,6 @@ export default function TableDashboard() {
                                             {pegawai.dikbangspes}
                                         </p>
                                     </td>
-                                    <td className={classes}>
-                                        <Tooltip content="Edit User">
-                                            <IconButton variant="text">
-                                                <PencilIcon className="h-4 w-4" />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </td>
                                 </tr>
                             );
                         })}
@@ -209,11 +192,21 @@ export default function TableDashboard() {
                     Page {currPage} of {lastPage}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" onClick={handlePrev} disabled={isButtonDisabled || currPage === 1} size="sm">
+                    <Button
+                        variant="outlined"
+                        onClick={handlePrev}
+                        disabled={isButtonDisabled || currPage === 1}
+                        size="sm"
+                    >
                         Previous
                     </Button>
-                    
-                    <Button variant="outlined" onClick={handleNext} disabled={isButtonDisabled || currPage === lastPage} size="sm">
+
+                    <Button
+                        variant="outlined"
+                        onClick={handleNext}
+                        disabled={isButtonDisabled || currPage === lastPage}
+                        size="sm"
+                    >
                         Next
                     </Button>
                 </div>
@@ -221,4 +214,3 @@ export default function TableDashboard() {
         </Card>
     );
 }
-

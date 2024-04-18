@@ -16,6 +16,17 @@ class PegawaiSeeder extends Seeder
         $data = [
             [                
                 "nrp"=> 67120531,
+                "nama"=> "MOHAMMAD CINO YASSIN KOSASIHKOSASIHKOSASIHKOSASIHKOSASIHKOSASIHKOSASIHKOSASIH, S.I.K., M.Si., M.Tr.Opsla.",
+                "pangkat"=> "IRJEN POL",
+                "bagian"=> "KORPOLAIRUD",
+                "fungsi_polair"=> "Orang Ganteng",
+                "dikpol"=> "AKPOL, PTIK,SESKO AL,LEMHANAS",
+                "dikum"=> "S2(2004)",
+                "diklat"=> null,
+                "dikbangspes" => "INTEL, BRIMOB, VIP PROTECTION USA,VIP PROTECTION USA,VIP PROTECTION USA,VIP PROTECTION USA,VIP PROTECTION USA,VIP PROTECTION USA"
+            ],
+            [                
+                "nrp"=> 67120531,
                 "nama"=> "MOHAMMAD YASSIN KOSASIH, S.I.K., M.Si., M.Tr.Opsla.",
                 "pangkat"=> "IRJEN POL",
                 "bagian"=> "KORPOLAIRUD",
