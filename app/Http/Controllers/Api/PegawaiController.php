@@ -18,6 +18,11 @@ class PegawaiController extends Controller
         return PegawaiResource::collection($pegawai);
     }
 
+    public function total()
+    {
+        $pegawai = Pegawai::all()->count();
+        return response()->json($pegawai);
+    }
     /**
      * Store a newly created resource in storage.
      */

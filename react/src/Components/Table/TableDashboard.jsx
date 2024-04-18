@@ -43,7 +43,6 @@ export default function TableDashboard() {
 
     const fetchData = async () => {
         const pegawai = await axiosClient.get('/data-pegawai?page=' + currPage) 
-        console.log(pegawai.data.links)
         setCurr(pegawai.data.meta.current_page)
         setLast(pegawai.data.meta.last_page)
         

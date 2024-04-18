@@ -1,19 +1,33 @@
 import { UserGroupIcon } from "@heroicons/react/24/outline";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SidebarK } from "../../Context/SidebarContext";
 import LogoKor from "../../assets/logo/logoKorpolairud.png";
 import LogoDit from "../../assets/logo/logoPolAir.png";
 import LogoUdara from "../../assets/logo/logoPolUdara.png";
+import { useQuery } from "@tanstack/react-query";
+import axiosClient from "../../axios";
 
 export function CardDashboard() {
     const { open } = useContext(SidebarK);
+    const [total, setTotal] = useState('');
+    const fetchData = async () => {
+        const pegawai = await axiosClient.get('/data-pegawai/total')         
+        setTotal(pegawai.data)
+        return pegawai.data
+        
+      }
+    const { isPending, data, isError, error } = useQuery({
+        queryKey: ["totalPegawai"],
+        queryFn: fetchData,
+    });
+
 
     const Menus = [
         {
             link: "/",
             icon: <UserGroupIcon />,
             title: "Total Personel Polri",
-            desc: "444.738",
+            desc: total,
         },
         {
             link: "/view",

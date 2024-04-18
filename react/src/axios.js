@@ -25,7 +25,7 @@ axiosClient.interceptors.response.use((response) => {
 })
 
 export const fetchData = async () => {
-  const pegawai = await axiosClient.get('/data-pegawai')         
+  const pegawai = await axiosClient.get('/data-pegawai/total')         
   return pegawai.data
   
 }
