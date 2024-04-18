@@ -5,6 +5,7 @@ import {
     XMarkIcon,
     Bars3BottomLeftIcon,
 } from "@heroicons/react/24/outline";
+import { Tooltip } from "@material-tailwind/react";
 
 function Navbar() {
     const { open, setOpen } = useContext(SidebarK);
@@ -14,17 +15,29 @@ function Navbar() {
             <div className="title flex gap-3 ml-2">
                 <button className="duration-300">
                     {open ? (
-                        <XMarkIcon
-                            className="w-8 transition-transform transform rotate-0"
-                            strokeWidth={2.5}
-                            onClick={() => setOpen(!open)}
-                        />
+                        <Tooltip
+                            content="Tutup Sidebar"
+                            className="bg-white text-black"
+                            placement="right"
+                        >
+                            <XMarkIcon
+                                className="w-8 transition-transform transform rotate-0"
+                                strokeWidth={2.5}
+                                onClick={() => setOpen(!open)}
+                            />
+                        </Tooltip>
                     ) : (
-                        <Bars3BottomLeftIcon
-                            className="w-8 transition-transform transform rotate-0"
-                            strokeWidth={2.5}
-                            onClick={() => setOpen(!open)}
-                        />
+                        <Tooltip
+                            content="Buka Sidebar"
+                            className="bg-white text-black"
+                            placement="right"
+                        >
+                            <Bars3BottomLeftIcon
+                                className="w-8 transition-transform transform rotate-0"
+                                strokeWidth={2.5}
+                                onClick={() => setOpen(!open)}
+                            />
+                        </Tooltip>
                     )}
                 </button>
                 <h4 className="text-xl">
@@ -33,13 +46,19 @@ function Navbar() {
             </div>
 
             <div className="right flex gap-4">
-                <a
-                    href="/tambah_data"
-                    className="px-4 py-2 bg-jingga rounded-md text-md flex items-center gap-1 hover:bg-yellow-800 hover:scale-105 duration-300 active:scale-100 transition-all"
+                <Tooltip
+                    content="Tambahkan data baru"
+                    className="bg-white text-black"
+                    placement="bottom-start"
                 >
-                    <PlusIcon className="w-5" strokeWidth={3} />
-                    Tambah
-                </a>
+                    <a
+                        href="/tambah_data"
+                        className="px-4 py-2 bg-jingga rounded-md text-md flex items-center gap-1 hover:bg-yellow-800 hover:scale-105 duration-300 active:scale-100 transition-all"
+                    >
+                        <PlusIcon className="w-5" strokeWidth={3} />
+                        Tambah
+                    </a>
+                </Tooltip>
             </div>
         </div>
     );
