@@ -68,8 +68,8 @@ function Sidebar() {
             ),
             drop: true,
             dropdownItems: [
-                { title: "Rekapitulasi Korpolairud", link: "/view" },
-                { title: "Perincian Korpolairud", link: "/rekap" },
+                { title: "Rekapitulasi Korpolairud", link: "/rekap-korpolairud" },
+                { title: "Perincian Korpolairud", link: "/perincian-korpolairud" },
             ],
             dropdownType: "korpolairud",
         },
@@ -85,8 +85,8 @@ function Sidebar() {
             ),
             drop: true,
             dropdownItems: [
-                { title: "Rekapitulasi Ditpolairud", link: "/rekap" },
-                { title: "Perincian Ditpolairud", link: "/perincian" },
+                { title: "Rekapitulasi Ditpolairud", link: "/rekap-ditpolairud" },
+                { title: "Perincian Ditpolairud", link: "/perincian-ditpolairud" },
             ],
             dropdownType: "ditpolairud",
         },
@@ -95,8 +95,8 @@ function Sidebar() {
             icon: <img src={LogoUdara} width={32} className="scale-100" />,
             drop: true,
             dropdownItems: [
-                { title: "Rekapitulasi Ditpoludara", link: "/rekap" },
-                { title: "Perincian Ditpoludara", link: "/perincian" },
+                { title: "Rekapitulasi Ditpoludara", link: "/rekap-ditpoludara" },
+                { title: "Perincian Ditpoludara", link: "/perincian-ditpoludara" },
             ],
             dropdownType: "ditpoludara",
         },

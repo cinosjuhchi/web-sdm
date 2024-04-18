@@ -4,8 +4,8 @@ import SignIn from "./Views/SignIn";
 import { Navigate } from "react-router-dom";
 import DefaultLayout from "../src/Layouts/DefaultLayout";
 import Dashboard from "./Views/Dashboard";
-import View from "./Views/View"
 import SignUp from "./Views/SignUp";
+import PerincianKorpolairud from "./Views/Korpolairud/PerincianKorpolairud";
 
 const router = createBrowserRouter([
     {
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
                 element: <Dashboard />,
             },
             {
-                path: "/view",
-                element: <View />,
+                path: "/perincian-korpolairud",
+                element: <PerincianKorpolairud />,
             },
         ],
     },
