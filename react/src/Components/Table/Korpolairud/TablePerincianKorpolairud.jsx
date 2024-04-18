@@ -1,7 +1,6 @@
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
-    DocumentArrowUpIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
@@ -15,7 +14,8 @@ import {
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
-import Filter from "../../DialogFilter/FIlter";
+import Filter from "../../Dialog/Filter";
+import EksporDialog from "../../Dialog/Ekspor";
 
 const TABLE_HEAD = [
     "NRP",
@@ -23,7 +23,7 @@ const TABLE_HEAD = [
     "Pangkat",
     "Dikum",
     "Dikpol",
-    "Fungsi Polri",
+    "Fungsi Polair",
     "Diklat",
     "Dikbangpes",
     "Aksi",
@@ -74,17 +74,7 @@ export default function TablePerincianKorpolairud() {
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Button
-                            variant="outlined"
-                            className="flex gap-2 items-center text"
-                            size="sm"
-                        >
-                            <DocumentArrowUpIcon
-                                className="w-5"
-                                strokeWidth={2}
-                            ></DocumentArrowUpIcon>
-                            Ekspor
-                        </Button>
+                        <EksporDialog></EksporDialog>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                         <Filter></Filter>
