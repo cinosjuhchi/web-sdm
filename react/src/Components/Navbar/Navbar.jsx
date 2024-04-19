@@ -52,7 +52,7 @@ function Navbar() {
                     placement="bottom-start"
                 >
                     <a
-                        href="/tambah_data"
+                        href="/opsi-tambahkan"
                         className="px-4 py-2 bg-jingga rounded-md text-md flex items-center gap-1 hover:bg-yellow-800 hover:scale-105 duration-300 active:scale-100 transition-all"
                     >
                         <PlusIcon className="w-5" strokeWidth={3} />

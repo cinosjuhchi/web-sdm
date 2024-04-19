@@ -1,7 +1,9 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
 
 export default function PageLayout() {
-  return (
-    <Outlet/>
-  )
+    return (
+        <div className="m-4">
+            <Outlet />
+        </div>
+    );
 }

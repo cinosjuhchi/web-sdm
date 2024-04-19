@@ -12,6 +12,11 @@ import RekapDitpolairud from "./Views/Ditpolairud/RekapDitpolairud";
 import PerincianDitpolaudara from "./Views/Ditpoludara/PerincianDitpoludara";
 import RekapDitpoludara from "./Views/Ditpoludara/RekapDitpoludara";
 import Mutasi from "./Views/Mutasi";
+import OptioinAdd from "./Views/AddData/OptionAdd";
+import AddKorpolairud from "./Views/AddData/AddKorpolairud";
+import AddDitpolairud from "./Views/AddData/AddDitpolairud";
+import AddDitpoludara from "./Views/AddData/AddDitpoludara";
+import PageLayout from "./Layouts/PageLayout";
 
 const router = createBrowserRouter([
     {
@@ -22,10 +27,13 @@ const router = createBrowserRouter([
                 path: "/dashboard",
                 element: <Navigate to="/" />,
             },
+            // Dashboard
             {
                 path: "/",
                 element: <Dashboard />,
             },
+
+            // Korpolairud
             {
                 path: "/perincian-korpolairud",
                 element: <PerincianKorpolairud />,
@@ -34,6 +42,8 @@ const router = createBrowserRouter([
                 path: "/rekap-korpolairud",
                 element: <RekapKorpolairud />,
             },
+
+            // Ditpolairud
             {
                 path: "/perincian-ditpolairud",
                 element: <PerincianDitpolairud />,
@@ -42,6 +52,8 @@ const router = createBrowserRouter([
                 path: "/rekap-ditpolairud",
                 element: <RekapDitpolairud />,
             },
+
+            // Ditpoludara
             {
                 path: "/perincian-ditpoludara",
                 element: <PerincianDitpolaudara />,
@@ -50,9 +62,35 @@ const router = createBrowserRouter([
                 path: "/rekap-ditpoludara",
                 element: <RekapDitpoludara />,
             },
+
+            // Mutasi
             {
                 path: "/mutasi",
                 element: <Mutasi />,
+            },
+        ],
+    },
+
+    {
+        path: "/",
+        element: <PageLayout />,
+        children: [
+            // AddData
+            {
+                path: "/opsi-tambahkan",
+                element: <OptioinAdd />,
+            },
+            {
+                path: "/tambah-data-korpolairud",
+                element: <AddKorpolairud />,
+            },
+            {
+                path: "/tambah-data-ditpolairud",
+                element: <AddDitpolairud />,
+            },
+            {
+                path: "/tambah-data-ditpoludara",
+                element: <AddDitpoludara />,
             },
         ],
     },
