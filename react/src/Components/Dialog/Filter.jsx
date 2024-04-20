@@ -79,18 +79,18 @@ export default function Filter() {
                 "PNS I",
                 "CPNS",
             ],
-            selected: [],
+            selected: null,
         },
         {
             title: "Dikum",
-            options: ["SD", "SMP", "SMA", "D3", "S1", "S2"],
-            selected: [],
+            options: ["SD", "SMP", "SMA", "D3", "S1", "S2", "S3"],
+            selected: null,
         },
         {
             title: "Dikpol",
             options: [
-                "SETA",
                 "SEBA",
+                "SBP",
                 "SETUKPA",
                 "SEPA",
                 "SEKBANG TNI",
@@ -98,18 +98,22 @@ export default function Filter() {
                 "PTIK",
                 "SESKOAU",
                 "SESKOAL",
-                "SLPA",
+                "SESPIMMA",
                 "SESPMEN",
                 "PMTIK 1",
                 "PMTIK 2",
+                "PKA",
                 "SESPATI",
                 "LEMHANAS",
+                "SAG PA",
+                "SAG BA",
             ],
-            selected: [],
+            selected: null,
         },
         {
             title: "Fungsi Polair",
             options: [
+                "SAR",
                 "DSPA",
                 "PANK",
                 "PATK",
@@ -119,10 +123,10 @@ export default function Filter() {
                 "BANK",
                 "BATK",
                 "DSTPA",
-                "PH B",
-                "SSP RLT",
+                "KMLK",
+                "BAIDIK",
             ],
-            selected: [],
+            selected: null,
         },
         {
             title: "Diklat",
@@ -136,14 +140,35 @@ export default function Filter() {
                 "ATT 2",
                 "ATT 3",
                 "ATT 5",
-                "DPMKN",
+                "DPMKN TK 1",
+                "DPMKN TK 2",
+                "DPDKN TK 1",
+                "DPDKN TK 2",
             ],
-            selected: [],
+            selected: null,
         },
         {
-            title: "Dikbangpes",
-            options: ["belom"],
-            selected: [],
+            title: "Lain-lain",
+            options: [
+                "INTEL",
+                "SERSE",
+                "PROPAM",
+                "LOGISTIK",
+                "KEUANGAN",
+                "SAR",
+                "BHS INGGRIS",
+                "BHS FRANCIS",
+                "BHS ARAB",
+                "BHS MANDARIN",
+                "BARANG DAN JASA",
+                "SATPAM GADA PRATAMA",
+                "SDM",
+                "TP. LUNDUP",
+                "TP. KORUPSI",
+                "TP. ILLEGAL FISHING",
+                "TP. ILLEGAL NARKOBA",
+            ],
+            selected: null,
         },
     ];
 
@@ -161,17 +186,16 @@ export default function Filter() {
 
     const handleClick = (categoryIndex, option) => {
         const updatedCategories = [...selectedCategories];
-        const selectedOptions = updatedCategories[categoryIndex].selected;
+        const selectedCategory = updatedCategories[categoryIndex];
 
-        const optionIndex = selectedOptions.indexOf(option);
-        if (optionIndex === -1) {
-            selectedOptions.push(option); // Tambah opsi jika belum dipilih
-            console.log(selectedOptions)
+        // Jika opsi sudah terpilih sebelumnya, hapus seleksinya
+        if (selectedCategory.selected === option) {
+            selectedCategory.selected = null;
         } else {
-            selectedOptions.splice(optionIndex, 1); // Hapus opsi jika sudah dipilih
+            selectedCategory.selected = option; // Jika tidak terpilih sebelumnya, pilih opsi tersebut
         }
 
-        setSelectedCategories(updatedCategories); // Perbarui state kategori
+        setSelectedCategories(updatedCategories);
     };
 
     return (
@@ -215,7 +239,7 @@ export default function Filter() {
                                     <button
                                         key={option}
                                         className={`py-1 rounded-sm font-semibold hover:bg-blue-500 transition-all duration-200 hover:text-white ${
-                                            category.selected.includes(option)
+                                            category.selected === option
                                                 ? "bg-blue-500 text-white outline-black outline-2 outline"
                                                 : "outline-black outline-2 outline"
                                         }`}
@@ -232,14 +256,14 @@ export default function Filter() {
                     <div className="submit mt-12 gap-3 flex justify-end">
                         <button
                             type="reset"
-                            className="outline outline-2 outline-black px-4 py-1 rounded-sm font-bold hover:bg-red-500 hover:text-white duration-200 transition-all hover:scale-105 active:scale-100"
+                            className="outline outline-2 outline-black px-4 py-1 rounded-sm font-bold   duration-200 transition-all hover:scale-105 active:scale-100"
                             onClick={closeDrawerRight}
                         >
                             Kembali
                         </button>
                         <button
                             type="submit"
-                            className="outline outline-2 outline-black px-4 py-1 rounded-sm font-bold hover:bg-blue-500 hover:text-white duration-200 transition-all hover:scale-105 active:scale-100"
+                            className="outline outline-2 outline-black px-4 py-1 rounded-sm font-bold bg-blue-500 hover:bg-blue-600 text-white duration-200 transition-all hover:scale-105 active:scale-100"
                         >
                             Submit
                         </button>
