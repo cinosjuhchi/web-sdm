@@ -25,7 +25,7 @@ const TABLE_HEAD = [
     "Dikpol",
     "Fungsi Polri",
     "Diklat",
-    "Dikbangpes",
+    "Lain-lain",
 ];
 
 TableDashboard.propTypes = {
