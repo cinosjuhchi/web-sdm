@@ -18,6 +18,30 @@ class PegawaiController extends Controller
         return PegawaiResource::collection($pegawai);
     }
 
+    public function filter(Request $request)
+    {
+        $pegawai = Pegawai::all();
+        $bagian = explode(',', $request->query('bagian'));
+        if($request->query('bagian')) {
+            $pegawai = $pegawai->whereIn('bagian', $bagian);
+        }
+
+        if ($request->query('dikum')) {
+            $dikum = explode(',', $request->query('dikum'));
+            $dikumArray = [];
+            foreach ($dikum as $value) {
+                $dikumArray = '%' .$value. '%';
+            }
+            $pegawai = $pegawai->where(function($query) use ($dikumArray){
+                foreach ($dikumArray as $value) {
+                    $query->orWhere('dikum', 'like', $value);
+                }
+            });
+        }
+
+        return PegawaiResource::collection($pegawai);   
+    }
+
     public function total()
     {
         $pegawai = Pegawai::all()->count();

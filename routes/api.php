@@ -15,5 +15,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'me'])->middleware(['auth:sanctum']);
 Route::get('/data-pegawai', [PegawaiController::class, 'index'])->middleware(['auth:sanctum']);
 Route::get('/data-pegawai/total', [PegawaiController::class, 'total'])->middleware(['auth:sanctum']);
+Route::get('/data-pegawai/filter', [PegawaiController::class, 'filter'])->middleware(['auth:sanctum']);;
+
 
      

@@ -13,9 +13,13 @@ import {
     CardFooter,
     IconButton,
     Tooltip,
+    useTabs,
 } from "@material-tailwind/react";
 import Filter from "../../Dialog/Filter";
 import EksporDialog from "../../Dialog/Ekspor";
+import axiosClient from "../../../axios";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const TABLE_HEAD = [
     "NRP",
@@ -29,7 +33,7 @@ const TABLE_HEAD = [
     "Aksi",
 ];
 
-const data = [
+const sm = [
     {
         id: 1,
         nrp: 67120531,
@@ -45,6 +49,26 @@ const data = [
 ];
 
 export default function TablePerincianKorpolairud() {
+    const [bagian, setBagian] = useState(['KORPOLAIRUD', 'DITPOLUDARA']);
+
+    const fetchData = async () => {
+        const bagianParam = bagian.join(',');
+        console.log(bagianParam)
+        const pegawai = await axiosClient.get(`/data-pegawai/filter?bagian=${bagianParam}&dikum=S2,S1)`);
+        console.log(pegawai.data)
+        return pegawai;
+    };
+
+    const { isPending, isError, data, error } = useQuery({
+        queryKey: ['pegawais'],
+        queryFn: fetchData,
+    })
+
+
+    
+    
+    
+
     return (
         <Card className="h-full w-full grid grid-cols-1">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -104,7 +128,7 @@ export default function TablePerincianKorpolairud() {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((pegawai, index) => {
+                        {sm.map((pegawai, index) => {
                             const isLast = index === pegawai.length - 1;
                             const classes = isLast
                                 ? "p-4"
