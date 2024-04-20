@@ -177,9 +177,10 @@ export default function Filter() {
         categories.map((category) => ({ ...category }))
     );
 
+    const [submittedValues, setSubmittedValues] = useState({});
+
     const openDrawerRight = () => setOpenDrawer(true);
     const closeDrawerRight = () => {
-        // Reset semua opsi yang dipilih saat menutup drawer
         setSelectedCategories(categories.map((category) => ({ ...category })));
         setOpenDrawer(false);
     };
@@ -188,17 +189,24 @@ export default function Filter() {
         const updatedCategories = [...selectedCategories];
         const selectedCategory = updatedCategories[categoryIndex];
 
-        // Jika opsi sudah terpilih sebelumnya, hapus seleksinya
         if (selectedCategory.selected === option) {
             selectedCategory.selected = null;
         } else {
-            selectedCategory.selected = option; // Jika tidak terpilih sebelumnya, pilih opsi tersebut
+            selectedCategory.selected = option;
         }
 
         setSelectedCategories(updatedCategories);
+    };
 
-        // Cetak nilai button yang aktif ke console
-        console.log("Button yang aktif:", option);
+    const handleSubmission = () => {
+        const submittedValues = {};
+        selectedCategories.forEach((category) => {
+            if (category.selected) {
+                submittedValues[category.title] = category.selected;
+            }
+        });
+        setSubmittedValues(submittedValues);
+        console.log("Nilai yang disubmit:", submittedValues);
     };
 
     return (
@@ -267,6 +275,7 @@ export default function Filter() {
                         <button
                             type="submit"
                             className="outline outline-2 outline-black px-4 py-1 rounded-sm font-bold bg-blue-500 hover:bg-blue-600 text-white duration-200 transition-all hover:scale-105 active:scale-100"
+                            onClick={handleSubmission}
                         >
                             Submit
                         </button>
