@@ -12,12 +12,18 @@ class PegawaiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pegawai = Pegawai::paginate(10);
+        $pegawai = Pegawai::query();
+        if($request->query('keyword')) {
+            $search = $request->query('keyword');
+            $pegawai->where('nrp', 'like', $search.'%');
+        }
+        $pegawai = $pegawai->paginate(10);
         return PegawaiResource::collection($pegawai);
     }
 
+    
     public function filter(Request $request)
     {
         $pegawai = Pegawai::all();
@@ -31,7 +37,7 @@ class PegawaiController extends Controller
             
             $pegawai = $pegawai->where(function($query) use ($dikum){
                 foreach ($dikum as $value) {
-                    $query->orWhere('dikum', 'like', $value);
+                    $query->orWhere('dikum', 'like', '%'.$value.'%');
                 }
             });
         }

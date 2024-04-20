@@ -4,6 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import PropTypes from "prop-types";
 import { useQuery } from "@tanstack/react-query";
+import Skeleton from 'react-loading-skeleton';
 import {
     Card,
     CardHeader,
@@ -13,7 +14,7 @@ import {
     CardBody,
     CardFooter,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import axiosClient from "../../axios";
 
@@ -33,18 +34,49 @@ TableDashboard.propTypes = {
 };
 
 export default function TableDashboard() {
+    const [search, setSearch] = useState()
     const [currPage, setCurr] = useState();
     const [lastPage, setLast] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const fetchData = async () => {
-        const pegawai = await axiosClient.get("/data-pegawai?page=" + currPage);
+        let pegawai;
+        if(search){
+            pegawai = await axiosClient.get("/data-pegawai?keyword=" + search + "&page=" + currPage);
+        }else{
+            pegawai = await axiosClient.get("/data-pegawai?page=" + currPage);
+        }
         setCurr(pegawai.data.meta.current_page);
         setLast(pegawai.data.meta.last_page);
 
         return pegawai;
     };
 
+    
+    const { isPending, isError, data, error, isRefetching } = useQuery({
+        queryKey: ["pegawais", currPage, search],
+        queryFn: fetchData,
+    }); 
+    
+    const handleSearch = (event) => {
+        setSearch(event.target.value)        
+    }
+    const handleFirst = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleLast = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(lastPage);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
     const handleNext = () => {
         setIsButtonDisabled(true);
         setTimeout(() => {
@@ -62,13 +94,9 @@ export default function TableDashboard() {
         return console.log(currPage);
     };
 
-    const { isPending, isError, data, error } = useQuery({
-        queryKey: ["pegawais", currPage],
-        queryFn: fetchData,
-    });
 
     if (isPending) {
-        return <span>Loading...</span>;
+        return <Skeleton/>
     }
     if (isError) {
         return <span>Error: {error.message}</span>;
@@ -87,8 +115,12 @@ export default function TableDashboard() {
                     </div>
                     <div className="flex shrink-0 gap-2 flex-row justify-end">
                         <div className="w-full md:w-72">
+
+                            {search}
                             <Input
+                                onChange={handleSearch}
                                 label="Search"
+                                value={search}
                                 icon={
                                     <MagnifyingGlassIcon className="h-5 w-5" />
                                 }
@@ -193,7 +225,7 @@ export default function TableDashboard() {
                 <div className="flex gap-2">
                     <Button
                         variant="outlined"
-                        onClick={setCurr(1)}
+                        onClick={handleFirst}
                         disabled={isButtonDisabled || currPage === 1}
                         size="sm"
                     >
@@ -218,7 +250,7 @@ export default function TableDashboard() {
                     </Button>
                     <Button
                         variant="outlined"
-                        onClick={setCurr(lastPage)}
+                        onClick={handleLast}
                         disabled={isButtonDisabled || currPage === lastPage}
                         size="sm"
                     >
