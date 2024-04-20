@@ -23,7 +23,7 @@ const TABLE_HEAD = [
     "Pangkat",
     "Dikum",
     "Dikpol",
-    "Fungsi Polri",
+    "Fungsi Polair",
     "Diklat",
     "Lain-lain",
 ];
