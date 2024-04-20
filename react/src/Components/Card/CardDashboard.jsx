@@ -9,10 +9,17 @@ import axiosClient from "../../axios";
 
 export function CardDashboard() {
     const { open } = useContext(SidebarK);
-    const [total, setTotal] = useState("");
+    const [total, setTotal] = useState(100);
+    const [korpo, setKorpo] = useState(100);
+    const [ditpol, setDitpol] = useState(100);
+    const [polair, setPolair] = useState(100);
     const fetchData = async () => {
-        const pegawai = await axiosClient.get("/data-pegawai/total");
-        setTotal(pegawai.data);
+        const pegawai = await axiosClient.get("/data-pegawai/total");        
+        setTotal(pegawai.data.all_personel)
+        setKorpo(pegawai.data.korpo)
+        setDitpol(pegawai.data.ditpol)
+        setPolair(pegawai.data.polair)
+
         return pegawai.data;
     };
     const { isPending, data, isError, error } = useQuery({
@@ -31,19 +38,19 @@ export function CardDashboard() {
             link: "/rekap-korpolairud",
             icon: <img src={LogoKor} />,
             title: "Total Personel Korpolairud",
-            desc: "404.738",
+            desc: korpo,
         },
         {
             link: "/rekap-ditpolairud",
             icon: <img src={LogoDit} />,
             title: "Total Personel Ditpolairud",
-            desc: "404.738",
+            desc: ditpol,
         },
         {
             link: "/rekap-ditpoludara",
             icon: <img src={LogoUdara} className="scale-110" />,
             title: "Total Personel Ditpoludara",
-            desc: "404.738",
+            desc: polair,
         },
     ];
 

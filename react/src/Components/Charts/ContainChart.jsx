@@ -1,11 +1,11 @@
 import Example from "./PieChart";
 
-function ContainChart() {
+function ContainChart(bagian) {
     return (
         <div className="grid grid-cols-3 gap-4">
-            <Example></Example>
-            <Example></Example>
-            <Example></Example>
+            <Example bagian={bagian}></Example>
+            <Example bagian={bagian}></Example>
+            <Example bagian={bagian}></Example>
         </div>
     );
 }
