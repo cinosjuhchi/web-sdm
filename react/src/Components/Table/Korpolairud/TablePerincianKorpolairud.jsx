@@ -90,10 +90,18 @@ export default function TablePerincianKorpolairud() {
                                 }
                             />
                         </div>
-                        <Button className="flex items-center gap-3" size="sm">
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" />{" "}
-                            Tambah
-                        </Button>
+                        <a href="/tambah-data-korpolairud">
+                            <Button
+                                className="flex h-full items-center gap-3"
+                                size="sm"
+                            >
+                                <UserPlusIcon
+                                    strokeWidth={2}
+                                    className="h-4 w-4"
+                                />{" "}
+                                Tambah
+                            </Button>
+                        </a>
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">

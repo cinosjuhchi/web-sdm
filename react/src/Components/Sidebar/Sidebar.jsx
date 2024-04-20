@@ -10,44 +10,32 @@ import LogoKor from "../../assets/logo/logoKorpolairud.png";
 import LogoDit from "../../assets/logo/logoPolAir.png";
 import LogoUdara from "../../assets/logo/logoPolUdara.png";
 import { SidebarK } from "../../Context/SidebarContext";
-import { useLocation } from "react-router-dom"; // Import useLocation from react-router-dom
+import { useLocation } from "react-router-dom";
 import axiosClient from "../../axios";
 import { useStateContext } from "../../Context/AuthContext";
 
 function Sidebar() {
-    // Sidebar
-    const { open } = useContext(SidebarK);
+    const { open, setOpen } = useContext(SidebarK);
     const { setUser, setToken } = useStateContext();
 
-    // Dropdown
     const [dropdownOpen, setDropdownOpen] = useState({
         korpolairud: false,
         ditpolairud: false,
         ditpoludara: false,
     });
 
+    const location = useLocation();
+
     const toggleDropdown = (dropdown) => {
-        if (open) {
-            setDropdownOpen((prev) => {
-                const updatedState = {
-                    ...prev,
-                    [dropdown]: !prev[dropdown],
-                };
-
-                // Close other dropdowns if a dropdown is opened
-                Object.keys(updatedState).forEach((key) => {
-                    if (key !== dropdown && updatedState[key]) {
-                        updatedState[key] = false;
-                    }
-                });
-
-                return updatedState;
-            });
-        }
+        setDropdownOpen((prev) => ({
+            ...Object.fromEntries(
+                Object.entries(prev).map(([key, value]) => [
+                    key,
+                    key === dropdown ? !value : false, // Close other dropdowns
+                ])
+            ),
+        }));
     };
-    // End Dropdown
-
-    const location = useLocation(); // Initialize useLocation
 
     const onLogout = (ev) => {
         ev.preventDefault();
@@ -68,8 +56,14 @@ function Sidebar() {
             ),
             drop: true,
             dropdownItems: [
-                { title: "Rekapitulasi Korpolairud", link: "/rekap-korpolairud" },
-                { title: "Perincian Korpolairud", link: "/perincian-korpolairud" },
+                {
+                    title: "Rekapitulasi Korpolairud",
+                    link: "/rekap-korpolairud",
+                },
+                {
+                    title: "Perincian Korpolairud",
+                    link: "/perincian-korpolairud",
+                },
             ],
             dropdownType: "korpolairud",
         },
@@ -85,8 +79,14 @@ function Sidebar() {
             ),
             drop: true,
             dropdownItems: [
-                { title: "Rekapitulasi Ditpolairud", link: "/rekap-ditpolairud" },
-                { title: "Perincian Ditpolairud", link: "/perincian-ditpolairud" },
+                {
+                    title: "Rekapitulasi Ditpolairud",
+                    link: "/rekap-ditpolairud",
+                },
+                {
+                    title: "Perincian Ditpolairud",
+                    link: "/perincian-ditpolairud",
+                },
             ],
             dropdownType: "ditpolairud",
         },
@@ -95,8 +95,14 @@ function Sidebar() {
             icon: <img src={LogoUdara} width={32} className="scale-100" />,
             drop: true,
             dropdownItems: [
-                { title: "Rekapitulasi Ditpoludara", link: "/rekap-ditpoludara" },
-                { title: "Perincian Ditpoludara", link: "/perincian-ditpoludara" },
+                {
+                    title: "Rekapitulasi Ditpoludara",
+                    link: "/rekap-ditpoludara",
+                },
+                {
+                    title: "Perincian Ditpoludara",
+                    link: "/perincian-ditpoludara",
+                },
             ],
             dropdownType: "ditpoludara",
         },
@@ -117,19 +123,19 @@ function Sidebar() {
                 {Menus.map((menu, index) => (
                     <a
                         key={index}
-                        href={
-                            open
-                                ? menu.link
-                                : menu.dropdownItems &&
-                                  menu.dropdownItems.length > 0
-                                ? menu.dropdownItems[0].link
-                                : menu.link
-                        }
+                        href={menu.link}
+                        onClick={() => {
+                            if (!open && menu.drop) {
+                                setOpen(true);
+                                toggleDropdown(menu.dropdownType);
+                            } else if (menu.drop) {
+                                toggleDropdown(menu.dropdownType);
+                            }
+                        }}
                     >
                         <li
                             key={index}
-                            className={`${!open ? "px-2 py-2" : "px-3 py-2"} 
-                            ${
+                            className={`${!open ? "px-2 py-2" : "px-3 py-2"} ${
                                 location.pathname === menu.link ||
                                 (menu.dropdownItems &&
                                     menu.dropdownItems.find(
@@ -141,11 +147,6 @@ function Sidebar() {
                             } ${
                                 menu.left ? "hover:bg-red-400" : "hover:bg-biru"
                             } flex items-center justify-between gap-3 cursor-pointer hover:bg-biru hover:text-white transition-all hover:rounded-md mt-2`}
-                            onClick={
-                                menu.drop && open
-                                    ? () => toggleDropdown(menu.dropdownType)
-                                    : null
-                            }
                         >
                             <div className="link flex gap-3 items-center">
                                 <div className="scale-100">{menu.icon}</div>
@@ -157,24 +158,21 @@ function Sidebar() {
                                     {menu.title}
                                 </span>
                             </div>
-
                             <ChevronDownIcon
-                                className={`${!open ? "hidden" : "w-4"} 
-                                ${menu.drop ? "" : "hidden"} 
-                                ${
+                                className={`${!open ? "hidden" : "w-4"} ${
+                                    menu.drop ? "" : "hidden"
+                                } ${
                                     dropdownOpen[menu.dropdownType]
                                         ? "transform rotate-180"
                                         : ""
                                 } justify-end duration-300`}
                                 strokeWidth={3}
-                            ></ChevronDownIcon>
+                            />
                         </li>
-
                         {/* Dropdown */}
                         {menu.drop && dropdownOpen[menu.dropdownType] && (
                             <ul
-                                className={`mt-2 duration-300 text-sm 
-                                ${
+                                className={`mt-2 duration-300 text-sm ${
                                     dropdownOpen[menu.dropdownType]
                                         ? "block"
                                         : ""
