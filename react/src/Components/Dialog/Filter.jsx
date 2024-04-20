@@ -79,12 +79,12 @@ export default function Filter() {
                 "PNS I",
                 "CPNS",
             ],
-            selected: null,
+            selected: [],
         },
         {
             title: "Dikum",
             options: ["SD", "SMP", "SMA", "D3", "S1", "S2", "S3"],
-            selected: null,
+            selected: [],
         },
         {
             title: "Dikpol",
@@ -108,7 +108,7 @@ export default function Filter() {
                 "SAG PA",
                 "SAG BA",
             ],
-            selected: null,
+            selected: [],
         },
         {
             title: "Fungsi Polair",
@@ -126,7 +126,7 @@ export default function Filter() {
                 "KMLK",
                 "BAIDIK",
             ],
-            selected: null,
+            selected: [],
         },
         {
             title: "Diklat",
@@ -145,7 +145,7 @@ export default function Filter() {
                 "DPDKN TK 1",
                 "DPDKN TK 2",
             ],
-            selected: null,
+            selected: [],
         },
         {
             title: "Lain-lain",
@@ -168,7 +168,7 @@ export default function Filter() {
                 "TP. ILLEGAL FISHING",
                 "TP. ILLEGAL NARKOBA",
             ],
-            selected: null,
+            selected: [],
         },
     ];
 
@@ -177,36 +177,25 @@ export default function Filter() {
         categories.map((category) => ({ ...category }))
     );
 
-    const [submittedValues, setSubmittedValues] = useState({});
-
     const openDrawerRight = () => setOpenDrawer(true);
     const closeDrawerRight = () => {
+        // Reset semua opsi yang dipilih saat menutup drawer
         setSelectedCategories(categories.map((category) => ({ ...category })));
         setOpenDrawer(false);
     };
 
     const handleClick = (categoryIndex, option) => {
         const updatedCategories = [...selectedCategories];
-        const selectedCategory = updatedCategories[categoryIndex];
+        const selectedOptions = updatedCategories[categoryIndex].selected;
 
-        if (selectedCategory.selected === option) {
-            selectedCategory.selected = null;
+        const optionIndex = selectedOptions.indexOf(option);
+        if (optionIndex === -1) {
+            selectedOptions.push(option); // Tambah opsi jika belum dipilih
         } else {
-            selectedCategory.selected = option;
+            selectedOptions.splice(optionIndex, 1); // Hapus opsi jika sudah dipilih
         }
 
-        setSelectedCategories(updatedCategories);
-    };
-
-    const handleSubmission = () => {
-        const submittedValues = {};
-        selectedCategories.forEach((category) => {
-            if (category.selected) {
-                submittedValues[category.title] = category.selected;
-            }
-        });
-        setSubmittedValues(submittedValues);
-        console.log("Nilai yang disubmit:", submittedValues);
+        setSelectedCategories(updatedCategories); // Perbarui state kategori
     };
 
     return (
@@ -250,7 +239,7 @@ export default function Filter() {
                                     <button
                                         key={option}
                                         className={`py-1 rounded-sm font-semibold hover:bg-blue-500 transition-all duration-200 hover:text-white ${
-                                            category.selected === option
+                                            category.selected.includes(option)
                                                 ? "bg-blue-500 text-white outline-black outline-2 outline"
                                                 : "outline-black outline-2 outline"
                                         }`}
@@ -275,7 +264,6 @@ export default function Filter() {
                         <button
                             type="submit"
                             className="outline outline-2 outline-black px-4 py-1 rounded-sm font-bold bg-blue-500 hover:bg-blue-600 text-white duration-200 transition-all hover:scale-105 active:scale-100"
-                            onClick={handleSubmission}
                         >
                             Submit
                         </button>
