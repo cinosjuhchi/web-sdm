@@ -142,7 +142,7 @@ export default function TablePerincianKorpolairud() {
                             return (
                                 <tr key={pegawai.id}>
                                     <td className={classes}>
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex items-center">
                                             <div className="flex flex-col">
                                                 <p className="font-normal text-sm text-black">
                                                     {pegawai.nrp}
@@ -152,40 +152,40 @@ export default function TablePerincianKorpolairud() {
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
-                                            <p className="font-normal text-sm text-black">
+                                            <p className="font-normal text-sm text-black truncate w-40">
                                                 {pegawai.nama}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
-                                            <p className="font-normal text-sm text-black">
+                                            <p className="font-normal text-sm text-black truncate w-24">
                                                 {pegawai.pangkat}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black">
+                                        <p className="font-normal text-sm text-black truncate w-24">
                                             {pegawai.dikum}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black">
+                                        <p className="font-normal text-sm text-black truncate w-32">
                                             {pegawai.dikpol}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black">
+                                        <p className="font-normal text-sm text-black truncate w-32">
                                             {pegawai.fungsi}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black">
+                                        <p className="font-normal text-sm text-black truncate w-32">
                                             {pegawai.diklat}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black">
+                                        <p className="font-normal text-sm text-black truncate w-32">
                                             {pegawai.dikbangspes}
                                         </p>
                                     </td>
@@ -208,14 +208,41 @@ export default function TablePerincianKorpolairud() {
                     color="blue-gray"
                     className="font-normal"
                 >
-                    Page 1 of 10
+                    {/* Page {currPage} of {lastPage} */}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
-                        Previous
+                    <Button
+                        variant="outlined"
+                        // onClick={handlePrev}
+                        // disabled={isButtonDisabled || currPage === 1}
+                        size="sm"
+                    >
+                        Awal
                     </Button>
-                    <Button variant="outlined" size="sm">
-                        Next
+                    <Button
+                        variant="outlined"
+                        // onClick={handlePrev}
+                        // disabled={isButtonDisabled || currPage === 1}
+                        size="sm"
+                    >
+                        Sebelumnya
+                    </Button>
+
+                    <Button
+                        variant="outlined"
+                        // onClick={handleNext}
+                        // disabled={isButtonDisabled || currPage === lastPage}
+                        size="sm"
+                    >
+                        Selanjutnya
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        // onClick={handleNext}
+                        // disabled={isButtonDisabled || currPage === lastPage}
+                        size="sm"
+                    >
+                        Akhir
                     </Button>
                 </div>
             </CardFooter>

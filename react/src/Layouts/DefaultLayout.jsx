@@ -6,6 +6,8 @@ import SidebarContextProvider from "../Context/SidebarContext";
 import { useStateContext } from "../Context/AuthContext";
 import axiosClient from "../axios";
 import { useState } from "react";
+import "../Layouts/css/Default.css";
+
 
 export default function DefaultLayout() {
     const { user, token } = useStateContext();
