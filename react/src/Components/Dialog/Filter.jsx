@@ -196,6 +196,9 @@ export default function Filter() {
         }
 
         setSelectedCategories(updatedCategories);
+
+        // Cetak nilai button yang aktif ke console
+        console.log("Button yang aktif:", option);
     };
 
     return (
