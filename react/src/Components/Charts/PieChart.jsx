@@ -7,11 +7,13 @@ import {
 import Chart from "react-apexcharts";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
 
+const jumlahPangkat = [25, 60, 40, 20, 25, 60, 40, 20, 25, 60, 40, 20, 25, 60, 40, 20, 70]
+
 const chartConfig = {
     type: "pie",
     width: 320,
     height: 320,
-    series: [40, 55, 13, 43, 22, 20],
+    series: jumlahPangkat,
     options: {
         chart: {
             toolbar: {
@@ -39,7 +41,7 @@ const chartConfig = {
     },
 };
 
-export default function Example() {
+export default function Example(bagian) {
     return (
         <Card>
             <CardHeader

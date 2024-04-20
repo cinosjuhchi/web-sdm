@@ -166,6 +166,7 @@ export default function Filter() {
         const optionIndex = selectedOptions.indexOf(option);
         if (optionIndex === -1) {
             selectedOptions.push(option); // Tambah opsi jika belum dipilih
+            console.log(selectedOptions)
         } else {
             selectedOptions.splice(optionIndex, 1); // Hapus opsi jika sudah dipilih
         }

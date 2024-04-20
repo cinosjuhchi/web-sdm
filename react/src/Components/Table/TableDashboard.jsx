@@ -193,8 +193,8 @@ export default function TableDashboard() {
                 <div className="flex gap-2">
                     <Button
                         variant="outlined"
-                        // onClick={handlePrev}
-                        // disabled={isButtonDisabled || currPage === 1}
+                        onClick={setCurr(1)}
+                        disabled={isButtonDisabled || currPage === 1}
                         size="sm"
                     >
                         Awal
@@ -218,8 +218,8 @@ export default function TableDashboard() {
                     </Button>
                     <Button
                         variant="outlined"
-                        // onClick={handleNext}
-                        // disabled={isButtonDisabled || currPage === lastPage}
+                        onClick={setCurr(lastPage)}
+                        disabled={isButtonDisabled || currPage === lastPage}
                         size="sm"
                     >
                         Akhir

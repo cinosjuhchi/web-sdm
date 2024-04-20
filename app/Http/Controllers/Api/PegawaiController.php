@@ -28,12 +28,9 @@ class PegawaiController extends Controller
 
         if ($request->query('dikum')) {
             $dikum = explode(',', $request->query('dikum'));
-            $dikumArray = [];
-            foreach ($dikum as $value) {
-                $dikumArray = '%' .$value. '%';
-            }
-            $pegawai = $pegawai->where(function($query) use ($dikumArray){
-                foreach ($dikumArray as $value) {
+            
+            $pegawai = $pegawai->where(function($query) use ($dikum){
+                foreach ($dikum as $value) {
                     $query->orWhere('dikum', 'like', $value);
                 }
             });
@@ -45,7 +42,17 @@ class PegawaiController extends Controller
     public function total()
     {
         $pegawai = Pegawai::all()->count();
-        return response()->json($pegawai);
+        $korpo = Pegawai::where('bagian', 'KORPOLAIRUD')->count();
+        $ditpol = Pegawai::where('bagian', 'DITPOLUDARA')->count();
+        $polair = Pegawai::where('bagian', 'POLAIR')->count();
+        $bagian = [
+            'all_personel'=> $pegawai, 
+            'korpo'=> $korpo,
+            'ditpol'=> $ditpol,
+            'polair'=> $polair
+            
+        ];
+        return response()->json($bagian);
     }
     /**
      * Store a newly created resource in storage.
