@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PegawaiResource;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PegawaiResource;
 
 class PegawaiController extends Controller
 {
@@ -19,29 +20,44 @@ class PegawaiController extends Controller
             $search = $request->query('keyword');
             $pegawai->where('nrp', 'like', $search.'%');
         }
-        $pegawai = $pegawai->paginate(10);
+        $pegawai = $pegawai->latest()->paginate(10);        
         return PegawaiResource::collection($pegawai);
+    }
+
+    public function piechart(Request $request)
+    {
+         $pangkatCounts = Pegawai::select('pangkat', DB::raw('COUNT(*) as total'))
+        ->where('bagian', 'KORPOLAIRUD')
+        ->groupBy('pangkat')
+        ->get();
+        return response()->json($pangkatCounts);
     }
 
     
     public function filter(Request $request)
     {
         $pegawai = Pegawai::query();
-        $bagian = explode(',', $request->query('bagian'));
-        if($request->query('bagian')) {
-            $pegawai = $pegawai->whereIn('bagian', $bagian);
-        }
-
-        if ($request->query('dikum')) {
-            $dikum = explode(',', $request->query('dikum'));
+        $dikum = explode(',', $request->query('dikum'));
+        $dikpol = explode(',', $request->query('dikpol'));
+        $bagian = explode(',', $request->query('bagian'));            
             
-            $pegawai = $pegawai->when($dikum, function ($query, $dikum){
-                foreach ($dikum as $value) {
-                    return $query->orWhere('dikum', 'like', '%'.$value.'%');
-                }
-            });
-            $pegawai = $pegawai->paginate(300);
+        if ($request->query('dikum')) {
+            $dikumValues = explode(',', $request->query('dikum'));
+            $pegawai = $pegawai->where('dikum', 'like', '%'.$dikumValues[0].'%'); // Gunakan nilai pertama sebagai filter awal
+            for ($i = 1; $i < count($dikumValues); $i++) {
+                $pegawai = $pegawai->orWhere('dikum', 'like', '%'.$dikumValues[$i].'%'); // Tambahkan query 'orWhere' untuk nilai selanjutnya
+            }
         }
+        
+        if ($request->query('dikpol')) {
+            $dikpolValues = explode(',', $request->query('dikpol'));
+            $pegawai = $pegawai->where('dikpol', 'like', '%'.$dikpolValues[0].'%');
+            for ($i = 1; $i < count($dikpolValues); $i++) {
+                $pegawai = $pegawai->orWhere('dikpol', 'like', '%'.$dikpolValues[$i].'%');
+            }
+        }
+        $pegawai = $pegawai->where('bagian', 'DITPOLUDARA')->orderBy('created_at', 'desc');
+        $pegawai = $pegawai->paginate(700);
 
         return PegawaiResource::collection($pegawai);   
     }

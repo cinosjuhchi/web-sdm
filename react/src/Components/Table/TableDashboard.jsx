@@ -14,7 +14,7 @@ import {
     CardBody,
     CardFooter,
 } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import axiosClient from "../../axios";
 
@@ -56,7 +56,7 @@ export default function TableDashboard() {
 
 
     
-    const { isPending, isError, data, error, isRefetching } = useQuery({
+    const { isPending, isError, data, error } = useQuery({
         queryKey: ["pegawais", currPage, search],
         queryFn: fetchData,
     }); 

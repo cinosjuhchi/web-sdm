@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'pacino447@gmail.com',
             'password' => bcrypt('123'),
         ]);
-        $this->call(PegawaiSeeder::class);
+        
     }
 }

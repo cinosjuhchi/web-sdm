@@ -49,13 +49,13 @@ const sm = [
 ];
 
 export default function TablePerincianKorpolairud() {
-    const [bagian, setBagian] = useState(["KORPOLAIRUD", "DITPOLUDARA"]);
+    const [bagian, setBagian] = useState(["KORPOLAIRUD"]);
 
     const fetchData = async () => {
         const bagianParam = bagian.join(",");
         console.log(bagianParam);
         const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagianParam}&dikum=S2`);
+            `/data-pegawai/filter?bagian=${bagianParam}&dikum=SMA&dikpol=`);
         console.log(pegawai.data);
         return pegawai.data;
     };

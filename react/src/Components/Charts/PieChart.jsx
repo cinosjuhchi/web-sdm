@@ -4,17 +4,42 @@ import {
     CardHeader,
     Typography,
 } from "@material-tailwind/react";
+import { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
+import axiosClient from "../../axios";
 
-const jumlahPangkat = [25, 60, 40, 20, 25, 60, 40, 20, 25, 60, 40, 20, 25, 60, 40, 20, 70]
+
+
+export default function Example(bagian) {
+    const [chartData, setChartData] = useState([]);
+useEffect(() => {
+    axiosClient.get('/data-pegawai/piechart')
+        .then((res) => {
+            // Memanipulasi data dari respons API untuk sesuaikan dengan struktur yang dibutuhkan            
+            const filteredData = res.data.filter(item => item.pangkat !== null);
+            const formattedData = filteredData.map(item => ({
+                x: item.pangkat,
+                y: item.total
+            }));
+            console.log(res.data)
+            setChartData(formattedData);
+            
+
+        })
+        .catch((error) => {
+            console.error('Error fetching data:', error);
+        });
+}, []);
+
 
 const chartConfig = {
     type: "pie",
     width: 320,
     height: 320,
-    series: jumlahPangkat,
+    series: chartData.map(data => data.y),
     options: {
+        labels: chartData.map(data => data.x),
         chart: {
             toolbar: {
                 show: false,
@@ -37,11 +62,13 @@ const chartConfig = {
         legend: {
             show: true,
         },
-        labels: ["Data 1", "Data 2", "Data 3", "Data 4", "Data 5", "Data 6"],
     },
 };
 
-export default function Example(bagian) {
+
+
+
+
     return (
         <Card>
             <CardHeader
@@ -55,14 +82,14 @@ export default function Example(bagian) {
                 </div>
                 <div>
                     <Typography variant="h6" color="blue-gray">
-                        Pie Chart
+                        Pangkat
                     </Typography>
                     <Typography
                         variant="small"
                         color="gray"
                         className="max-w-sm font-normal"
                     >
-                        Visualize your data in a simple way using the
+                        Jumlah Pangkat
                     </Typography>
                 </div>
             </CardHeader>
