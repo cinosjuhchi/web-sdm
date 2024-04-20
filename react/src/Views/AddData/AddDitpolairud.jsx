@@ -151,7 +151,10 @@ function AddDitpolairud() {
                 </div>
 
                 <div className="button flex gap-4 justify-end mt-10">
-                    <button className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-red-500 text-white hover:text-white active:scale-100 active:bg-red-600">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-red-500 text-white hover:text-white active:scale-100 active:bg-red-600"
+                    >
                         Batal
                     </button>
                     <button className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-blue-500 text-white active:scale-100 active:bg-blue-600">
