@@ -35,6 +35,7 @@ TableDashboard.propTypes = {
 
 export default function TableDashboard() {
     const [search, setSearch] = useState()
+    const [member, setMember] = useState([])
     const [currPage, setCurr] = useState();
     const [lastPage, setLast] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -46,17 +47,20 @@ export default function TableDashboard() {
         }else{
             pegawai = await axiosClient.get("/data-pegawai?page=" + currPage);
         }
+        setMember(pegawai.data.data);
         setCurr(pegawai.data.meta.current_page);
         setLast(pegawai.data.meta.last_page);
 
         return pegawai;
     };
 
+
     
     const { isPending, isError, data, error, isRefetching } = useQuery({
         queryKey: ["pegawais", currPage, search],
         queryFn: fetchData,
     }); 
+
     
     const handleSearch = (event) => {
         setSearch(event.target.value)        
@@ -95,12 +99,12 @@ export default function TableDashboard() {
     };
 
 
-    if (isPending) {
-        return <Skeleton/>
-    }
+    
     if (isError) {
         return <span>Error: {error.message}</span>;
     }
+    
+
     return (
         <Card className="h-full w-full rounded-md grid grid-cols-1">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -152,8 +156,8 @@ export default function TableDashboard() {
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
-                        {data.data.data.map((pegawai, index) => {
+                    <tbody className={`${isPending ? 'animate-pulse bg-gray-200' : ''}`}>
+                        {member.map((pegawai, index) => {
                             const isLast = index === pegawai.length - 1;
                             const classes = isLast
                                 ? "p-4"

@@ -55,12 +55,12 @@ export default function TablePerincianKorpolairud() {
         const bagianParam = bagian.join(",");
         console.log(bagianParam);
         const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagianParam}&dikum=S2,SMA`);
+            `/data-pegawai/filter?bagian=${bagianParam}&dikum=S2`);
         console.log(pegawai.data);
         return pegawai.data;
     };
 
-    const { isPending, isError, data, error } = useQuery({
+    const { isLoading, isError, data, error } = useQuery({
         queryKey: ["pegawais"],
         queryFn: fetchData,
     });
