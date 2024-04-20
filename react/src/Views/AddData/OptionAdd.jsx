@@ -11,7 +11,7 @@ function OptionAdd() {
     return (
         <div className="wrap select-none">
             <div className="title flex items-center">
-                <a href="/">
+                <a href="/" className="absolute">
                     <IconButton
                         variant="text"
                         className="hover:bg-biru hover:text-white"
@@ -19,7 +19,7 @@ function OptionAdd() {
                         <ArrowLeftIcon className="w-7" strokeWidth={2} />
                     </IconButton>
                 </a>
-                <h1 className="m-auto text-xl font-bold">
+                <h1 className="m-auto align-middle text-xl font-bold">
                     Tambahkan Data Baru
                 </h1>
             </div>

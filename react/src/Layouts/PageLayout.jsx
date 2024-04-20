@@ -3,7 +3,7 @@ import "../Layouts/css/PageLayout.css";
 
 export default function PageLayout() {
     return (
-        <div className="m-4">
+        <div className="mx-4 my-6">
             <Outlet />
         </div>
     );
