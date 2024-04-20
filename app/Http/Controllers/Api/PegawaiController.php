@@ -26,7 +26,7 @@ class PegawaiController extends Controller
     
     public function filter(Request $request)
     {
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::query();
         $bagian = explode(',', $request->query('bagian'));
         if($request->query('bagian')) {
             $pegawai = $pegawai->whereIn('bagian', $bagian);
@@ -35,11 +35,12 @@ class PegawaiController extends Controller
         if ($request->query('dikum')) {
             $dikum = explode(',', $request->query('dikum'));
             
-            $pegawai = $pegawai->where(function($query) use ($dikum){
+            $pegawai = $pegawai->when($dikum, function ($query, $dikum){
                 foreach ($dikum as $value) {
-                    $query->orWhere('dikum', 'like', '%'.$value.'%');
+                    return $query->orWhere('dikum', 'like', '%'.$value.'%');
                 }
             });
+            $pegawai = $pegawai->paginate(300);
         }
 
         return PegawaiResource::collection($pegawai);   

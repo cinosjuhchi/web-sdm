@@ -119,7 +119,8 @@ export default function TableDashboard() {
                             {search}
                             <Input
                                 onChange={handleSearch}
-                                label="Search"
+                                label="Search NRP"
+                                type="number"
                                 value={search}
                                 icon={
                                     <MagnifyingGlassIcon className="h-5 w-5" />
