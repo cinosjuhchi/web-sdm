@@ -1,7 +1,10 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { IconButton, Typography } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 function AddKorpolairud() {
+    const navigate = useNavigate();
+
     const input = [
         {
             title: "Nama",
@@ -79,10 +82,11 @@ function AddKorpolairud() {
 
     return (
         <div className="flex w-full">
-            <a href="/">
+            <a>
                 <IconButton
                     variant="text"
                     className="hover:bg-biru hover:text-white"
+                    onClick={() => navigate(-1)}
                 >
                     <ArrowLeftIcon className="w-7" strokeWidth={2} />
                 </IconButton>

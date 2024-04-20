@@ -3,18 +3,22 @@ import { IconButton } from "@material-tailwind/react";
 import LogoKor from "../../assets/logo/logoKorpolairud.png";
 import LogoDit from "../../assets/logo/logoPolAir.png";
 import LogoUdara from "../../assets/logo/logoPolUdara.png";
+import { useNavigate } from "react-router-dom";
 // import { useHistory } from "react-router-dom"; // Perbaikan cara mengimpor useHistory
 
 function OptionAdd() {
     // const history = useHistory();
-
+    const navigate = useNavigate()
+    
     return (
+
         <div className="wrap select-none">
             <div className="title flex items-center">
-                <a href="/" className="absolute">
+                <a className="absolute">
                     <IconButton
                         variant="text"
                         className="hover:bg-biru hover:text-white"
+                        onClick={() => navigate(-1)}
                     >
                         <ArrowLeftIcon className="w-7" strokeWidth={2} />
                     </IconButton>
