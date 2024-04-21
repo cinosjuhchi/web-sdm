@@ -1,8 +1,9 @@
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
+    ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { UserPlusIcon } from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
@@ -13,13 +14,13 @@ import {
     CardFooter,
     IconButton,
     Tooltip,
-    useTabs,
 } from "@material-tailwind/react";
 import Filter from "../../Dialog/Filter";
 import EksporDialog from "../../Dialog/Ekspor";
 import axiosClient from "../../../axios";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const TABLE_HEAD = [
     "NRP",
@@ -50,12 +51,14 @@ const sm = [
 
 export default function TablePerincianKorpolairud() {
     const [bagian, setBagian] = useState(["KORPOLAIRUD"]);
+    const [divisi] = useState("Korpolairud");
 
     const fetchData = async () => {
         const bagianParam = bagian.join(",");
         console.log(bagianParam);
         const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagianParam}&dikum=SMA&dikpol=`);
+            `/data-pegawai/filter?bagian=${bagianParam}&dikum=SMA&dikpol=`
+        );
         console.log(pegawai.data);
         return pegawai.data;
     };
@@ -109,7 +112,7 @@ export default function TablePerincianKorpolairud() {
                     </div>
                 </div>
             </CardHeader>
-            <CardBody className="overflow-x-scroll px-0">
+            <CardBody className="overflow-auto px-0">
                 <table className="w-full table-auto text-left">
                     <thead>
                         <tr>
@@ -141,59 +144,73 @@ export default function TablePerincianKorpolairud() {
                             return (
                                 <tr key={pegawai.id}>
                                     <td className={classes}>
-                                        <div className="flex items-center">
-                                            <div className="flex flex-col">
-                                                <p className="font-normal text-sm text-black">
-                                                    {pegawai.nrp}
-                                                </p>
+                                        <Link to={`/detail?divisi=${divisi}`}>
+                                            <div className="flex items-center">
+                                                <div className="flex flex-col">
+                                                    <p className="font-normal text-sm text-black group-hover:text-white">
+                                                        {pegawai.nrp}
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
-                                            <p className="font-normal text-sm text-black truncate w-40">
+                                            <p className="font-normal text-sm text-black group-hover:text-white truncate w-36">
                                                 {pegawai.nama}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
-                                            <p className="font-normal text-sm text-black truncate w-24">
+                                            <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
                                                 {pegawai.pangkat}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black truncate w-24">
+                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
                                             {pegawai.dikum}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black truncate w-32">
+                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.dikpol}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black truncate w-32">
+                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.fungsi}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black truncate w-32">
+                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.diklat}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black truncate w-32">
+                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.dikbangspes}
                                         </p>
                                     </td>
                                     <td className={classes}>
-                                        <Tooltip content="Edit User">
-                                            <IconButton variant="text">
-                                                <PencilIcon className="h-4 w-4" />
-                                            </IconButton>
-                                        </Tooltip>
+                                        <div className="flex">
+                                            <Tooltip
+                                                content="Lihat atau ubah Data"
+                                                placement="top-end"
+                                            >
+                                                <Link
+                                                    to={`/detail?divisi=${divisi}`}
+                                                >
+                                                    <IconButton
+                                                        variant="text"
+                                                        className="group-hover:bg-white"
+                                                    >
+                                                        <ArrowTopRightOnSquareIcon className="h-6 w-6" />
+                                                    </IconButton>
+                                                </Link>
+                                            </Tooltip>
+                                        </div>
                                     </td>
                                 </tr>
                             );
