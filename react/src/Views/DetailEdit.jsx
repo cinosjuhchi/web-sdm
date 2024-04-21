@@ -133,28 +133,26 @@ function DetailEdit() {
 
     return (
         <div className="flex w-full">
-            <a className={`${isEditing ? "hidden" : ""}`}>
+            <a className={`${isEditing ? "hidden" : ""} absolute`}>
                 <IconButton
                     variant="text"
-                    className="hover:bg-biru hover:text-white absolute"
+                    className="hover:bg-biru hover:text-white"
                     onClick={() => navigate(-1)}
                 >
                     <ArrowLeftIcon className="w-7" strokeWidth={2} />
                 </IconButton>
             </a>
             <div className="mx-20 w-full">
-                <div className="">
-                    <div className="title flex gap-3">
-                        <div className="desc">
-                            <h2 className="text-lg font-semibold leading-7 text-gray-900">
-                                {isEditing ? "Ubah" : "Detail"} data personel
-                                divisi {divisi}
-                            </h2>
-                            <p className="mt-1 text-sm leading-6 text-gray-600">
-                                {isEditing ? "Ubah Data" : "Detail"} personel
-                                divisi {divisi}
-                            </p>
-                        </div>
+                <div className="title flex gap-3">
+                    <div className="desc">
+                        <h2 className="text-lg font-semibold leading-7 text-gray-900">
+                            {isEditing ? "Ubah" : "Detail"} data personel divisi{" "}
+                            {divisi}
+                        </h2>
+                        <p className="mt-1 text-sm leading-6 text-gray-600">
+                            {isEditing ? "Ubah Data" : "Detail"} personel divisi{" "}
+                            {divisi}
+                        </p>
                     </div>
                 </div>
 
