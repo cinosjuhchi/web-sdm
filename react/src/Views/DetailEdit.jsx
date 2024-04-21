@@ -147,10 +147,12 @@ function DetailEdit() {
                     <div className="title flex gap-3">
                         <div className="desc">
                             <h2 className="text-lg font-semibold leading-7 text-gray-900">
-                                Detail data personel divisi {divisi}
+                                {isEditing ? "Ubah" : "Detail"} data personel
+                                divisi {divisi}
                             </h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">
-                                Informasi detail personel divisi {divisi}
+                                {isEditing ? "Ubah Data" : "Detail"} personel
+                                divisi {divisi}
                             </p>
                         </div>
                     </div>
