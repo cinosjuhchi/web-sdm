@@ -133,16 +133,16 @@ function DetailEdit() {
 
     return (
         <div className="flex w-full">
-            <a>
+            <a className={`${isEditing ? "hidden" : ""}`}>
                 <IconButton
                     variant="text"
-                    className="hover:bg-biru hover:text-white"
+                    className="hover:bg-biru hover:text-white absolute"
                     onClick={() => navigate(-1)}
                 >
                     <ArrowLeftIcon className="w-7" strokeWidth={2} />
                 </IconButton>
             </a>
-            <div className="ml-16 mr-20 w-full">
+            <div className="mx-20 w-full">
                 <div className="">
                     <div className="title flex gap-3">
                         <div className="desc">
