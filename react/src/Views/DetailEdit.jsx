@@ -150,7 +150,7 @@ function DetailEdit() {
                             {divisi}
                         </h2>
                         <p className="mt-1 text-sm leading-6 text-gray-600">
-                            {isEditing ? "Ubah Data" : "Detail"} personel divisi{" "}
+                            {isEditing ? "Ubah data" : "Detail"} personel divisi{" "}
                             {divisi}
                         </p>
                     </div>
