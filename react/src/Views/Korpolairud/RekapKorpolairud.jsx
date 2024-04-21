@@ -1,7 +1,11 @@
+import TabsRekap from "../../Components/TabsChart/TabsRekap";
+
 function RekapKorpolairud() {
-    return ( 
-        <h1>RekapKorpo</h1>
-     );
+    return (
+        <>
+            <TabsRekap/>
+        </>
+    );
 }
 
 export default RekapKorpolairud;

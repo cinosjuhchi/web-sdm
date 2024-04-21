@@ -1,8 +1,10 @@
+import TableMutasi from "../Components/Table/TableMutasi";
+
 function Mutasi() {
     return (
-        <>
-            <h1>Mutasi</h1>
-        </>
+        <div className="w-full gap-y-4 flex flex-col">
+            <TableMutasi></TableMutasi>
+        </div>
     );
 }
 
