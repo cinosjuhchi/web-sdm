@@ -299,23 +299,6 @@ const sm = [
 ];
 
 export default function TableRekapKorpolairud() {
-    const [bagian, setBagian] = useState(["KORPOLAIRUD"]);
-
-    const fetchData = async () => {
-        const bagianParam = bagian.join(",");
-        console.log(bagianParam);
-        const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagianParam}&dikum=SMA&dikpol=`
-        );
-        console.log(pegawai.data);
-        return pegawai.data;
-    };
-
-    const { isLoading, isError, data, error } = useQuery({
-        queryKey: ["pegawais"],
-        queryFn: fetchData,
-    });
-
     return (
         <Card className="h-full w-full grid grid-cols-1">
             <CardHeader
@@ -364,7 +347,7 @@ export default function TableRekapKorpolairud() {
                                 : "p-4 border-b border-blue-gray-50";
 
                             return (
-                                <tr key={pegawai.id}>
+                                <tr key={pegawai.pangkat}>
                                     <td className={classes}>
                                         <div className="flex items-center">
                                             <div className="flex flex-col">

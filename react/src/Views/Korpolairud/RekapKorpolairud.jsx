@@ -12,7 +12,7 @@ function RekapKorpolairud() {
             <h1 className="text-2xl font-bold mb-4">
                 Halaman Rekap Divisi Korpolairud
             </h1>
-            <ContainChartRekap></ContainChartRekap>
+            <ContainChartRekap bagian="KORPOLAIRUD"></ContainChartRekap>
 
             <div className="table w-full mt-6 rounded-lg bg-white">
                 <div className="title p-4 ">
