@@ -5,30 +5,39 @@ import {
     Tab,
     TabPanel,
 } from "@material-tailwind/react";
-import ContainBarChart from "../Charts/ContainBarChart";
+import TableRekapKorpolairud from "../Table/Korpolairud/TableRekapDikum";
 
-export default function TabsRekap() {
+export default function TabsRekapKorpo() {
     const data = [
         {
-            label: "Korpolairud",
-            value: "korpolairud",
-            desc: <ContainBarChart bagian="korpo"/>,
+            label: "Dikum",
+            value: "dikum",
+            desc: <TableRekapKorpolairud />,
         },
         {
-            label: "Ditpolairud",
-            value: "ditpolairud",
-            desc: <ContainBarChart bagian="ditpolair"/>,
+            label: "Dikpol",
+            value: "dikpol",
+            desc: <TableRekapKorpolairud />,
         },
-
         {
-            label: "Ditpoludara",
-            value: "ditpoludara",
-            desc: <ContainBarChart bagian="ditpolud"/>,
+            label: "Fungsi Polair",
+            value: "fungsi",
+            desc: <TableRekapKorpolairud />,
+        },
+        {
+            label: "Diklat",
+            value: "diklat",
+            desc: <TableRekapKorpolairud />,
+        },
+        {
+            label: "Lain-lain",
+            value: "lain-lain",
+            desc: <TableRekapKorpolairud />,
         },
     ];
 
     return (
-        <Tabs id="custom-animation" value="korpolairud">
+        <Tabs id="custom-animation" value="dikum" className="mt-4">
             <TabsHeader>
                 {data.map(({ label, value }) => (
                     <Tab key={value} value={value}>

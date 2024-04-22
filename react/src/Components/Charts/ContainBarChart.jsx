@@ -1,7 +1,7 @@
 import BarChart from "./BarChart";
 import Example from "./PieChart";
 
-function ContainChart(bagian) {
+function ContainChartRekap(bagian) {
     return (
         <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2">
@@ -12,4 +12,4 @@ function ContainChart(bagian) {
     );
 }
 
-export default ContainChart;
+export default ContainChartRekap;
