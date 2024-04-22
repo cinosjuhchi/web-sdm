@@ -12,18 +12,18 @@ export default function TabsChart() {
         {
             label: "Korpolairud",
             value: "korpolairud",
-            desc: <ContainChart bagian="korpo"/>,
+            desc: <ContainChart bagian="KORPOLAIRUD"/>,
         },
         {
             label: "Ditpolairud",
             value: "ditpolairud",
-            desc: <ContainChart bagian="ditpolair"/>,
+            desc: <ContainChart bagian="DITPOLAIR"/>,
         },
 
         {
             label: "Ditpoludara",
             value: "ditpoludara",
-            desc: <ContainChart bagian="ditpolud"/>,
+            desc: <ContainChart bagian="DITPOLUDARA"/>,
         },
     ];
 

@@ -10,12 +10,12 @@ import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import axiosClient from "../../axios";
 
-export default function Example() {
+export default function Example({ bagian }) {
     const [chartData, setChartData] = useState([]);
     
     const fetchData = async () => {
         try {
-            const response = await axiosClient.get('/data-pegawai/piechart?keyword=pangkat');
+            const response = await axiosClient.get('/data-pegawai/piechart?keyword=pangkat&bagian=' + bagian);
             const filteredData = response.data.filter(item => item.pangkat !== null);
             const formattedData = filteredData.map(item => ({
                 x: item.pangkat,
@@ -30,7 +30,7 @@ export default function Example() {
     };
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['pegawai-piechart-pangkat'],
+        queryKey: ['pegawai-piechart-pangkat', bagian],
         queryFn: fetchData,
         initialData: [{x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}],
     });
@@ -74,6 +74,7 @@ export default function Example() {
 
     return (
         <Card>
+            <h1>{bagian}</h1>
             <CardHeader
                 floated={false}
                 shadow={false}

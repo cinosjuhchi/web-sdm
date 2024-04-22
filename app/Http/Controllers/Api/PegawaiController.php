@@ -26,11 +26,12 @@ class PegawaiController extends Controller
 
     public function piechart(Request $request)
     {
+        $bagian = $request->query('bagian');
         $keyword = $request->query('keyword');
         if($keyword == 'pangkat')
         {
         $pangkatCounts = Pegawai::select('pangkat', DB::raw('COUNT(*) as total'))
-        ->where('bagian', 'KORPOLAIRUD')
+        ->where('bagian', $bagian)
         ->groupBy('pangkat')
         ->get();
         return response()->json($pangkatCounts);
@@ -39,7 +40,7 @@ class PegawaiController extends Controller
         {
         $dikumCounts = Pegawai::select(
         DB::raw("CASE 
-                    WHEN dikum LIKE '%SMA%' THEN 'SMA'
+                    WHEN dikum LIKE '%SMA%' OR dikum LIKE '%SMK%' OR dikum LIKE '%SMU%' THEN 'SMA'
                     WHEN dikum LIKE '%D3%' THEN 'D3'
                     WHEN dikum LIKE '%S1%' THEN 'S1'
                     WHEN dikum LIKE '%S2%' THEN 'S2'
@@ -48,7 +49,7 @@ class PegawaiController extends Controller
                     END as dikum_group"),
             DB::raw('COUNT(*) as total')
         )
-        ->where('bagian', 'KORPOLAIRUD')
+        ->where('bagian', $bagian)
         ->groupBy('dikum_group')
         ->get();
         return response()->json($dikumCounts);
@@ -69,12 +70,12 @@ class PegawaiController extends Controller
                             WHEN fungsi_polair LIKE '%BA HARWAT KAPAL%' THEN 'BATK'
                             WHEN fungsi_polair LIKE '%DASTA%' THEN 'DSTPA'
                             WHEN fungsi_polair LIKE '%BA IDIK%' OR fungsi_polair LIKE '%POLAIR%' THEN 'BAIDIK'
-                            WHEN fungsi_polair LIKE '%JURU MUDI%' THEN 'JURU MUDI'
+                            WHEN fungsi_polair LIKE '%TIPE C%' OR fungsi_polair LIKE '%TYPE C%' THEN 'JURU MUDI'
                             ELSE 'LAINNYA'
                             END as fungsi_group"),
                 DB::raw('COUNT(*) as total')
             )
-            ->where('bagian', 'KORPOLAIRUD')
+            ->where('bagian', $bagian)
             ->whereNotNull('fungsi_polair')
             ->groupBy('fungsi_group')
             ->get();
@@ -116,7 +117,7 @@ class PegawaiController extends Controller
     {
         $pegawai = Pegawai::all()->count();
         $korpo = Pegawai::where('bagian', 'KORPOLAIRUD')->count();
-        $ditpol = Pegawai::where('bagian', 'DITPOLUDARA')->count();
+        $ditpol = Pegawai::where('bagian', 'DITPOLAIR')->count();
         $polair = Pegawai::where('bagian', 'POLAIR')->count();
         $bagian = [
             'all_personel'=> $pegawai, 

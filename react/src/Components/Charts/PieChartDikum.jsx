@@ -12,11 +12,11 @@ import { useQuery } from "@tanstack/react-query";
 
 
 
-export default function Dikum(bagian) {
+export default function Dikum({ bagian }) {
     const [chartData, setChartData] = useState([]);
     const fetchData = async () => {
         try {
-            const response = await axiosClient.get('/data-pegawai/piechart?keyword=dikum');
+            const response = await axiosClient.get('/data-pegawai/piechart?keyword=dikum&bagian=' + bagian);
             const filteredData = response.data.filter(item => item.pangkat !== null);
             const formattedData = filteredData.map(item => ({
                 x: item.dikum_group,
@@ -31,7 +31,7 @@ export default function Dikum(bagian) {
     };
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['pegawai-piechart', chartData],
+        queryKey: ['pegawai-piechart', bagian],
         queryFn: fetchData,
         initialData: [{x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}],
     });

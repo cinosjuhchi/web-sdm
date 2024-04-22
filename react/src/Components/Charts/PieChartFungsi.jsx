@@ -12,11 +12,11 @@ import { useQuery } from "@tanstack/react-query";
 
 
 
-export default function Fungsi(bagian) {
+export default function Fungsi({ bagian }) {
     const [chartData, setChartData] = useState([]);
     const fetchData = async () => {
         try {
-            const response = await axiosClient.get('/data-pegawai/piechart?keyword=fungsi');
+            const response = await axiosClient.get('/data-pegawai/piechart?keyword=fungsi&bagian=' + bagian);
             const filteredData = response.data.filter(item => item.pangkat !== null);
             const formattedData = filteredData.map(item => ({
                 x: item.fungsi_group,
@@ -31,7 +31,7 @@ export default function Fungsi(bagian) {
     };
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['pegawai-fungsi', chartData],
+        queryKey: ['pegawai-fungsi', bagian],
         queryFn: fetchData,
         initialData: [{x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}],
     });

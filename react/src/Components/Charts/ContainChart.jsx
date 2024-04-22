@@ -2,7 +2,7 @@ import Example from "./PieChart";
 import Dikum from './PieChartDikum';
 import Fungsi from "./PieChartFungsi";
 
-function ContainChart(bagian) {
+function ContainChart({ bagian }) {
     return (
         <div className="grid grid-cols-3 gap-4">
             <Example bagian={bagian}></Example>
