@@ -4,6 +4,7 @@ import TabsRekapKorpo from "../../Components/TabsChart/TabsRekapKorpo";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import DropMonthRekap from "../../Components/Dropdown/DropdownMonthRekap";
 import DropYearRekap from "../../Components/Dropdown/DropdownYearRekap";
+import EksporDialog from "../../Components/Dialog/Ekspor";
 
 function RekapKorpolairud() {
     return (
@@ -13,18 +14,17 @@ function RekapKorpolairud() {
             </h1>
             <ContainChartRekap></ContainChartRekap>
 
-            <div className="table w-full mt-6">
-                <div className="title bg-white flex justify-between p-4 rounded-lg items-center">
-                    <div className="desc">
-                        <h1 className="text-2xl font-bold">
-                            Table Rekapitulasi Korpolairud
-                        </h1>
-                        <p className="">
-                            Informasi tentang rekapitulasi korpolairud
-                        </p>
-                    </div>
-
-                    <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+            <div className="table w-full mt-6 rounded-lg bg-white">
+                <div className="title p-4 ">
+                    <div className="desc flex justify-between items-center">
+                        <div className="desc">
+                            <h1 className="text-2xl font-bold">
+                                Table Rekapitulasi Korpolairud
+                            </h1>
+                            <p className="">
+                                Informasi tentang rekapitulasi korpolairud
+                            </p>
+                        </div>
                         <div className="w-full md:w-72">
                             <Input
                                 label="Search"
@@ -33,6 +33,10 @@ function RekapKorpolairud() {
                                 }
                             />
                         </div>
+                    </div>
+
+                    <div className="bot flex justify-between items-center mt-6">
+                        <EksporDialog></EksporDialog>
                         <div className="dropdown flex gap-2">
                             <DropMonthRekap></DropMonthRekap>
                             <DropYearRekap></DropYearRekap>
