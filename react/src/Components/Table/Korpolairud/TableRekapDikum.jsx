@@ -300,7 +300,6 @@ const sm = [
 
 export default function TableRekapKorpolairud() {
     const [bagian, setBagian] = useState(["KORPOLAIRUD"]);
-    const [divisi] = useState("Korpolairud");
 
     const fetchData = async () => {
         const bagianParam = bagian.join(",");
