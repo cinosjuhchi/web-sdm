@@ -4,21 +4,22 @@ import {
     CardHeader,
     Typography,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@tanstack/react-query";
 import axiosClient from "../../axios";
+import { useQuery } from "@tanstack/react-query";
 
-export default function Example() {
+
+
+export default function Fungsi(bagian) {
     const [chartData, setChartData] = useState([]);
-    
     const fetchData = async () => {
         try {
-            const response = await axiosClient.get('/data-pegawai/piechart?keyword=pangkat');
+            const response = await axiosClient.get('/data-pegawai/piechart?keyword=fungsi');
             const filteredData = response.data.filter(item => item.pangkat !== null);
             const formattedData = filteredData.map(item => ({
-                x: item.pangkat,
+                x: item.fungsi_group,
                 y: item.total
             }));
             setChartData(formattedData)
@@ -30,7 +31,7 @@ export default function Example() {
     };
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['pegawai-piechart-pangkat'],
+        queryKey: ['pegawai-fungsi', chartData],
         queryFn: fetchData,
         initialData: [{x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}],
     });
@@ -85,14 +86,14 @@ export default function Example() {
                 </div>
                 <div>
                     <Typography variant="h6" color="blue-gray">
-                        Pangkat
+                        Fungsi Polair
                     </Typography>
                     <Typography
                         variant="small"
                         color="gray"
                         className="max-w-sm font-normal"
                     >
-                        Jumlah Pangkat
+                        Jumlah Fungsi Polair
                     </Typography>
                 </div>
             </CardHeader>

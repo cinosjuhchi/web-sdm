@@ -26,11 +26,61 @@ class PegawaiController extends Controller
 
     public function piechart(Request $request)
     {
-         $pangkatCounts = Pegawai::select('pangkat', DB::raw('COUNT(*) as total'))
+        $keyword = $request->query('keyword');
+        if($keyword == 'pangkat')
+        {
+        $pangkatCounts = Pegawai::select('pangkat', DB::raw('COUNT(*) as total'))
         ->where('bagian', 'KORPOLAIRUD')
         ->groupBy('pangkat')
         ->get();
         return response()->json($pangkatCounts);
+        }
+        if($keyword == 'dikum')
+        {
+        $dikumCounts = Pegawai::select(
+        DB::raw("CASE 
+                    WHEN dikum LIKE '%SMA%' THEN 'SMA'
+                    WHEN dikum LIKE '%D3%' THEN 'D3'
+                    WHEN dikum LIKE '%S1%' THEN 'S1'
+                    WHEN dikum LIKE '%S2%' THEN 'S2'
+                    WHEN dikum LIKE '%S3%' THEN 'S3'
+                    ELSE 'Lainnya' 
+                    END as dikum_group"),
+            DB::raw('COUNT(*) as total')
+        )
+        ->where('bagian', 'KORPOLAIRUD')
+        ->groupBy('dikum_group')
+        ->get();
+        return response()->json($dikumCounts);
+        }
+        if($keyword == 'fungsi')
+        {
+            $fungsiCounts = Pegawai::select(
+                DB::raw("CASE 
+                            WHEN fungsi_polair LIKE '%KOMLEK%' THEN 'KMLK'
+                            WHEN fungsi_polair LIKE '%PA SAR%' THEN 'SAR'
+                            WHEN fungsi_polair LIKE '%DASPA%' THEN 'DSPA'
+                            WHEN fungsi_polair LIKE '%PA NAUTIKA%' THEN 'PANK'
+                            WHEN fungsi_polair LIKE '%PATK%' THEN 'PATK'
+                            WHEN fungsi_polair LIKE '%PA IDIK%' THEN 'PAIDK'
+                            WHEN fungsi_polair LIKE '%PA LAKA%' THEN 'PAAKA LAU'
+                            WHEN fungsi_polair LIKE '%DASBA%' THEN 'DSBPA'
+                            WHEN fungsi_polair LIKE '%BA NAUTIKA%' THEN 'BANK'
+                            WHEN fungsi_polair LIKE '%BA HARWAT KAPAL%' THEN 'BATK'
+                            WHEN fungsi_polair LIKE '%DASTA%' THEN 'DSTPA'
+                            WHEN fungsi_polair LIKE '%BA IDIK%' OR fungsi_polair LIKE '%POLAIR%' THEN 'BAIDIK'
+                            WHEN fungsi_polair LIKE '%JURU MUDI%' THEN 'JURU MUDI'
+                            ELSE 'LAINNYA'
+                            END as fungsi_group"),
+                DB::raw('COUNT(*) as total')
+            )
+            ->where('bagian', 'KORPOLAIRUD')
+            ->whereNotNull('fungsi_polair')
+            ->groupBy('fungsi_group')
+            ->get();
+            return response()->json($fungsiCounts);
+        }
+         
     }
 
     
