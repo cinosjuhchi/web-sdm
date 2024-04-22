@@ -1,7 +1,7 @@
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
-    ArrowTopRightOnSquareIcon,
+    ClockIcon,
 } from "@heroicons/react/24/outline";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import {
@@ -12,27 +12,18 @@ import {
     Button,
     CardBody,
     CardFooter,
-    IconButton,
     Tooltip,
 } from "@material-tailwind/react";
-import Filter from "../../Dialog/Filter";
-import EksporDialog from "../../Dialog/Ekspor";
-import axiosClient from "../../../axios";
+import axiosClient from "../../axios";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Filter from "../Dialog/Filter";
+import EksporDialog from "../Dialog/Ekspor";
+import DialogMutasi from "../Dialog/DialogMutasi";
+import DialogRiwayat from "../Dialog/DialogRiwayatMutasi";
 
-const TABLE_HEAD = [
-    "NRP",
-    "Nama",
-    "Pangkat",
-    "Dikum",
-    "Dikpol",
-    "Fungsi Polair",
-    "Diklat",
-    "Dikbangpes",
-    "Aksi",
-];
+const TABLE_HEAD = ["NRP", "Nama", "Pangkat", "Divisi", "Aksi"];
 
 const sm = [
     {
@@ -40,12 +31,7 @@ const sm = [
         nrp: 67120531,
         nama: "MOHAMMAD YASSIN KOSASIH, S.I.K., M.Si., M.Tr.Opsla.",
         pangkat: "IRJEN POL",
-        kantor_bagian: "KORPOLAIRUD",
-        fungsi: null,
-        dikpol: "AKPOL, PTIK,SESKO AL,LEMHANAS",
-        dikum: "S2(2004)",
-        diklat: null,
-        dikbangspes: "INTEL, BRIMOB,, VIP PROTECTION USA",
+        divisi: "Korpolairud",
     },
 ];
 
@@ -74,10 +60,10 @@ export default function TablePerincianKorpolairud() {
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
                         <h1 className="text-xl font-bold text-black">
-                            Data Perincian Korpolairud
+                            Mutasi personel anggota
                         </h1>
                         <p color="gray" className="mt-1 font-normal">
-                            Informasi data Personel Korpolairud
+                            Halaman mutasi untuk personel
                         </p>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
@@ -89,18 +75,6 @@ export default function TablePerincianKorpolairud() {
                                 }
                             />
                         </div>
-                        <a href="/tambah-data-korpolairud">
-                            <Button
-                                className="flex h-full items-center gap-3"
-                                size="sm"
-                            >
-                                <UserPlusIcon
-                                    strokeWidth={2}
-                                    className="h-4 w-4"
-                                />{" "}
-                                Tambah
-                            </Button>
-                        </a>
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -108,7 +82,7 @@ export default function TablePerincianKorpolairud() {
                         <EksporDialog></EksporDialog>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Filter></Filter>
+                        <DialogRiwayat></DialogRiwayat>
                     </div>
                 </div>
             </CardHeader>
@@ -156,61 +130,27 @@ export default function TablePerincianKorpolairud() {
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
-                                            <p className="font-normal text-sm text-black group-hover:text-white truncate w-36">
+                                            <p className="font-normal text-sm text-black group-hover:text-white">
                                                 {pegawai.nama}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
-                                            <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
+                                            <p className="font-normal text-sm text-black group-hover:text-white">
                                                 {pegawai.pangkat}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
-                                            {pegawai.dikum}
-                                        </p>
-                                    </td>
-                                    <td className={classes}>
-                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.dikpol}
-                                        </p>
-                                    </td>
-                                    <td className={classes}>
-                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.fungsi}
-                                        </p>
-                                    </td>
-                                    <td className={classes}>
-                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.diklat}
-                                        </p>
-                                    </td>
-                                    <td className={classes}>
-                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.dikbangspes}
-                                        </p>
-                                    </td>
-                                    <td className={classes}>
-                                        <div className="flex">
-                                            <Tooltip
-                                                content="Lihat atau ubah Data"
-                                                placement="top-end"
-                                            >
-                                                <Link
-                                                    to={`/detail?divisi=${divisi}`}
-                                                >
-                                                    <IconButton
-                                                        variant="text"
-                                                        className="group-hover:bg-white"
-                                                    >
-                                                        <ArrowTopRightOnSquareIcon className="h-6 w-6" />
-                                                    </IconButton>
-                                                </Link>
-                                            </Tooltip>
+                                        <div className="flex flex-col">
+                                            <p className="font-normal text-sm text-black group-hover:text-white">
+                                                {pegawai.divisi}
+                                            </p>
                                         </div>
+                                    </td>
+                                    <td className={classes}>
+                                        <DialogMutasi></DialogMutasi>
                                     </td>
                                 </tr>
                             );

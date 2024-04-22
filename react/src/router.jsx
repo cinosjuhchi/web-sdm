@@ -17,6 +17,7 @@ import AddKorpolairud from "./Views/AddData/AddKorpolairud";
 import AddDitpolairud from "./Views/AddData/AddDitpolairud";
 import AddDitpoludara from "./Views/AddData/AddDitpoludara";
 import PageLayout from "./Layouts/PageLayout";
+import DetailEdit from "./Views/DetailEdit";
 
 const router = createBrowserRouter([
     {
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
             {
                 path: "/tambah-data-ditpoludara",
                 element: <AddDitpoludara />,
+            },
+            {
+                path: "/detail",
+                element: <DetailEdit />,
             },
         ],
     },
