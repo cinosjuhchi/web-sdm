@@ -4,7 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import PropTypes from "prop-types";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton from 'react-loading-skeleton';
+import Skeleton from "react-loading-skeleton";
 import {
     Card,
     CardHeader,
@@ -42,9 +42,11 @@ export default function TableDashboard() {
 
     const fetchData = async () => {
         let pegawai;
-        if(search){
-            pegawai = await axiosClient.get("/data-pegawai?keyword=" + search + "&page=" + currPage);
-        }else{
+        if (search) {
+            pegawai = await axiosClient.get(
+                "/data-pegawai?keyword=" + search + "&page=" + currPage
+            );
+        } else {
             pegawai = await axiosClient.get("/data-pegawai?page=" + currPage);
         }
         setMember(pegawai.data.data);
@@ -54,17 +56,14 @@ export default function TableDashboard() {
         return pegawai;
     };
 
-
-    
     const { isPending, isError, data, error } = useQuery({
         queryKey: ["pegawais", currPage, search],
         queryFn: fetchData,
-    }); 
+    });
 
-    
     const handleSearch = (event) => {
-        setSearch(event.target.value)        
-    }
+        setSearch(event.target.value);
+    };
     const handleFirst = () => {
         setIsButtonDisabled(true);
         setTimeout(() => {
@@ -98,12 +97,9 @@ export default function TableDashboard() {
         return console.log(currPage);
     };
 
-
-    
     if (isError) {
         return <span>Error: {error.message}</span>;
     }
-    
 
     return (
         <Card className="h-full w-full rounded-md grid grid-cols-1">
@@ -119,7 +115,6 @@ export default function TableDashboard() {
                     </div>
                     <div className="flex shrink-0 gap-2 flex-row justify-end">
                         <div className="w-full md:w-72">
-
                             {search}
                             <Input
                                 onChange={handleSearch}
@@ -156,7 +151,11 @@ export default function TableDashboard() {
                             ))}
                         </tr>
                     </thead>
-                    <tbody className={`${isPending ? 'animate-pulse bg-gray-200' : ''}`}>
+                    <tbody
+                        className={`${
+                            isPending ? "animate-pulse bg-gray-200" : ""
+                        }`}
+                    >
                         {member.map((pegawai, index) => {
                             const isLast = index === pegawai.length - 1;
                             const classes = isLast
@@ -170,6 +169,7 @@ export default function TableDashboard() {
                                             <div className="flex flex-col">
                                                 <p className="font-normal text-sm text-black">
                                                     {pegawai.nrp}
+                                                    <Skeleton></Skeleton>
                                                 </p>
                                             </div>
                                         </div>
@@ -178,6 +178,7 @@ export default function TableDashboard() {
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black">
                                                 {pegawai.nama}
+                                                <Skeleton></Skeleton>
                                             </p>
                                         </div>
                                     </td>
@@ -185,32 +186,38 @@ export default function TableDashboard() {
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black">
                                                 {pegawai.pangkat}
+                                                <Skeleton></Skeleton>
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
                                             {pegawai.dikum}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
                                             {pegawai.dikpol}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
                                             {pegawai.fungsi}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
                                             {pegawai.diklat}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
                                             {pegawai.dikbangspes}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                 </tr>

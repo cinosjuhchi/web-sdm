@@ -8,25 +8,25 @@ import axiosClient from "../axios";
 import { useState } from "react";
 import "../Layouts/css/Default.css";
 
-
 export default function DefaultLayout() {
     const { user, token } = useStateContext();
-    const [nama, setNama] = useState('');
+    const [nama, setNama] = useState("");
     if (!token) {
         return <Navigate to="/login" />;
     }
 
-    axiosClient.get('/me')
-    .then(function (response) {
-        console.log(response.data)
-        setNama(response.data.nama)
-    })
-    .catch(err => {
-        const response = err.response;
-        if(response && response.status == 422){
-          console.log(response.data.errors);
-        }
-      })
+    axiosClient
+        .get("/me")
+        .then(function (response) {
+            console.log(response.data);
+            setNama(response.data.nama);
+        })
+        .catch((err) => {
+            const response = err.response;
+            if (response && response.status == 422) {
+                console.log(response.data.errors);
+            }
+        });
     return (
         <div className="wrap box-border">
             <SidebarContextProvider>

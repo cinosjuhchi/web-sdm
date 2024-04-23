@@ -9,33 +9,42 @@ import Chart from "react-apexcharts";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import axiosClient from "../../axios";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Example({ bagian }) {
     const [chartData, setChartData] = useState([]);
-    
+
     const fetchData = async () => {
         try {
-            const response = await axiosClient.get('/data-pegawai/piechart?keyword=pangkat&bagian=' + bagian);
-            const filteredData = response.data.filter(item => item.pangkat !== null);
-            const formattedData = filteredData.map(item => ({
+            const response = await axiosClient.get(
+                "/data-pegawai/piechart?keyword=pangkat&bagian=" + bagian
+            );
+            const filteredData = response.data.filter(
+                (item) => item.pangkat !== null
+            );
+            const formattedData = filteredData.map((item) => ({
                 x: item.pangkat,
-                y: item.total
+                y: item.total,
             }));
-            setChartData(formattedData)
+            setChartData(formattedData);
             return formattedData;
         } catch (error) {
-            console.error('Error fetching data:', error);
-            throw new Error('Failed to fetch data');
+            console.error("Error fetching data:", error);
+            throw new Error("Failed to fetch data");
         }
     };
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['pegawai-piechart-pangkat', bagian],
+        queryKey: ["pegawai-piechart-pangkat", bagian],
         queryFn: fetchData,
-        initialData: [{x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}],
+        initialData: [
+            { x: "Dimuat", y: "Load" },
+            { x: "Dimuat", y: "Load" },
+            { x: "Dimuat", y: "Load" },
+        ],
     });
 
-    
     if (isError) {
         return <p>Error fetching data</p>;
     }
@@ -44,9 +53,9 @@ export default function Example({ bagian }) {
         type: "pie",
         width: 320,
         height: 320,
-        series: data.map(data => data.y),
+        series: data.map((data) => data.y),
         options: {
-            labels: data.map(data => data.x + ' : ' + data.y),
+            labels: data.map((data) => data.x + " : " + data.y),
             chart: {
                 toolbar: {
                     show: false,
