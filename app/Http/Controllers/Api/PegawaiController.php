@@ -148,7 +148,19 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validated();
+        Pegawai::create([
+            'pangkat' => $data['pangkat'],
+            'nama' => $data['nama'],
+            'nrp' => $data['nrp'],
+            'dikum' => $data['dikum'],
+            'diklat' => $data['diklat'],
+            'dikpol' => $data['dikpol'],
+            'dikbangspes' => $data['dikbangspes'],
+            'fungsi_polair' => $data['fungsi_polair'],
+            'bagian' => $data['bagian'],
+        ]);
+        return response()->json('Data Berhasil Ditambah', 200);
     }
 
     /**
@@ -164,9 +176,18 @@ class PegawaiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pegawai $pegawai)
+    public function update(Request $request)
     {
-        //
+        $data = $request->validated();
+        $id = $data['id'];
+        $pegawai = Pegawai::findOrFail($id);
+        $pegawai->nama = $data['nama'];
+        $pegawai->dikum = $data['dikum'];
+        $pegawai->dikpol = $data['dikpol'];
+        $pegawai->diklat = $data['diklat'];
+        $pegawai->fungsi_polair = $data['fungsi_polair'];
+        $pegawai->dikbangspes = $data['dikbangspes'];
+        $pegawai->dikbangspes = $data['dikbangspes'];
     }
 
     /**

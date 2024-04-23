@@ -12,14 +12,23 @@ function DetailEdit() {
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false); // State untuk status edit
     const [isPangkatDisabled, setIsPangkatDisabled] = useState(true); // State untuk status input pangkat
-    const [formData, setFormData] = useState([]); // State untuk menyimpan nilai input-an
+    const [formData, setFormData] = useState({
+        nama: "Muhammad Cino",
+        nrp: "1234567",
+        pangkat: "Siswa PKL",
+        dikum: "SMK 12",
+        dikpol: "Unknown",
+        fungsi: "Unknown",
+        diklat: "Unknown",
+        "lain-lain": "Unknown",
+    }); // State untuk menyimpan nilai input-an
     
+    console.log(nrp)
     const fetchData = async () => {
         const pegawai = await axiosClient.get(
             `/detail-pegawai/${nrp}`
-        );        
-        // console.log(pegawai.data)
-        setFormData(pegawai.data)
+        );
+        console.log(pegawai.data)
         return pegawai.data;
     }
 
@@ -29,10 +38,25 @@ function DetailEdit() {
         initialData: formData
     })
 
-    console.log(formData)
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
 
     const handleReset = () => {
-        setFormData(data);
+        setFormData({
+            nama: "Muhammad Cino",
+            nrp: "1234567",
+            pangkat: "Siswa PKL",
+            dikum: "SMK 12",
+            dikpol: "Unknown",
+            fungsi: "Unknown",
+            diklat: "Unknown",
+            "lain-lain": "Unknown",
+        });
     };
 
     const handleSubmit = () => {
@@ -159,7 +183,9 @@ function DetailEdit() {
                                 <input
                                     type={input.type}
                                     name={input.nama}
-                                    id={input.id}                            
+                                    id={input.id}
+                                    value={formData[input.nama]}
+                                    onChange={handleInputChange}
                                     disabled={
                                         !isEditing || input.id === "pangkat"
                                             ? isPangkatDisabled
