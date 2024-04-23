@@ -34,8 +34,8 @@ TableDashboard.propTypes = {
 };
 
 export default function TableDashboard() {
-    const [search, setSearch] = useState()
-    const [member, setMember] = useState([])
+    const [search, setSearch] = useState();
+    const [member, setMember] = useState([]);
     const [currPage, setCurr] = useState();
     const [lastPage, setLast] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);

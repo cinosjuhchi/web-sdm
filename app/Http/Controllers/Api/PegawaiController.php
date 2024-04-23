@@ -108,8 +108,22 @@ class PegawaiController extends Controller
                 $pegawai = $pegawai->orWhere('dikpol', 'like', '%'.$dikpolValues[$i].'%');
             }
         }
-        $pegawai = $pegawai->where('bagian', 'DITPOLUDARA')->orderBy('created_at', 'desc');
-        $pegawai = $pegawai->paginate(700);
+        if ($request->query('fungsi')) {
+            $fValues = explode(',', $request->query('fungsi'));
+            $pegawai = $pegawai->where('fungsi_polair', 'like', '%'.$fValues[0].'%');
+            for ($i = 1; $i < count($fValues); $i++) {
+                $pegawai = $pegawai->orWhere('fungsi_polair', 'like', '%'.$fValues[$i].'%');
+            }
+        }
+        if ($request->query('diklat')) {
+            $diklatValues = explode(',', $request->query('diklat'));
+            $pegawai = $pegawai->where('diklat', 'like', '%'.$diklatValues[0].'%');
+            for ($i = 1; $i < count($diklatValues); $i++) {
+                $pegawai = $pegawai->orWhere('diklat', 'like', '%'.$diklatValues[$i].'%');
+            }
+        }
+        
+        $pegawai = $pegawai->paginate(20);
 
         return PegawaiResource::collection($pegawai);   
     }
@@ -140,9 +154,11 @@ class PegawaiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pegawai $pegawai)
+    public function show($nrp)
     {
-        //
+        $data = $nrp;
+        $pegawai = Pegawai::where('nrp', $data)->get();
+        return response()->json($pegawai);
     }
 
     /**

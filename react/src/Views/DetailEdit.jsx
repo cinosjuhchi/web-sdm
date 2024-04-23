@@ -1,46 +1,38 @@
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+    import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { IconButton, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axiosClient from "../axios";
+import { useQuery } from "@tanstack/react-query";
 
 function DetailEdit() {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const divisi = params.get("divisi");
-
+    const nrp = params.get("nrp");
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false); // State untuk status edit
     const [isPangkatDisabled, setIsPangkatDisabled] = useState(true); // State untuk status input pangkat
-    const [formData, setFormData] = useState({
-        nama: "Muhammad Cino",
-        nrp: "1234567",
-        pangkat: "Siswa PKL",
-        dikum: "SMK 12",
-        dikpol: "Unknown",
-        fungsi: "Unknown",
-        diklat: "Unknown",
-        "lain-lain": "Unknown",
-    }); // State untuk menyimpan nilai input-an
+    const [formData, setFormData] = useState([]); // State untuk menyimpan nilai input-an
+    
+    const fetchData = async () => {
+        const pegawai = await axiosClient.get(
+            `/detail-pegawai/${nrp}`
+        );        
+        // console.log(pegawai.data)
+        setFormData(pegawai.data)
+        return pegawai.data;
+    }
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+    const { isLoading, isError, data } = useQuery({
+        queryKey: ['detailPegawai'],
+        queryFn: fetchData,
+        initialData: formData
+    })
+
+    console.log(formData)
 
     const handleReset = () => {
-        setFormData({
-            nama: "Muhammad Cino",
-            nrp: "1234567",
-            pangkat: "Siswa PKL",
-            dikum: "SMK 12",
-            dikpol: "Unknown",
-            fungsi: "Unknown",
-            diklat: "Unknown",
-            "lain-lain": "Unknown",
-        });
+        setFormData(data);
     };
 
     const handleSubmit = () => {
@@ -146,12 +138,10 @@ function DetailEdit() {
                 <div className="title flex gap-3">
                     <div className="desc">
                         <h2 className="text-lg font-semibold leading-7 text-gray-900">
-                            {isEditing ? "Ubah" : "Detail"} data personel divisi{" "}
-                            {divisi}
+                            {isEditing ? "Ubah" : "Detail"} data personel divisi{" "}                            
                         </h2>
                         <p className="mt-1 text-sm leading-6 text-gray-600">
-                            {isEditing ? "Ubah data" : "Detail"} personel divisi{" "}
-                            {divisi}
+                            {isEditing ? "Ubah data" : "Detail"} personel divisi{" "}                            
                         </p>
                     </div>
                 </div>
@@ -169,9 +159,7 @@ function DetailEdit() {
                                 <input
                                     type={input.type}
                                     name={input.nama}
-                                    id={input.id}
-                                    value={formData[input.nama]}
-                                    onChange={handleInputChange}
+                                    id={input.id}                            
                                     disabled={
                                         !isEditing || input.id === "pangkat"
                                             ? isPangkatDisabled

@@ -21,6 +21,7 @@ import axiosClient from "../../../axios";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../../../Context/FilterContext";
 
 const TABLE_HEAD = [
     "NRP",
@@ -52,25 +53,32 @@ const sm = [
 
 export default function TablePerincianKorpolairud({bagian}) {
     const [divisi] = useState("Korpolairud");
-    
+    const [currPage, setCurr] = useState();
+    const { selectedDikum, selectedDikpol, selectedFungsi, selectedDiklat } = useStateContext();
     const fetchData = async () => {
+        const dikum = selectedDikum.join(',')
+        const dikpol = selectedDikpol.join(',')
+        const fungsi = selectedFungsi.join(',')
+        const diklat = selectedDiklat.join(',')
         const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagian}&dikum=SMA&dikpol=`
+            `/data-pegawai/filter?bagian=${bagian}&dikum=${dikum}&dikpol=${dikpol}&fungsi=${fungsi}&diklat=${diklat}&page=${currPage}`
         );
         console.log(pegawai.data);
-        return pegawai.data;
+        console.log(selectedDikum)
+        setCurr(pegawai.data.meta.current_page);
+        return pegawai.data.data;
     };
 
+    
+    
+
     const { isLoading, isError, data, error } = useQuery({
-        queryKey: ["filter", bagian],
+        queryKey: ["filter", currPage, bagian, selectedDikum, selectedDikpol, selectedFungsi, selectedDiklat],
         queryFn: fetchData,
+        initialData: sm
     });
-    console.log(selectedDikum)
-    console.log(selectedDikpol)
-    console.log(selectedFungsi)
-    console.log(selectedDiklat)
     return (
-        <Card className="h-full w-full grid grid-cols-1">
+        <Card className="h-full w-full grid grid-cols-1">        
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
@@ -136,7 +144,7 @@ export default function TablePerincianKorpolairud({bagian}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {sm.map((pegawai, index) => {
+                        {data.map((pegawai, index) => {
                             const isLast = index === pegawai.length - 1;
                             const classes = isLast
                                 ? "p-4"
@@ -181,7 +189,7 @@ export default function TablePerincianKorpolairud({bagian}) {
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.fungsi}
+                                            {pegawai.fungsi_polair}
                                         </p>
                                     </td>
                                     <td className={classes}>
@@ -201,7 +209,7 @@ export default function TablePerincianKorpolairud({bagian}) {
                                                 placement="top-end"
                                             >
                                                 <Link
-                                                    to={`/detail?divisi=${divisi}`}
+                                                    to={`/detail?nrp=${pegawai.nrp}`}
                                                 >
                                                     <IconButton
                                                         variant="text"

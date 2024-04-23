@@ -17,6 +17,7 @@ Route::get('/data-pegawai', [PegawaiController::class, 'index'])->middleware(['a
 Route::get('/data-pegawai/total', [PegawaiController::class, 'total'])->middleware(['auth:sanctum']);
 Route::get('/data-pegawai/filter', [PegawaiController::class, 'filter'])->middleware(['auth:sanctum']);;
 Route::get('/data-pegawai/piechart', [PegawaiController::class, 'piechart'])->middleware(['auth:sanctum']);;
+Route::get('/detail-pegawai/{nrp}', [PegawaiController::class, 'show'])->middleware(['auth:sanctum']);;
 
 
      
