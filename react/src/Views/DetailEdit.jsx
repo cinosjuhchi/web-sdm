@@ -15,32 +15,12 @@ function DetailEdit() {
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false); // State untuk status edit
     const [isPangkatDisabled, setIsPangkatDisabled] = useState(true); // State untuk status input pangkat
-<<<<<<< HEAD
-    const [formData, setFormData] = useState({
-        nama: "Muhammad Cino",
-        nrp: "1234567",
-        pangkat: "Siswa PKL",
-        dikum: "SMK 12",
-        dikpol: "Unknown",
-        fungsi: "Unknown",
-        diklat: "Unknown",
-        "lain-lain": "Unknown",
-    }); // State untuk menyimpan nilai input-an
-    
-    console.log(nrp)
-    const fetchData = async () => {
-        const pegawai = await axiosClient.get(
-            `/detail-pegawai/${nrp}`
-        );
-        console.log(pegawai.data)
-=======
     const [formData, setFormData] = useState([]); // State untuk menyimpan nilai input-an
 
     const fetchData = async () => {
         const pegawai = await axiosClient.get(`/detail-pegawai/${nrp}`);
         // console.log(pegawai.data)
         setFormData(pegawai.data);
->>>>>>> 9d94d3ef3cc28861cce7af1b0b140697537249ef
         return pegawai.data;
     };
 
@@ -50,17 +30,7 @@ function DetailEdit() {
         initialData: formData,
     });
 
-<<<<<<< HEAD
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-=======
     console.log(formData);
->>>>>>> 9d94d3ef3cc28861cce7af1b0b140697537249ef
 
     const handleReset = () => {
         setFormData({

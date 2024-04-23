@@ -167,9 +167,8 @@ export default function TableDashboard() {
                                     <td className={classes}>
                                         <div className="flex items-center gap-3">
                                             <div className="flex flex-col">
-                                                <p className="font-normal text-sm text-black">
+                                                <p className="font-normal text-sm text-black">                                                                                                        
                                                     {pegawai.nrp}
-                                                    <Skeleton></Skeleton>
                                                 </p>
                                             </div>
                                         </div>
@@ -177,47 +176,40 @@ export default function TableDashboard() {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black">
-                                                {pegawai.nama}
-                                                <Skeleton></Skeleton>
+                                                {pegawai.nama}                                                
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black">
-                                                {pegawai.pangkat}
-                                                <Skeleton></Skeleton>
+                                                {pegawai.pangkat}                                                
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
-                                            {pegawai.dikum}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.dikum}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
-                                            {pegawai.dikpol}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.dikpol}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
-                                            {pegawai.fungsi}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.fungsi}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
-                                            {pegawai.diklat}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.diklat}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
-                                            {pegawai.dikbangspes}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.dikbangspes}                                            
                                         </p>
                                     </td>
                                 </tr>

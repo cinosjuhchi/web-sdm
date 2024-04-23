@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import axiosClient from "../../axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import CardSkeleton from "./CardSkeleton";
 
 export function CardDashboard() {
     const { open } = useContext(SidebarK);
@@ -55,6 +56,12 @@ export function CardDashboard() {
             desc: polair,
         },
     ];
+
+    if(isPending) {
+        return(
+            <CardSkeleton></CardSkeleton>
+        )
+    }
 
     return (
         <div className="wrapper grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 items-center gap-4">

@@ -35,18 +35,20 @@ export default function Example({ bagian }) {
         }
     };
 
-    const { data, isLoading, isError } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: ["pegawai-piechart-pangkat", bagian],
-        queryFn: fetchData,
-        initialData: [
-            { x: "Dimuat", y: "Load" },
-            { x: "Dimuat", y: "Load" },
-            { x: "Dimuat", y: "Load" },
-        ],
+        queryFn: fetchData,        
     });
 
     if (isError) {
         return <p>Error fetching data</p>;
+    }
+
+
+    if(isPending){
+        return(
+            <Skeleton className="h-32 p-0 mt-0 rounded-lg"></Skeleton>
+        )
     }
 
     const chartConfig = {
@@ -80,6 +82,8 @@ export default function Example({ bagian }) {
             },
         },
     };
+
+    
 
     return (
         <Card>

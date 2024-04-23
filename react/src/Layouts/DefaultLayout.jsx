@@ -7,6 +7,8 @@ import { useStateContext } from "../Context/AuthContext";
 import axiosClient from "../axios";
 import { useState } from "react";
 import "../Layouts/css/Default.css";
+import { useQuery } from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
 
 export default function DefaultLayout() {
     const { user, token } = useStateContext();
@@ -15,18 +17,23 @@ export default function DefaultLayout() {
         return <Navigate to="/login" />;
     }
 
-    axiosClient
+    const fetchData = async () => {
+        const $pegawai = await axiosClient
         .get("/me")
-        .then(function (response) {
-            console.log(response.data);
-            setNama(response.data.nama);
-        })
-        .catch((err) => {
-            const response = err.response;
-            if (response && response.status == 422) {
-                console.log(response.data.errors);
-            }
-        });
+        console.log($pegawai.data)
+        setNama($pegawai.data.nama)
+
+        return $pegawai
+    }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data, isPending, isError } = useQuery({
+        queryKey: ['user', nama],
+        queryFn: fetchData
+    })
+
+
+
+    
     return (
         <div className="wrap box-border">
             <SidebarContextProvider>
@@ -36,7 +43,11 @@ export default function DefaultLayout() {
                         <Sidebar />
                     </div>
                     <div className="main-content w-full p-4 mb-4">
-                        <h3>Hello {nama}</h3>
+                        <h3>{isPending ? (
+                            <Skeleton className="w-32 h-5"></Skeleton>
+                        ) : (
+                            'Hello '+nama
+                        )}</h3>
                         <Outlet />
                     </div>
                 </div>

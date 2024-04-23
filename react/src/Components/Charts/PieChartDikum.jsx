@@ -8,7 +8,9 @@ import { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import axiosClient from "../../axios";
+import Skeleton from "react-loading-skeleton";
 import { useQuery } from "@tanstack/react-query";
+
 
 
 
@@ -30,15 +32,20 @@ export default function Dikum({ bagian }) {
         }
     };
 
-    const { data, isLoading, isError } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: ['pegawai-piechart', bagian],
         queryFn: fetchData,
-        initialData: [{x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}],
     });
 
     
     if (isError) {
         return <p>Error fetching data</p>;
+    }
+
+    if(isPending) {
+        return(
+            <Skeleton className="h-full p-0 mt-0 rounded-lg"></Skeleton>
+        )
     }
 
     const chartConfig = {

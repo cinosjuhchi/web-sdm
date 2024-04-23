@@ -9,6 +9,7 @@ import Chart from "react-apexcharts";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import axiosClient from "../../axios";
 import { useQuery } from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
 
 
 
@@ -30,12 +31,16 @@ export default function Fungsi({ bagian }) {
         }
     };
 
-    const { data, isLoading, isError } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: ['pegawai-fungsi', bagian],
         queryFn: fetchData,
-        initialData: [{x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}, {x: 'Dimuat', y: 'Load'}],
     });
 
+    if(isPending) {
+        return(
+            <Skeleton className="h-full p-0 mt-0 rounded-lg"></Skeleton>
+        )
+    }
     
     if (isError) {
         return <p>Error fetching data</p>;
