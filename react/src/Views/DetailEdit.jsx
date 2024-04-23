@@ -1,4 +1,7 @@
-    import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import {
+    ArrowLeftIcon,
+    InformationCircleIcon,
+} from "@heroicons/react/24/outline";
 import { IconButton, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,23 +16,21 @@ function DetailEdit() {
     const [isEditing, setIsEditing] = useState(false); // State untuk status edit
     const [isPangkatDisabled, setIsPangkatDisabled] = useState(true); // State untuk status input pangkat
     const [formData, setFormData] = useState([]); // State untuk menyimpan nilai input-an
-    
+
     const fetchData = async () => {
-        const pegawai = await axiosClient.get(
-            `/detail-pegawai/${nrp}`
-        );        
+        const pegawai = await axiosClient.get(`/detail-pegawai/${nrp}`);
         // console.log(pegawai.data)
-        setFormData(pegawai.data)
+        setFormData(pegawai.data);
         return pegawai.data;
-    }
+    };
 
     const { isLoading, isError, data } = useQuery({
-        queryKey: ['detailPegawai'],
+        queryKey: ["detailPegawai"],
         queryFn: fetchData,
-        initialData: formData
-    })
+        initialData: formData,
+    });
 
-    console.log(formData)
+    console.log(formData);
 
     const handleReset = () => {
         setFormData(data);
@@ -40,88 +41,88 @@ function DetailEdit() {
         console.log("Data yang diubah:", formData);
     };
 
-    const input = [
-        {
-            title: "Nama",
-            type: "text",
-            nama: "nama",
-            id: "nama",
-            placholder: "contoh",
-            note: "",
-            noteicon: false,
-            disable: true,
-        },
-        {
-            title: "NRP",
-            type: "number",
-            nama: "nrp",
-            id: "nrp",
-            placholder: "contoh",
-            note: "Hanya dapat diisi dengan angka",
-            noteicon: true,
-            disable: true,
-        },
-        {
-            title: "Pangkat",
-            type: "text",
-            nama: "pangkat",
-            id: "pangkat",
-            placholder: "contoh",
-            note: "Bagian ini hanya dapat diubah di menu Mutasi",
-            noteicon: true,
-            disable: true,
-        },
-        {
-            title: "Dikum",
-            type: "text",
-            nama: "dikum",
-            id: "dikum",
-            placholder: "contoh",
-            note: "",
-            noteicon: false,
-            disable: true,
-        },
-        {
-            title: "Dikpol",
-            type: "text",
-            nama: "dikpol",
-            id: "dikpol",
-            placholder: "contoh",
-            note: "",
-            noteicon: false,
-            disable: true,
-        },
-        {
-            title: "Fungsi",
-            type: "text",
-            nama: "fungsi",
-            id: "fungsi",
-            placholder: "contoh",
-            note: "",
-            noteicon: false,
-            disable: true,
-        },
-        {
-            title: "Diklat",
-            type: "text",
-            nama: "diklat",
-            id: "diklat",
-            placholder: "contoh",
-            note: "",
-            noteicon: false,
-            disable: true,
-        },
-        {
-            title: "Lain-lain",
-            type: "text",
-            nama: "lain-lain",
-            id: "lain-lain",
-            placholder: "contoh",
-            note: "",
-            noteicon: false,
-            disable: true,
-        },
-    ];
+    // const input = [
+    //     {
+    //         title: "Nama",
+    //         type: "text",
+    //         nama: "nama",
+    //         id: "nama",
+    //         placholder: "contoh",
+    //         note: "",
+    //         noteicon: false,
+    //         disable: true,
+    //     },
+    //     {
+    //         title: "NRP",
+    //         type: "number",
+    //         nama: "nrp",
+    //         id: "nrp",
+    //         placholder: "contoh",
+    //         note: "Hanya dapat diisi dengan angka",
+    //         noteicon: true,
+    //         disable: true,
+    //     },
+    //     {
+    //         title: "Pangkat",
+    //         type: "text",
+    //         nama: "pangkat",
+    //         id: "pangkat",
+    //         placholder: "contoh",
+    //         note: "Bagian ini hanya dapat diubah di menu Mutasi",
+    //         noteicon: true,
+    //         disable: true,
+    //     },
+    //     {
+    //         title: "Dikum",
+    //         type: "text",
+    //         nama: "dikum",
+    //         id: "dikum",
+    //         placholder: "contoh",
+    //         note: "",
+    //         noteicon: false,
+    //         disable: true,
+    //     },
+    //     {
+    //         title: "Dikpol",
+    //         type: "text",
+    //         nama: "dikpol",
+    //         id: "dikpol",
+    //         placholder: "contoh",
+    //         note: "",
+    //         noteicon: false,
+    //         disable: true,
+    //     },
+    //     {
+    //         title: "Fungsi",
+    //         type: "text",
+    //         nama: "fungsi",
+    //         id: "fungsi",
+    //         placholder: "contoh",
+    //         note: "",
+    //         noteicon: false,
+    //         disable: true,
+    //     },
+    //     {
+    //         title: "Diklat",
+    //         type: "text",
+    //         nama: "diklat",
+    //         id: "diklat",
+    //         placholder: "contoh",
+    //         note: "",
+    //         noteicon: false,
+    //         disable: true,
+    //     },
+    //     {
+    //         title: "Lain-lain",
+    //         type: "text",
+    //         nama: "lain-lain",
+    //         id: "lain-lain",
+    //         placholder: "contoh",
+    //         note: "",
+    //         noteicon: false,
+    //         disable: true,
+    //     },
+    // ];
 
     return (
         <div className="flex w-full">
@@ -138,63 +139,185 @@ function DetailEdit() {
                 <div className="title flex gap-3">
                     <div className="desc">
                         <h2 className="text-lg font-semibold leading-7 text-gray-900">
-                            {isEditing ? "Ubah" : "Detail"} data personel divisi{" "}                            
+                            {isEditing ? "Ubah" : "Detail"} data personel divisi{" "}
                         </h2>
                         <p className="mt-1 text-sm leading-6 text-gray-600">
-                            {isEditing ? "Ubah data" : "Detail"} personel divisi{" "}                            
+                            {isEditing ? "Ubah data" : "Detail"} personel divisi{" "}
                         </p>
                     </div>
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    {input.map((input, index) => (
-                        <div className="sm:col-span-3" key={index}>
-                            <label
-                                htmlFor={input.id}
-                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                            >
-                                {input.title}
-                            </label>
-                            <div className="mt-2">
-                                <input
-                                    type={input.type}
-                                    name={input.nama}
-                                    id={input.id}                            
-                                    disabled={
-                                        !isEditing || input.id === "pangkat"
-                                            ? isPangkatDisabled
-                                            : false
-                                    }
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                                />
-                                <Typography
-                                    variant="small"
-                                    color="gray"
-                                    className={`mt-2 -mb-1 flex items-center gap-1 font-normal ${
-                                        isEditing && input.noteicon
-                                            ? ""
-                                            : "hidden"
-                                    }`}
-                                >
-                                    {input.noteicon && (
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="currentColor"
-                                            className="h-4 w-4"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    )}
-                                    {input.note}
-                                </Typography>
-                            </div>
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="nama"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            Nama
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                name="nama"
+                                id="nama"
+                                disabled={!isEditing ? "true" : ""}
+                                value={"Halo"}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
                         </div>
-                    ))}
+                    </div>
+
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="nrp"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            NRP
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="number"
+                                name="nrp"
+                                id="nrp"
+                                disabled={!isEditing ? "true" : ""}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
+                            <Typography
+                                variant="small"
+                                color="gray"
+                                className={`mt-2 -mb-1 flex items-center gap-1 font-normal ${
+                                    isEditing ? "" : "hidden"
+                                }`}
+                            >
+                                <InformationCircleIcon
+                                    className="w-4"
+                                    strokeWidth={2}
+                                ></InformationCircleIcon>
+                                Bagian ini hanya dapat diisi dengan angka
+                            </Typography>
+                        </div>
+                    </div>
+
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="pangkat"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            Pangkat
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                name="pangkat"
+                                id="pangkat"
+                                disabled
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
+                            <Typography
+                                variant="small"
+                                color="gray"
+                                className={`mt-2 -mb-1 flex items-center gap-1 font-normal ${
+                                    isEditing ? "" : "hidden"
+                                }`}
+                            >
+                                <InformationCircleIcon
+                                    className="w-4"
+                                    strokeWidth={2}
+                                ></InformationCircleIcon>
+                                Bagian ini hanya dapat diubah di menu Mutasi
+                            </Typography>
+                        </div>
+                    </div>
+
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="dikum"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            Dikum
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                name="dikum"
+                                id="dikum"
+                                disabled={!isEditing ? "true" : ""}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="dikpol"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            Dikpol
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                name="dikpol"
+                                id="dikpol"
+                                disabled={!isEditing ? "true" : ""}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="fungsi"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            Fungsi
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                name="fungsi"
+                                id="fungsi"
+                                disabled={!isEditing ? "true" : ""}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="diklat"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            Diklat
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                name="diklat"
+                                id="diklat"
+                                disabled={!isEditing ? "true" : ""}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="sm:col-span-3">
+                        <label
+                            htmlFor="lain-lain"
+                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                        >
+                            Lain-lain
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                name="lain-lain"
+                                id="lain-lain"
+                                disabled={!isEditing ? "true" : ""}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="button flex gap-4 justify-end mt-10">
