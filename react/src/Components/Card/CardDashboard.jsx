@@ -6,6 +6,8 @@ import LogoDit from "../../assets/logo/logoPolAir.png";
 import LogoUdara from "../../assets/logo/logoPolUdara.png";
 import { useQuery } from "@tanstack/react-query";
 import axiosClient from "../../axios";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export function CardDashboard() {
     const { open } = useContext(SidebarK);
@@ -14,11 +16,11 @@ export function CardDashboard() {
     const [ditpol, setDitpol] = useState(100);
     const [polair, setPolair] = useState(100);
     const fetchData = async () => {
-        const pegawai = await axiosClient.get("/data-pegawai/total");        
-        setTotal(pegawai.data.all_personel)
-        setKorpo(pegawai.data.korpo)
-        setDitpol(pegawai.data.ditpol)
-        setPolair(pegawai.data.polair)
+        const pegawai = await axiosClient.get("/data-pegawai/total");
+        setTotal(pegawai.data.all_personel);
+        setKorpo(pegawai.data.korpo);
+        setDitpol(pegawai.data.ditpol);
+        setPolair(pegawai.data.polair);
 
         return pegawai.data;
     };

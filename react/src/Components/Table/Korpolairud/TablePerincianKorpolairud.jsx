@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../../Context/FilterContext";
+import Skeleton from "react-loading-skeleton";
 
 const TABLE_HEAD = [
     "NRP",
@@ -49,36 +50,41 @@ const sm = [
         dikbangspes: "INTEL, BRIMOB,, VIP PROTECTION USA",
     },
 ];
-    
 
-export default function TablePerincianKorpolairud({bagian}) {
+export default function TablePerincianKorpolairud({ bagian }) {
     const [divisi] = useState("Korpolairud");
     const [currPage, setCurr] = useState();
-    const { selectedDikum, selectedDikpol, selectedFungsi, selectedDiklat } = useStateContext();
+    const { selectedDikum, selectedDikpol, selectedFungsi, selectedDiklat } =
+        useStateContext();
     const fetchData = async () => {
-        const dikum = selectedDikum.join(',')
-        const dikpol = selectedDikpol.join(',')
-        const fungsi = selectedFungsi.join(',')
-        const diklat = selectedDiklat.join(',')
+        const dikum = selectedDikum.join(",");
+        const dikpol = selectedDikpol.join(",");
+        const fungsi = selectedFungsi.join(",");
+        const diklat = selectedDiklat.join(",");
         const pegawai = await axiosClient.get(
             `/data-pegawai/filter?bagian=${bagian}&dikum=${dikum}&dikpol=${dikpol}&fungsi=${fungsi}&diklat=${diklat}&page=${currPage}`
         );
         console.log(pegawai.data);
-        console.log(selectedDikum)
+        console.log(selectedDikum);
         setCurr(pegawai.data.meta.current_page);
         return pegawai.data.data;
     };
 
-    
-    
-
     const { isLoading, isError, data, error } = useQuery({
-        queryKey: ["filter", currPage, bagian, selectedDikum, selectedDikpol, selectedFungsi, selectedDiklat],
+        queryKey: [
+            "filter",
+            currPage,
+            bagian,
+            selectedDikum,
+            selectedDikpol,
+            selectedFungsi,
+            selectedDiklat,
+        ],
         queryFn: fetchData,
-        initialData: sm
+        initialData: sm,
     });
     return (
-        <Card className="h-full w-full grid grid-cols-1">        
+        <Card className="h-full w-full grid grid-cols-1">
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
@@ -117,7 +123,7 @@ export default function TablePerincianKorpolairud({bagian}) {
                         <EksporDialog></EksporDialog>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Filter ></Filter>
+                        <Filter></Filter>
                     </div>
                 </div>
             </CardHeader>
@@ -158,6 +164,7 @@ export default function TablePerincianKorpolairud({bagian}) {
                                                 <div className="flex flex-col">
                                                     <p className="font-normal text-sm text-black group-hover:text-white">
                                                         {pegawai.nrp}
+                                                        <Skeleton></Skeleton>
                                                     </p>
                                                 </div>
                                             </div>
@@ -167,6 +174,7 @@ export default function TablePerincianKorpolairud({bagian}) {
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white truncate w-36">
                                                 {pegawai.nama}
+                                                <Skeleton></Skeleton>
                                             </p>
                                         </div>
                                     </td>
@@ -174,32 +182,38 @@ export default function TablePerincianKorpolairud({bagian}) {
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
                                                 {pegawai.pangkat}
+                                                <Skeleton></Skeleton>
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
                                             {pegawai.dikum}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.dikpol}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.fungsi_polair}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.diklat}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
                                             {pegawai.dikbangspes}
+                                            <Skeleton></Skeleton>
                                         </p>
                                     </td>
                                     <td className={classes}>
