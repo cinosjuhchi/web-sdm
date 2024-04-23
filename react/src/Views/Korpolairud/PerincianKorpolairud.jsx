@@ -3,7 +3,7 @@ import TablePerincianKorpolairud from "../../Components/Table/Korpolairud/TableP
 function PerincianKorpolairud() {
     return (
         <div className="w-full gap-y-4 flex flex-col">
-            <TablePerincianKorpolairud />
+            <TablePerincianKorpolairud bagian="KORPOLAIRUD"/>
         </div>
     );
 }

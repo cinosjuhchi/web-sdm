@@ -69,6 +69,7 @@ class PegawaiController extends Controller
                             WHEN fungsi_polair LIKE '%BA NAUTIKA%' THEN 'BANK'
                             WHEN fungsi_polair LIKE '%BA HARWAT KAPAL%' THEN 'BATK'
                             WHEN fungsi_polair LIKE '%DASTA%' THEN 'DSTPA'
+                            WHEN fungsi_polair LIKE '%SELAM%' THEN 'SELAM'
                             WHEN fungsi_polair LIKE '%BA IDIK%' OR fungsi_polair LIKE '%POLAIR%' THEN 'BAIDIK'
                             WHEN fungsi_polair LIKE '%TIPE C%' OR fungsi_polair LIKE '%TYPE C%' THEN 'JURU MUDI'
                             ELSE 'LAINNYA'

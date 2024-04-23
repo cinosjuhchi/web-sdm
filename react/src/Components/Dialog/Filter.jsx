@@ -5,6 +5,7 @@ import {
     AdjustmentsHorizontalIcon,
     ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
+import { selectedDiklat, selectedDikpol, selectedDikum, selectedFungsi, setSelectedDiklat, setSelectedDikpol, setSelectedDikum, setSelectedFungsi } from "../Table/Korpolairud/TablePerincianKorpolairud";
 
 export default function Filter() {
     const theme = {
@@ -175,7 +176,10 @@ export default function Filter() {
             selected: [],
         },
     ];
-
+    const [selectedDikum, setSelectedDikum] = useState([]);
+    const [selectedDikpol, setSelectedDikpol] = useState([]);
+    const [selectedFungsi, setSelectedFungsi] = useState([]);
+    const [selectedDiklat, setSelectedDiklat] = useState([]);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState(
         categories.map((category) => ({ ...category }))
@@ -188,20 +192,50 @@ export default function Filter() {
         setOpenDrawer(false);
     };
 
-    const handleClick = (categoryIndex, option) => {
+    const handleClick = (categoryIndex, option, category) => {
         const updatedCategories = [...selectedCategories];
         const selectedOptions = updatedCategories[categoryIndex].selected;
 
         const optionIndex = selectedOptions.indexOf(option);
         if (optionIndex === -1) {
-            selectedOptions.push(option); // Tambah opsi jika belum dipilih
+            if (category == 'Dikum') {
+                setSelectedDikum([...selectedDikum, option]);                
+            }
+            if(category == 'Dikpol'){
+                setSelectedDikpol([...selectedDikpol, option]);
+            }
+            if(category == 'Fungsi Polair'){
+                setSelectedFungsi([...selectedFungsi, option]);
+            }
+            if(category == 'Diklat'){
+                setSelectedDiklat([...selectedDiklat, option]);
+            }
+            selectedOptions.push(option); // Tambah opsi jika belum dipilih            
         } else {
+            if (category === "Dikum") {
+                setSelectedDikum(selectedDikum.filter(item => item !== option));                
+            }
+            if (category === "Dikpol") {
+                setSelectedDikpol(selectedDikpol.filter(item => item !== option));
+            }
+            if (category === "Fungsi Polair") {
+                setSelectedFungsi(selectedFungsi.filter(item => item !== option));
+            }
+            if (category === "Diklat") {
+                setSelectedDiklat(selectedDiklat.filter(item => item !== option));
+            }
             selectedOptions.splice(optionIndex, 1); // Hapus opsi jika sudah dipilih
         }
-
+        
         setSelectedCategories(updatedCategories); // Perbarui state kategori
+        selectedCategories.forEach((category) => {
+            category.selected.forEach((selectedOption) => {
+                console.log(`${selectedOption} dari kategori ${category.title}`);
+            });
+        });
     };
-
+    
+    
     return (
         <ThemeProvider value={theme}>
             <Button
@@ -248,7 +282,7 @@ export default function Filter() {
                                                 : "outline-black outline-2 outline"
                                         }`}
                                         onClick={() =>
-                                            handleClick(index, option)
+                                            handleClick(index, option, category.title)
                                         }
                                     >
                                         {option}

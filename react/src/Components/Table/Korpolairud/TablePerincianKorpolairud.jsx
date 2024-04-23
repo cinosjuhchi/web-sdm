@@ -48,26 +48,27 @@ const sm = [
         dikbangspes: "INTEL, BRIMOB,, VIP PROTECTION USA",
     },
 ];
+    
 
-export default function TablePerincianKorpolairud() {
-    const [bagian, setBagian] = useState(["KORPOLAIRUD"]);
+export default function TablePerincianKorpolairud({bagian}) {
     const [divisi] = useState("Korpolairud");
-
+    
     const fetchData = async () => {
-        const bagianParam = bagian.join(",");
-        console.log(bagianParam);
         const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagianParam}&dikum=SMA&dikpol=`
+            `/data-pegawai/filter?bagian=${bagian}&dikum=SMA&dikpol=`
         );
         console.log(pegawai.data);
         return pegawai.data;
     };
 
     const { isLoading, isError, data, error } = useQuery({
-        queryKey: ["pegawais"],
+        queryKey: ["filter", bagian],
         queryFn: fetchData,
     });
-
+    console.log(selectedDikum)
+    console.log(selectedDikpol)
+    console.log(selectedFungsi)
+    console.log(selectedDiklat)
     return (
         <Card className="h-full w-full grid grid-cols-1">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -108,7 +109,7 @@ export default function TablePerincianKorpolairud() {
                         <EksporDialog></EksporDialog>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Filter></Filter>
+                        <Filter ></Filter>
                     </div>
                 </div>
             </CardHeader>
