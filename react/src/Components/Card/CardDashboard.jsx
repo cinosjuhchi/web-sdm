@@ -57,10 +57,15 @@ export function CardDashboard() {
         },
     ];
 
-    if(isPending) {
-        return(
-            <CardSkeleton></CardSkeleton>
-        )
+    if (isPending) {
+        return (
+            <div className="grid lg:grid-cols-4 gap-4">
+                <CardSkeleton></CardSkeleton>
+                <CardSkeleton></CardSkeleton>
+                <CardSkeleton></CardSkeleton>
+                <CardSkeleton></CardSkeleton>
+            </div>
+        );
     }
 
     return (
