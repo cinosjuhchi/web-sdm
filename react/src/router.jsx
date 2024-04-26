@@ -13,8 +13,7 @@ import PerincianDitpolaudara from "./Views/Ditpoludara/PerincianDitpoludara";
 import RekapDitpoludara from "./Views/Ditpoludara/RekapDitpoludara";
 import Mutasi from "./Views/Mutasi";
 import OptioinAdd from "./Views/AddData/OptionAdd";
-import AddKorpolairud from "./Views/AddData/AddKorpolairud";
-import AddDitpolairud from "./Views/AddData/AddDitpolairud";
+import AddKorpoDitpolair from "./Views/AddData/AddKorpoDitpolair";
 import AddDitpoludara from "./Views/AddData/AddDitpoludara";
 import PageLayout from "./Layouts/PageLayout";
 import DetailEdit from "./Views/DetailEdit";
@@ -83,11 +82,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/tambah-data-korpolairud",
-                element: <AddKorpolairud />,
+                element: <AddKorpoDitpolair />,
             },
             {
                 path: "/tambah-data-ditpolairud",
-                element: <AddDitpolairud />,
+                element: <AddKorpoDitpolair />,
             },
             {
                 path: "/tambah-data-ditpoludara",

@@ -138,7 +138,7 @@ export default function Filter() {
         {
             title: "Diklat",
             options: [
-                ["ANT","ANT I"],
+                "ANT I",
                 "ANT II",
                 "ANT III",
                 "ANT V",
@@ -175,7 +175,7 @@ export default function Filter() {
             ],
             selected: [],
         },
-    ];    
+    ];
     const [openDrawer, setOpenDrawer] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState(
         categories.map((category) => ({ ...category }))
@@ -193,17 +193,16 @@ export default function Filter() {
         const updatedCategories = [...selectedCategories];
         const selectedOptions = updatedCategories[categoryIndex].selected;
         const optionIndex = selectedOptions.indexOf(option);
-        if (optionIndex === -1) {            
-            handleSetSelected(category, option)
-            selectedOptions.push(option); // Tambah opsi jika belum dipilih            
+        if (optionIndex === -1) {
+            handleSetSelected(category, option);
+            selectedOptions.push(option); // Tambah opsi jika belum dipilih
         } else {
-            handleSetSelected(category, option)
+            handleSetSelected(category, option);
             selectedOptions.splice(optionIndex, 1); // Hapus opsi jika sudah dipilih
-        }        
-        setSelectedCategories(updatedCategories); // Perbarui state kategori        
+        }
+        setSelectedCategories(updatedCategories); // Perbarui state kategori
     };
-    
-    
+
     return (
         <ThemeProvider value={theme}>
             <Button
@@ -250,7 +249,11 @@ export default function Filter() {
                                                 : "outline-black outline-2 outline"
                                         }`}
                                         onClick={() =>
-                                            handleClick(index, option, category.title)
+                                            handleClick(
+                                                index,
+                                                option,
+                                                category.title
+                                            )
                                         }
                                     >
                                         {option}

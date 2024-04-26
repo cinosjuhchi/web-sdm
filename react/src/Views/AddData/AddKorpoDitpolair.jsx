@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AutoComplete, Tag, ConfigProvider } from "antd";
 
-function AddDitpoludara() {
+function AddKorpolairud() {
     const navigate = useNavigate();
 
     const options = {
@@ -81,7 +81,26 @@ function AddDitpoludara() {
             { value: "PAG PA" },
             { value: "PAG BA" },
         ],
-        fungsi: [{ value: "BELOM" }],
+        fungsi: [
+            { value: "SAR" },
+            { value: "DSPA" },
+            { value: "PANK" },
+            { value: "PATK" },
+            { value: "PAIDK" },
+            { value: "PA LAKA LAUT" },
+            { value: "BA LAKA LAUT" },
+            { value: "DSBPA" },
+            { value: "BANK" },
+            { value: "BATK" },
+            { value: "DSTPA" },
+            { value: "KMLK" },
+            { value: "BAIDIK" },
+            { value: "HARWAT KAPAL" },
+            { value: "JURI MUDI KAPAL TYPE C" },
+            { value: "SELAM" },
+            { value: "KOMANDAN KAPAL TYPE B" },
+            { value: "KOMANDAN KAPAL TYPE C" },
+        ],
         lain: [
             { value: "INTEL" },
             { value: "SERSE" },
@@ -415,7 +434,7 @@ function AddDitpoludara() {
                                 htmlFor="fungsi"
                                 className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
                             >
-                                Fungsi Poludara
+                                Fungsi Polair
                             </label>
                             <div className="mt-2">
                                 <AutoComplete
@@ -423,7 +442,7 @@ function AddDitpoludara() {
                                     id="fungsi"
                                     options={options.fungsi}
                                     value={inputValueFungsi}
-                                    placeholder="Pilih Fungsi Poludara"
+                                    placeholder="Pilih Fungsi Polair"
                                     filterOption={(inputValue, option) =>
                                         option.value
                                             .toUpperCase()
@@ -555,4 +574,4 @@ function AddDitpoludara() {
     );
 }
 
-export default AddDitpoludara;
+export default AddKorpolairud;
