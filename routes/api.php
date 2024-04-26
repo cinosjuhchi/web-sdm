@@ -19,3 +19,4 @@ Route::get('/data-pegawai/filter', [PegawaiController::class, 'filter'])->middle
 Route::get('/data-pegawai/piechart', [PegawaiController::class, 'piechart'])->middleware(['auth:sanctum']);
 Route::get('/detail-pegawai/{nrp}', [PegawaiController::class, 'show'])->middleware(['auth:sanctum']);
 Route::post('/detail-pegawai/store', [PegawaiController::class, 'store'])->middleware(['auth:sanctum']);
+Route::post('/detail-pegawai/update', [PegawaiController::class, 'update'])->middleware(['auth:sanctum']);

@@ -169,7 +169,7 @@ class PegawaiController extends Controller
     public function show($nrp)
     {
         $data = $nrp;
-        $pegawai = Pegawai::where('nrp', $data)->get();
+        $pegawai = Pegawai::where('nrp', $data)->first();
         return response()->json($pegawai);
     }
 
@@ -178,16 +178,30 @@ class PegawaiController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->validated();
+        $data = $request->validate([            
+            'id' => 'required',
+            'nrp' => 'nullable|max:255',
+            'nama' => 'nullable|string|max:255',
+            'dikum' => 'nullable|string|max:255',
+            'dikpol' => 'nullable|string|max:255',
+            'diklat' => 'nullable|string|max:255',
+            'fungsi_polair' => 'nullable|string|max:255',
+            'dikbangspes' => 'nullable|string|max:255',
+        ]);
         $id = $data['id'];
-        $pegawai = Pegawai::findOrFail($id);
-        $pegawai->nama = $data['nama'];
-        $pegawai->dikum = $data['dikum'];
-        $pegawai->dikpol = $data['dikpol'];
-        $pegawai->diklat = $data['diklat'];
-        $pegawai->fungsi_polair = $data['fungsi_polair'];
-        $pegawai->dikbangspes = $data['dikbangspes'];
-        $pegawai->dikbangspes = $data['dikbangspes'];
+        $pegawai = Pegawai::find($id);
+        $pegawai->update([
+            'nrp' => $request->nrp,
+            'nama' => $request->nama,
+            'dikum' => $request->dikum,
+            'dikpol' => $request->dikpol,
+            'diklat' => $request->diklat,
+            'fungsi_polair' => $request->fungsi_polair,
+            'dikbangspes' => $request->dikbangspes,
+            // tambahkan field lainnya sesuai kebutuhan
+        ]);        
+        return response()->json(["message" => "Update berhasil"], 200);
+
     }
 
     /**

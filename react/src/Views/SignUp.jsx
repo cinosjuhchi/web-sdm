@@ -25,7 +25,7 @@ export default function SignUp() {
     .then(({data}) => {
         setUser(data.user)
         setToken(data.token);
-    })
+    })                  
     .catch(err => {
       const response = err.response;
       if(response && response.status == 422){

@@ -5,6 +5,8 @@ import {
 import { IconButton, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
 import axiosClient from "../axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,21 +18,46 @@ function DetailEdit() {
     const [isEditing, setIsEditing] = useState(false); // State untuk status edit
     const [isPangkatDisabled, setIsPangkatDisabled] = useState(true); // State untuk status input pangkat
     const [formData, setFormData] = useState([]); // State untuk menyimpan nilai input-an
+    const [nama, setNama] = useState();
+    const [nrpf, setNrpf] = useState();
+    const [dikum, setDikum] = useState();
+    const [dikpol, setDikpol] = useState();
+    const [pangkat, setPangkat] = useState();
+    const [diklat, setDiklat] = useState();
+    const [dikbangspes, setDikbangspes] = useState();
+    const [fungsi, setFungsi] = useState();
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        iconColor: "green",
+        customClass: {
+            popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    });
+    const [id, setId] = useState();
 
     const fetchData = async () => {
         const pegawai = await axiosClient.get(`/detail-pegawai/${nrp}`);
-        // console.log(pegawai.data)
-        setFormData(pegawai.data);
+        console.log(pegawai.data);
+        setNama(pegawai.data.nama);
+        setDikum(pegawai.data.dikum);
+        setDikpol(pegawai.data.dikpol);
+        setPangkat(pegawai.data.pangkat);
+        setDiklat(pegawai.data.diklat);
+        setDikbangspes(pegawai.data.dikbangspes);
+        setFungsi(pegawai.data.fungsi_polair);
+        setNrpf(pegawai.data.nrp);
+        setId(pegawai.data.id);
         return pegawai.data;
     };
 
-    const { isLoading, isError, data } = useQuery({
-        queryKey: ["detailPegawai"],
+    const { data, isPending, isError } = useQuery({
+        queryKey: ["detailPegawai", nama],
         queryFn: fetchData,
-        initialData: formData,
     });
-
-    console.log(formData);
 
     const handleReset = () => {
         setFormData({
@@ -45,94 +72,42 @@ function DetailEdit() {
         });
     };
 
-    const handleSubmit = () => {
-        // Simpan nilai yang diubah atau lakukan operasi penyimpanan data sesuai kebutuhan
-        console.log("Data yang diubah:", formData);
+    const onSubmit = (ev) => {
+        confirm("Apakah anda yakin ingin mengubah data ini?");
+        ev.preventDefault();
+
+        
+        const member = {
+            id: id,
+            nama: nama,
+            nrp: nrpf,
+            dikum: dikum,
+            dikpol: dikpol,
+            diklat: diklat,
+            fungsi_polair: fungsi,
+            dikbangspes: dikbangspes,
+        };
+        axiosClient.post("/detail-pegawai/update", member)
+        // eslint-disable-next-line no-unused-vars
+        .then(response => {
+            Toast.fire({
+                icon: "success",
+                title: "Data berhasil diubah",
+            });
+            setIsEditing(false)
+        })
+        .catch(err => {
+            const response = err.response;
+            Toast.fire({
+                icon: "error",
+                title: "Terjadi kesalahan: " + response.data.message,
+            });
+        });
     };
 
-    // const input = [
-    //     {
-    //         title: "Nama",
-    //         type: "text",
-    //         nama: "nama",
-    //         id: "nama",
-    //         placholder: "contoh",
-    //         note: "",
-    //         noteicon: false,
-    //         disable: true,
-    //     },
-    //     {
-    //         title: "NRP",
-    //         type: "number",
-    //         nama: "nrp",
-    //         id: "nrp",
-    //         placholder: "contoh",
-    //         note: "Hanya dapat diisi dengan angka",
-    //         noteicon: true,
-    //         disable: true,
-    //     },
-    //     {
-    //         title: "Pangkat",
-    //         type: "text",
-    //         nama: "pangkat",
-    //         id: "pangkat",
-    //         placholder: "contoh",
-    //         note: "Bagian ini hanya dapat diubah di menu Mutasi",
-    //         noteicon: true,
-    //         disable: true,
-    //     },
-    //     {
-    //         title: "Dikum",
-    //         type: "text",
-    //         nama: "dikum",
-    //         id: "dikum",
-    //         placholder: "contoh",
-    //         note: "",
-    //         noteicon: false,
-    //         disable: true,
-    //     },
-    //     {
-    //         title: "Dikpol",
-    //         type: "text",
-    //         nama: "dikpol",
-    //         id: "dikpol",
-    //         placholder: "contoh",
-    //         note: "",
-    //         noteicon: false,
-    //         disable: true,
-    //     },
-    //     {
-    //         title: "Fungsi",
-    //         type: "text",
-    //         nama: "fungsi",
-    //         id: "fungsi",
-    //         placholder: "contoh",
-    //         note: "",
-    //         noteicon: false,
-    //         disable: true,
-    //     },
-    //     {
-    //         title: "Diklat",
-    //         type: "text",
-    //         nama: "diklat",
-    //         id: "diklat",
-    //         placholder: "contoh",
-    //         note: "",
-    //         noteicon: false,
-    //         disable: true,
-    //     },
-    //     {
-    //         title: "Lain-lain",
-    //         type: "text",
-    //         nama: "lain-lain",
-    //         id: "lain-lain",
-    //         placholder: "contoh",
-    //         note: "",
-    //         noteicon: false,
-    //         disable: true,
-    //     },
-    // ];
-
+    if (isPending) {
+        return <p>Loading..</p>;
+    }
     return (
         <div className="flex w-full">
             <a className={`${isEditing ? "hidden" : ""} absolute`}>
@@ -155,224 +130,240 @@ function DetailEdit() {
                         </p>
                     </div>
                 </div>
-
-                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="nama"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            Nama
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="text"
-                                name="nama"
-                                id="nama"
-                                disabled={!isEditing ? "true" : ""}
-                                value={"Halo"}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="nrp"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            NRP
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="number"
-                                name="nrp"
-                                id="nrp"
-                                disabled={!isEditing ? "true" : ""}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                            <Typography
-                                variant="small"
-                                color="gray"
-                                className={`mt-2 -mb-1 flex items-center gap-1 font-normal ${
-                                    isEditing ? "" : "hidden"
-                                }`}
+                <ul></ul>
+                <form>
+                    <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="nama"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
                             >
-                                <InformationCircleIcon
-                                    className="w-4"
-                                    strokeWidth={2}
-                                ></InformationCircleIcon>
-                                Bagian ini hanya dapat diisi dengan angka
-                            </Typography>
+                                Nama
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="nama"
+                                    id="nama"
+                                    disabled={!isEditing ? "true" : ""}
+                                    value={nama}
+                                    onChange={ev => setNama(ev.target.value)}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="pangkat"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            Pangkat
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="text"
-                                name="pangkat"
-                                id="pangkat"
-                                disabled
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                            <Typography
-                                variant="small"
-                                color="gray"
-                                className={`mt-2 -mb-1 flex items-center gap-1 font-normal ${
-                                    isEditing ? "" : "hidden"
-                                }`}
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="nrp"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
                             >
-                                <InformationCircleIcon
-                                    className="w-4"
-                                    strokeWidth={2}
-                                ></InformationCircleIcon>
-                                Bagian ini hanya dapat diubah di menu Mutasi
-                            </Typography>
+                                NRP
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="number"
+                                    name="nrp"
+                                    id="nrp"
+                                    value={nrpf}
+                                    onChange={ev => setNrpf(ev.target.value)}
+                                    disabled={!isEditing ? "true" : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                                <Typography
+                                    variant="small"
+                                    color="gray"
+                                    className={`mt-2 -mb-1 flex items-center gap-1 font-normal ${
+                                        isEditing ? "" : "hidden"
+                                    }`}
+                                >
+                                    <InformationCircleIcon
+                                        className="w-4"
+                                        strokeWidth={2}
+                                    ></InformationCircleIcon>
+                                    Bagian ini hanya dapat diisi dengan angka
+                                </Typography>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="dikum"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            Dikum
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="text"
-                                name="dikum"
-                                id="dikum"
-                                disabled={!isEditing ? "true" : ""}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="dikpol"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            Dikpol
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="text"
-                                name="dikpol"
-                                id="dikpol"
-                                disabled={!isEditing ? "true" : ""}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="fungsi"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            Fungsi
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="text"
-                                name="fungsi"
-                                id="fungsi"
-                                disabled={!isEditing ? "true" : ""}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="diklat"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            Diklat
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="text"
-                                name="diklat"
-                                id="diklat"
-                                disabled={!isEditing ? "true" : ""}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                        <label
-                            htmlFor="lain-lain"
-                            className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
-                        >
-                            Lain-lain
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                type="text"
-                                name="lain-lain"
-                                id="lain-lain"
-                                disabled={!isEditing ? "true" : ""}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="button flex gap-4 justify-end mt-10">
-                    {isEditing ? (
-                        <>
-                            <button
-                                onClick={() => {
-                                    setIsEditing(false);
-                                    setIsPangkatDisabled(true);
-                                    handleReset();
-                                }}
-                                type="reset"
-                                className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-red-500 text-white hover:text-white active:scale-100 active:bg-red-600"
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="pangkat"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
                             >
-                                Batal
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleSubmit}
-                                className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-blue-500 text-white active:scale-100 active:bg-blue-600"
+                                Pangkat
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="pangkat"
+                                    id="pangkat"
+                                    value={pangkat}
+                                    disabled
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                                <Typography
+                                    variant="small"
+                                    color="gray"
+                                    className={`mt-2 -mb-1 flex items-center gap-1 font-normal ${
+                                        isEditing ? "" : "hidden"
+                                    }`}
+                                >
+                                    <InformationCircleIcon
+                                        className="w-4"
+                                        strokeWidth={2}
+                                    ></InformationCircleIcon>
+                                    Bagian ini hanya dapat diubah di menu Mutasi
+                                </Typography>
+                            </div>
+                        </div>
+
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="dikum"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
                             >
-                                Perbarui
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <button
-                                onClick={() => navigate(-1)}
-                                type="reset"
-                                className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all active:scale-100"
+                                Dikum
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="dikum"
+                                    id="dikum"
+                                    value={dikum}
+                                    onChange={ev => setDikum(ev.target.value)}
+                                    disabled={!isEditing ? "true" : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="dikpol"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
                             >
-                                Kembali
-                            </button>
-                            <button
-                                type="button"
-                                className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-blue-500 text-white active:scale-100 active:bg-blue-600"
-                                onClick={() => {
-                                    setIsEditing(true);
-                                    setIsPangkatDisabled(true);
-                                }}
+                                Dikpol
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="dikpol"
+                                    id="dikpol"
+                                    value={dikpol}
+                                    onChange={ev => setDikpol(ev.target.value)}
+                                    disabled={!isEditing ? "true" : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="fungsi"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
                             >
-                                Ubah
-                            </button>
-                        </>
-                    )}
-                </div>
+                                Fungsi
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="fungsi"
+                                    id="fungsi"
+                                    value={fungsi}
+                                    onChange={ev => setFungsi(ev.target.value)}
+                                    disabled={!isEditing ? "true" : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="diklat"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                            >
+                                Diklat
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="diklat"
+                                    id="diklat"
+                                    value={diklat}
+                                    onChange={ev => setDiklat(ev.target.value)}
+                                    disabled={!isEditing ? "true" : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sm:col-span-3">
+                            <label
+                                htmlFor="lain-lain"
+                                className="block text-sm font-medium leading-6 text-gray-900 -mt-2"
+                            >
+                                Lain-lain
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="lain-lain"
+                                    id="lain-lain"
+                                    value={dikbangspes}
+                                    onChange={ev => setDikbangspes(ev.target.value)}
+                                    disabled={!isEditing ? "true" : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="button flex gap-4 justify-end mt-10">
+                        {isEditing ? (
+                            <>
+                                <button
+                                    onClick={() => {
+                                        setIsEditing(false);
+                                        setIsPangkatDisabled(true);
+                                        handleReset();
+                                    }}
+                                    type="reset"
+                                    className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-red-500 text-white hover:text-white active:scale-100 active:bg-red-600"
+                                >
+                                    Batal
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={onSubmit}
+                                    className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-blue-500 text-white active:scale-100 active:bg-blue-600"
+                                >
+                                    Perbarui
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={() => navigate(-1)}
+                                    type="reset"
+                                    className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all active:scale-100"
+                                >
+                                    Kembali
+                                </button>
+                                <button
+                                    type="button"
+                                    className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-blue-500 text-white active:scale-100 active:bg-blue-600"
+                                    onClick={() => {
+                                        setIsEditing(true);
+                                        setIsPangkatDisabled(true);
+                                    }}
+                                >
+                                    Ubah
+                                </button>
+                            </>
+                        )}
+                    </div>
+                </form>
             </div>
         </div>
     );
