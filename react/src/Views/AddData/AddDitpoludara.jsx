@@ -2,10 +2,10 @@ import {
     ArrowLeftIcon,
     InformationCircleIcon,
 } from "@heroicons/react/24/outline";
-import { IconButton, Typography } from "@material-tailwind/react";
+import { IconButton } from "@material-tailwind/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AutoComplete, Tag, ConfigProvider } from "antd";
+import { AutoComplete, Tag, ConfigProvider, Typography } from "antd";
 
 function AddDitpoludara() {
     const navigate = useNavigate();
@@ -42,7 +42,10 @@ function AddDitpoludara() {
             { value: "SD" },
             { value: "SMP" },
             { value: "SMA" },
+            { value: "D1" },
+            { value: "D2" },
             { value: "D3" },
+            { value: "D4" },
             { value: "S1" },
             { value: "S2" },
             { value: "S3" },
@@ -81,7 +84,40 @@ function AddDitpoludara() {
             { value: "PAG PA" },
             { value: "PAG BA" },
         ],
-        fungsi: [{ value: "BELOM" }],
+        fungsi: [
+            { value: "SEKOLAH PENERBANGAN TNI AU" },
+            { value: "TRANSISI PNB HELI ENSTROM 480B" },
+            { value: "TIPE RATING HELI NBO-150" },
+            { value: "MEKANIK UDARA" },
+            { value: "CAPTAINCY HELI NBO-150" },
+            { value: "AVITION AND AIRPORT SECURITY" },
+            { value: "KONVESI LAN" },
+            { value: "KONVESI LAN NBO 105" },
+            { value: "KONVESI LAN NBO 2000" },
+            { value: "STAND BY FORCE" },
+            { value: "SAR AU" },
+            { value: "CONVERSI CASSA" },
+            { value: "INSPECTOR" },
+            { value: "APPU" },
+            { value: "CRM" },
+            { value: "SUBDIT KATROF" },
+            { value: "PROGKOMP" },
+            { value: "IGITAP" },
+            { value: "FAN COURSE 105" },
+            { value: "KOTENJENSI KEAMANAN" },
+            { value: "KDT" },
+            { value: "MEKUD" },
+            { value: "ATA" },
+            { value: "HAUPINAS 365" },
+            { value: "CASA 212" },
+            { value: "ELEMENTARY" },
+            { value: "PRAMUGARI" },
+            { value: "NEGOSIATOR" },
+            { value: "TYPE RATING HELI 412" },
+            { value: "COMERCIAL PILOT LICENSE" },
+            { value: "PENDIDIKAN DAN PELATIHAN FLIGHT" },
+            { value: "GUDANG" },
+        ],
         lain: [
             { value: "INTEL" },
             { value: "SERSE" },
@@ -404,7 +440,9 @@ function AddDitpoludara() {
                                         }
                                         className="text-sm flex justify-between"
                                     >
-                                        {value}
+                                        <div className="truncate w-56">
+                                            {value}
+                                        </div>
                                     </Tag>
                                 ))}
                             </div>
@@ -441,11 +479,13 @@ function AddDitpoludara() {
                                     <Tag
                                         key={value}
                                         closable
+                                        length={12}
                                         onClose={() =>
                                             handleRemoveFungsi(value)
                                         }
                                         className="text-sm flex justify-between"
                                     >
+                                        <div className="truncate"></div>
                                         {value}
                                     </Tag>
                                 ))}
@@ -483,6 +523,7 @@ function AddDitpoludara() {
                                     <Tag
                                         key={value}
                                         closable
+                                        length={10}
                                         onClose={() =>
                                             handleRemoveDiklat(value)
                                         }
@@ -528,7 +569,9 @@ function AddDitpoludara() {
                                         onClose={() => handleRemoveLain(value)}
                                         className="text-sm flex justify-between"
                                     >
-                                        {value}
+                                        <Typography ellipsis>
+                                            {value}
+                                        </Typography>
                                     </Tag>
                                 ))}
                             </div>
