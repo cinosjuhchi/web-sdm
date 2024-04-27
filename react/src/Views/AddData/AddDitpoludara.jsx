@@ -479,14 +479,14 @@ function AddDitpoludara() {
                                     <Tag
                                         key={value}
                                         closable
-                                        length={12}
                                         onClose={() =>
                                             handleRemoveFungsi(value)
                                         }
                                         className="text-sm flex justify-between"
                                     >
-                                        <div className="truncate"></div>
-                                        {value}
+                                        <div className="w-32 truncate">
+                                            {value}
+                                        </div>
                                     </Tag>
                                 ))}
                             </div>
@@ -529,7 +529,9 @@ function AddDitpoludara() {
                                         }
                                         className="text-sm flex justify-between"
                                     >
-                                        {value}
+                                        <div className="w-32 truncate">
+                                            {value}
+                                        </div>{" "}
                                     </Tag>
                                 ))}
                             </div>
@@ -569,9 +571,9 @@ function AddDitpoludara() {
                                         onClose={() => handleRemoveLain(value)}
                                         className="text-sm flex justify-between"
                                     >
-                                        <Typography ellipsis>
+                                        <div className="w-32 truncate">
                                             {value}
-                                        </Typography>
+                                        </div>
                                     </Tag>
                                 ))}
                             </div>
