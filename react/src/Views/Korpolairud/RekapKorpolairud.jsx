@@ -5,6 +5,11 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import DropMonthRekap from "../../Components/Dropdown/DropdownMonthRekap";
 import DropYearRekap from "../../Components/Dropdown/DropdownYearRekap";
 import EksporDialog from "../../Components/Dialog/Ekspor";
+import axiosClient from "../../axios";
+
+axiosClient.get("/rekap-pegawai").then((res) => {
+    console.log(res)
+})
 
 function RekapKorpolairud() {
     return (

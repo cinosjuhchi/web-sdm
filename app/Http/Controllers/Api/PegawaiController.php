@@ -143,6 +143,28 @@ class PegawaiController extends Controller
         ];
         return response()->json($bagian);
     }
+
+    public function getTotalByPangkat()
+    {
+        $bulan = date('m');
+        $tahun = date('Y');
+
+        $totals = DB::table('pegawais as p1')
+            ->select('p1.pangkat',
+                DB::raw('SUM(CASE WHEN p1.dikum = "SMP" THEN 1 ELSE 0 END) as SMP'),
+                DB::raw('SUM(CASE WHEN p1.dikum = "SMA" THEN 1 ELSE 0 END) as SMA'),
+                DB::raw('SUM(CASE WHEN p1.dikum = "D3" THEN 1 ELSE 0 END) as D3'),
+                DB::raw('SUM(CASE WHEN p1.dikum = "D2" THEN 1 ELSE 0 END) as D2'),
+                DB::raw('SUM(CASE WHEN p1.dikum = "S2" THEN 1 ELSE 0 END) as S2'),
+                DB::raw('SUM(CASE WHEN p1.dikum = "S1" THEN 1 ELSE 0 END) as S1'))
+            ->whereMonth('p1.created_at', $bulan)
+            ->whereYear('p1.created_at', $tahun)
+            ->whereRaw('p1.created_at = (SELECT MAX(created_at) FROM pegawais WHERE nrp = p1.nrp)')
+            ->orderBy('p1.created_at', 'desc') // Urutkan berdasarkan created_at secara descending
+            ->groupBy('p1.pangkat')
+            ->get();
+        return response()->json($totals);
+    }
     /**
      * Store a newly created resource in storage.
      */
