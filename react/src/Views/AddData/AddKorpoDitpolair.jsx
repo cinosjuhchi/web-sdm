@@ -44,7 +44,10 @@ function AddKorpolairud({bagian}) {
             { value: "SD" },
             { value: "SMP" },
             { value: "SMA" },
+            { value: "D1" },
+            { value: "D2" },
             { value: "D3" },
+            { value: "D4" },
             { value: "S1" },
             { value: "S2" },
             { value: "S3" },
@@ -337,8 +340,6 @@ function AddKorpolairud({bagian}) {
                 },
             }}
         >
-            
-            
             {" "}
             <a className="absolute">
                 <IconButton
@@ -378,7 +379,7 @@ function AddKorpolairud({bagian}) {
                                     id="nama"
                                     required
                                     value={nama}
-                                    onChange={ev => setNama(ev.target.value)}
+                                    onChange={(ev) => setNama(ev.target.value)}
                                     placeholder="Masukkan Nama"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2 placeholder:font-light placeholder:opacity-40 placeholder:text-sm "
                                 />
@@ -400,7 +401,7 @@ function AddKorpolairud({bagian}) {
                                     required
                                     max="10000000"
                                     value={nrp}
-                                    onChange={ev => setNrp(ev.target.value)}
+                                    onChange={(ev) => setNrp(ev.target.value)}
                                     placeholder="Masukkan NRP"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2 placeholder:font-light placeholder:opacity-40 placeholder:text-sm"
                                 />
@@ -428,7 +429,7 @@ function AddKorpolairud({bagian}) {
                             <div className="mt-2">
                                 <AutoComplete
                                     className="w-full"
-                                    id="dikum"                                    
+                                    id="dikum"
                                     options={options.pangkat}
                                     value={inputValuePangkat}
                                     placeholder="Pilih Pangkat"
@@ -508,7 +509,9 @@ function AddKorpolairud({bagian}) {
                                         }
                                         className="text-sm flex justify-between"
                                     >
-                                        {value}
+                                        <div className="w-32 truncate">
+                                            {value}
+                                        </div>{" "}
                                     </Tag>
                                 ))}
                             </div>
@@ -550,7 +553,9 @@ function AddKorpolairud({bagian}) {
                                         }
                                         className="text-sm flex justify-between"
                                     >
-                                        {value}
+                                        <div className="w-32 truncate">
+                                            {value}
+                                        </div>{" "}
                                     </Tag>
                                 ))}
                             </div>
@@ -592,7 +597,9 @@ function AddKorpolairud({bagian}) {
                                         }
                                         className="text-sm flex justify-between"
                                     >
-                                        {value}
+                                        <div className="w-32 truncate">
+                                            {value}
+                                        </div>{" "}
                                     </Tag>
                                 ))}
                             </div>
@@ -632,7 +639,9 @@ function AddKorpolairud({bagian}) {
                                         onClose={() => handleRemoveLain(value)}
                                         className="text-sm flex justify-between"
                                     >
-                                        {value}
+                                        <div className="w-32 truncate">
+                                            {value}
+                                        </div>{" "}
                                     </Tag>
                                 ))}
                             </div>
