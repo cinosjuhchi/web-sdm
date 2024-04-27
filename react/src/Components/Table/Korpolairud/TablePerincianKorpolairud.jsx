@@ -163,8 +163,7 @@ export default function TablePerincianKorpolairud({ bagian }) {
                                             <div className="flex items-center">
                                                 <div className="flex flex-col">
                                                     <p className="font-normal text-sm text-black group-hover:text-white">
-                                                        {pegawai.nrp}
-                                                        <Skeleton></Skeleton>
+                                                        {pegawai.nrp}                                                        
                                                     </p>
                                                 </div>
                                             </div>
@@ -173,47 +172,40 @@ export default function TablePerincianKorpolairud({ bagian }) {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white truncate w-36">
-                                                {pegawai.nama}
-                                                <Skeleton></Skeleton>
+                                                {pegawai.nama}                                                
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
-                                                {pegawai.pangkat}
-                                                <Skeleton></Skeleton>
+                                                {pegawai.pangkat}                                                
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
-                                            {pegawai.dikum}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.dikum}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.dikpol}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.dikpol}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.fungsi_polair}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.fungsi_polair}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.diklat}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.diklat}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.dikbangspes}
-                                            <Skeleton></Skeleton>
+                                            {pegawai.dikbangspes}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>
