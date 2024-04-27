@@ -143,9 +143,6 @@ function DetailEdit() {
         setInputValueDikum(value);
     };
 
-    const handleInputChangePangkat = (value) => {
-        setInputValuePangkat(value);
-    };
 
     const handleInputChangeDikpol = (value) => {
         setInputValueDikpol(value);
@@ -168,10 +165,6 @@ function DetailEdit() {
         setSelectedValuesDikum(value);
     };
 
-    const handleSelectPangkat = (value) => {
-        setSelectedPangkat(value);
-    };
-
     const handleSelectDikpol = (value, option) => {
         setSelectedValuesDikpol([...selectedValuesDikpol, value]);
         setInputValueDikpol(""); // Clear input value after selecting an option
@@ -188,24 +181,52 @@ function DetailEdit() {
     }; // Tambahkan handleSelectLain
 
     const handleRemoveDiklat = (value) => {
+        if(isEditing === false){
+            Toast.fire({
+                icon: "error",
+                title: "Tidak bisa menghapus sebelum memencet tombol ubah",
+            });
+            return 
+        }
         setSelectedValuesDiklat(
             selectedValuesDiklat.filter((val) => val !== value)
         );
     };
 
     const handleRemoveDikpol = (value) => {
+        if(isEditing === false){
+            Toast.fire({
+                icon: "error",
+                title: "Tidak bisa menghapus sebelum memencet tombol ubah",
+            });
+            return 
+        }
         setSelectedValuesDikpol(
             selectedValuesDikpol.filter((val) => val !== value)
         );
     }; // Tambahkan handleRemoveDikpol
 
     const handleRemoveFungsi = (value) => {
+        if(isEditing === false){
+            Toast.fire({
+                icon: "error",
+                title: "Tidak bisa menghapus sebelum memencet tombol ubah",
+            });
+            return 
+        }
         setSelectedValuesFungsi(
             selectedValuesFungsi.filter((val) => val !== value)
         );
     }; // Tambahkan handleRemoveFungsi
 
     const handleRemoveLain = (value) => {
+        if(isEditing === false){
+            Toast.fire({
+                icon: "error",
+                title: "Tidak bisa menghapus sebelum memencet tombol ubah",
+            });
+            return 
+        }
         setSelectedValuesLain(
             selectedValuesLain.filter((val) => val !== value)
         );
@@ -250,7 +271,6 @@ function DetailEdit() {
         }
     };
 
-
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const nrp = params.get("nrp");
@@ -283,13 +303,36 @@ function DetailEdit() {
         const pegawai = await axiosClient.get(`/detail-pegawai/${nrp}`);
         console.log(pegawai.data);
         setNama(pegawai.data.nama);
-        setDikum(pegawai.data.dikum);
-        setDikpol(pegawai.data.dikpol);
-        setPangkat(pegawai.data.pangkat);
-        setDiklat(pegawai.data.diklat);
-        setDikbangspes(pegawai.data.dikbangspes);
-        setFungsi(pegawai.data.fungsi_polair);
+        // Ubah data dikpol menjadi array
+        const dikpolArray = pegawai.data.dikpol
+            ? pegawai.data.dikpol.split(",").map((item) => item.trim())
+            : [];
+        setSelectedValuesDikpol(dikpolArray);
+
+        // Ubah data dikum menjadi array
+        
+        setSelectedValuesDikum(pegawai.data.dikum);
+        setInputValueDikum(pegawai.data.dikum)
+
+        // Ubah data diklat menjadi array
+        const diklatArray = pegawai.data.diklat
+            ? pegawai.data.diklat.split(",").map((item) => item.trim())
+            : [];
+        setSelectedValuesDiklat(diklatArray);
+
+        // Ubah data fungsi_polair menjadi array
+        const fungsiPolairArray = pegawai.data.fungsi_polair
+            ? pegawai.data.fungsi_polair.split(",").map((item) => item.trim())
+            : [];
+        setSelectedValuesFungsi(fungsiPolairArray);
+
+        // Ubah data dikbangspes menjadi array
+        const dikbangspesArray = pegawai.data.dikbangspes
+            ? pegawai.data.dikbangspes.split(",").map((item) => item.trim())
+            : [];
+        setSelectedValuesLain(dikbangspesArray);
         setNrpf(pegawai.data.nrp);
+        setPangkat(pegawai.data.pangkat)
         setId(pegawai.data.id);
         return pegawai.data;
     };
@@ -312,51 +355,65 @@ function DetailEdit() {
         });
     };
 
-    const onSubmit = (ev) => {
+    const onSubmit = (ev) => {        
+
         confirm("Apakah anda yakin ingin mengubah data ini?");
         ev.preventDefault();
 
-        
         const member = {
             id: id,
             nama: nama,
-            nrp: nrpf,
-            dikum: dikum,
-            dikpol: dikpol,
-            diklat: diklat,
-            fungsi_polair: fungsi,
-            dikbangspes: dikbangspes,
+            nrp: nrp,
+            dikum: Array.isArray(selectedValuesDikum)
+                ? selectedValuesDikum.join(", ")
+                : selectedValuesDikum,
+            diklat: Array.isArray(selectedValuesDiklat)
+                ? selectedValuesDiklat.join(", ")
+                : selectedValuesDiklat,
+            dikpol: Array.isArray(selectedValuesDikpol)
+                ? selectedValuesDikpol.join(", ")
+                : selectedValuesDikpol,
+            fungsi_polair: Array.isArray(selectedValuesFungsi)
+                ? selectedValuesFungsi.join(", ")
+                : selectedValuesFungsi,
+            dikbangspes: Array.isArray(selectedValuesLain)
+                ? selectedValuesLain.join(", ")
+                : selectedValuesLain,
         };
-        axiosClient.post("/detail-pegawai/update", member)
-        // eslint-disable-next-line no-unused-vars
-        .then(response => {
-            Toast.fire({
-                icon: "success",
-                title: "Data berhasil diubah",
+        axiosClient
+            .post("/detail-pegawai/update", member)
+            // eslint-disable-next-line no-unused-vars
+            .then((response) => {
+                Toast.fire({
+                    icon: "success",
+                    title: "Data berhasil diubah",
+                });
+                setIsEditing(false);
+            })
+            .catch((err) => {
+                const response = err.response;
+                Toast.fire({
+                    icon: "error",
+                    title: "Terjadi kesalahan: " + response.data.message,
+                });
             });
-            setIsEditing(false)
-        })
-        .catch(err => {
-            const response = err.response;
-            Toast.fire({
-                icon: "error",
-                title: "Terjadi kesalahan: " + response.data.message,
-            });
-        });
     };
 
     if (isPending) {
         return <p>Loading..</p>;
     }
+    console.log(selectedValuesDikpol);
     return (
-        <ConfigProvider theme={{
-            token: {
-                // Seed Token
-                borderRadius: 5,
-                controlHeight: 36,
-                colorPrimary: "#000000",
-            },
-        }}>
+        <ConfigProvider
+            theme={{
+                token: {
+                    // Seed Token
+                    borderRadius: 5,
+                    controlHeight: 36,
+                    colorPrimary: "#000000",
+                },
+            }}
+        >
             <div className="flex w-full">
                 <a className={`${isEditing ? "hidden" : ""} absolute`}>
                     <IconButton
@@ -371,10 +428,12 @@ function DetailEdit() {
                     <div className="title flex gap-3">
                         <div className="desc">
                             <h2 className="text-lg font-semibold leading-7 text-gray-900">
-                                {isEditing ? "Ubah" : "Detail"} data personel divisi{" "}
+                                {isEditing ? "Ubah" : "Detail"} data personel
+                                divisi{" "}
                             </h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">
-                                {isEditing ? "Ubah data" : "Detail"} personel divisi{" "}
+                                {isEditing ? "Ubah data" : "Detail"} personel
+                                divisi{" "}
                             </p>
                         </div>
                     </div>
@@ -395,7 +454,9 @@ function DetailEdit() {
                                         id="nama"
                                         disabled={!isEditing ? "true" : ""}
                                         value={nama}
-                                        onChange={ev => setNama(ev.target.value)}
+                                        onChange={(ev) =>
+                                            setNama(ev.target.value)
+                                        }
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
                                     />
                                 </div>
@@ -414,7 +475,9 @@ function DetailEdit() {
                                         name="nrp"
                                         id="nrp"
                                         value={nrpf}
-                                        onChange={ev => setNrpf(ev.target.value)}
+                                        onChange={(ev) =>
+                                            setNrpf(ev.target.value)
+                                        }
                                         disabled={!isEditing ? "true" : ""}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
                                     />
@@ -429,7 +492,8 @@ function DetailEdit() {
                                             className="w-4"
                                             strokeWidth={2}
                                         ></InformationCircleIcon>
-                                        Bagian ini hanya dapat diisi dengan angka
+                                        Bagian ini hanya dapat diisi dengan
+                                        angka
                                     </Typography>
                                 </div>
                             </div>
@@ -461,12 +525,11 @@ function DetailEdit() {
                                             className="w-4"
                                             strokeWidth={2}
                                         ></InformationCircleIcon>
-                                        Bagian ini hanya dapat diubah di menu Mutasi
+                                        Bagian ini hanya dapat diubah di menu
+                                        Mutasi
                                     </Typography>
                                 </div>
                             </div>
-
-                            
 
                             <div className="sm:col-span-3">
                                 <label
@@ -526,8 +589,9 @@ function DetailEdit() {
                                 <div className="grid grid-cols-4 gap-y-2 mt-2">
                                     {selectedValuesDikpol.map((value) => (
                                         <Tag
+                                            disabled
                                             key={value}
-                                            closable
+                                            closable                                            
                                             onClose={() =>
                                                 handleRemoveDikpol(value)
                                             }
@@ -657,7 +721,9 @@ function DetailEdit() {
                                         <Tag
                                             key={value}
                                             closable
-                                            onClose={() => handleRemoveLain(value)}
+                                            onClose={() =>
+                                                handleRemoveLain(value)
+                                            }
                                             className="text-sm flex justify-between"
                                         >
                                             {value}
