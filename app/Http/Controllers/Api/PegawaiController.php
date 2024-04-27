@@ -148,7 +148,17 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validated();
+        $data = $request->validate([                        
+            'pangkat' => 'required|string|max:255',
+            'nrp' => 'required|max:255',
+            'nama' => 'required|string|max:255',
+            'dikum' => 'required|string|max:255',
+            'dikpol' => 'required|string|max:255',
+            'diklat' => 'required|string|max:255',
+            'fungsi_polair' => 'required|string|max:255',
+            'dikbangspes' => 'required|string|max:255',
+            'bagian' => 'required',
+        ]);
         Pegawai::create([
             'pangkat' => $data['pangkat'],
             'nama' => $data['nama'],
@@ -160,7 +170,7 @@ class PegawaiController extends Controller
             'fungsi_polair' => $data['fungsi_polair'],
             'bagian' => $data['bagian'],
         ]);
-        return response()->json('Data Berhasil Ditambah', 200);
+        return response()->json(["message" => "Update berhasil"], 200);
     }
 
     /**

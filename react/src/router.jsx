@@ -82,11 +82,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/tambah-data-korpolairud",
-                element: <AddKorpoDitpolair />,
+                element: <AddKorpoDitpolair bagian="KORPOLAIRUD"/>,
             },
             {
                 path: "/tambah-data-ditpolairud",
-                element: <AddKorpoDitpolair />,
+                element: <AddKorpoDitpolair bagian="DITPOLAIRUD"/>,
             },
             {
                 path: "/tambah-data-ditpoludara",

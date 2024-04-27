@@ -45,14 +45,14 @@ export default function Fungsi({ bagian }) {
     if (isError) {
         return <p>Error fetching data</p>;
     }
-
+    const chartDataToDisplay = data.length > 0 ? data : [{ x: "Data Kosong", y: 1 }];
     const chartConfig = {
         type: "pie",
         width: 320,
         height: 320,
-        series: data.map(data => data.y),
+        series: chartDataToDisplay.map(data => data.y),
         options: {
-            labels: data.map(data => data.x + ' : ' + data.y),
+            labels: chartDataToDisplay.map(data => data.x + ' : ' + data.y),
             chart: {
                 toolbar: {
                     show: false,

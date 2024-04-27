@@ -6,8 +6,10 @@ import { IconButton, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AutoComplete, Tag, ConfigProvider } from "antd";
+import Swal from "sweetalert2";
+import axiosClient from "../../axios";
 
-function AddKorpolairud() {
+function AddKorpolairud({bagian}) {
     const navigate = useNavigate();
 
     const options = {
@@ -128,12 +130,26 @@ function AddKorpolairud() {
     const [inputValueFungsi, setInputValueFungsi] = useState(""); // Tambahkan state untuk fungsi polair
     const [inputValueLain, setInputValueLain] = useState(""); // Tambahkan state untuk lain-lain
 
+    const [nrp, setNrp] = useState();
     const [selectedValuesDiklat, setSelectedValuesDiklat] = useState([]);
     const [selectedValuesDikum, setSelectedValuesDikum] = useState([]);
     const [selectedPangkat, setSelectedPangkat] = useState([]);
     const [selectedValuesDikpol, setSelectedValuesDikpol] = useState([]); // Tambahkan state untuk dikpol
     const [selectedValuesFungsi, setSelectedValuesFungsi] = useState([]); // Tambahkan state untuk fungsi polair
     const [selectedValuesLain, setSelectedValuesLain] = useState([]); // Tambahkan state untuk lain-lain
+    const [nama, setNama] = useState();
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        iconColor: "green",
+        customClass: {
+            popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    });
 
     const handleInputChangeDiklat = (value) => {
         setInputValueDiklat(value);
@@ -250,6 +266,66 @@ function AddKorpolairud() {
         }
     };
 
+    const onSubmit = () => {
+
+        if (
+            !nama ||
+            !nrp ||
+            selectedPangkat.length === 0 ||
+            selectedValuesDikum.length === 0 ||
+            selectedValuesDiklat.length === 0 ||
+            selectedValuesDikpol.length === 0 ||
+            selectedValuesFungsi.length === 0 ||
+            selectedValuesLain.length === 0
+        ) {
+            Toast.fire({
+                icon: "warning",
+                title: "Harap lengkapi semua input sebelum mengirimkan data",
+            });
+            return; // Menghentikan pengiriman data jika validasi gagal
+        }
+
+        const member = {
+            nama: nama,
+            pangkat: Array.isArray(selectedPangkat) ? selectedPangkat.join(', ') : selectedPangkat,
+            nrp: nrp,
+            dikum: Array.isArray(selectedValuesDikum) ? selectedValuesDikum.join(', ') : selectedValuesDikum,
+            diklat: Array.isArray(selectedValuesDiklat) ? selectedValuesDiklat.join(', ') : selectedValuesDiklat,
+            dikpol: Array.isArray(selectedValuesDikpol) ? selectedValuesDikpol.join(', ') : selectedValuesDikpol,
+            fungsi_polair: Array.isArray(selectedValuesFungsi) ? selectedValuesFungsi.join(', ') : selectedValuesFungsi,
+            dikbangspes: Array.isArray(selectedValuesLain) ? selectedValuesLain.join(', ') : selectedValuesLain,
+            bagian: bagian
+        }
+        
+                                
+        axiosClient.post("/detail-pegawai/store", member).then(() => {
+            Toast.fire({
+                icon: "success",
+                title: "Data berhasil ditambahkan",
+            })
+            setNama("");
+            setNrp("");
+            setSelectedPangkat([]);
+            setSelectedValuesDikum([]);
+            setSelectedValuesDiklat([]);
+            setSelectedValuesDikpol([]);
+            setSelectedValuesFungsi([]);
+            setSelectedValuesLain([]);
+            setInputValueDikum([]);
+            setInputValuePangkat([]);
+            setInputValueDiklat([]);
+            setInputValueDikum([]);
+            setInputValueLain([]);
+            setInputValueDikpol([]);
+        }).catch(error => {
+            Toast.fire({
+                icon: "error",
+                title: error,
+            })}
+        );
+    }
+    
+
     return (
         <ConfigProvider
             theme={{
@@ -261,6 +337,8 @@ function AddKorpolairud() {
                 },
             }}
         >
+            
+            
             {" "}
             <a className="absolute">
                 <IconButton
@@ -275,11 +353,11 @@ function AddKorpolairud() {
                 <div className="title flex gap-3">
                     <div className="desc">
                         <h2 className="text-lg font-semibold leading-7 text-gray-900">
-                            Tambahkan data personel NamaDivisi
+                            Tambahkan data personel {bagian}
                         </h2>
                         <p className="mt-1 text-sm leading-6 text-gray-600">
                             Isi input di bawah ini dengan sesuai untuk
-                            menambahkan data personel NamaDivisi
+                            menambahkan data personel {bagian}
                         </p>
                     </div>
                 </div>
@@ -298,6 +376,9 @@ function AddKorpolairud() {
                                     type="text"
                                     name="nama"
                                     id="nama"
+                                    required
+                                    value={nama}
+                                    onChange={ev => setNama(ev.target.value)}
                                     placeholder="Masukkan Nama"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2 placeholder:font-light placeholder:opacity-40 placeholder:text-sm "
                                 />
@@ -316,6 +397,10 @@ function AddKorpolairud() {
                                     type="number"
                                     name="nrp"
                                     id="nrp"
+                                    required
+                                    max="10000000"
+                                    value={nrp}
+                                    onChange={ev => setNrp(ev.target.value)}
                                     placeholder="Masukkan NRP"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2 placeholder:font-light placeholder:opacity-40 placeholder:text-sm"
                                 />
@@ -343,7 +428,7 @@ function AddKorpolairud() {
                             <div className="mt-2">
                                 <AutoComplete
                                     className="w-full"
-                                    id="dikum"
+                                    id="dikum"                                    
                                     options={options.pangkat}
                                     value={inputValuePangkat}
                                     placeholder="Pilih Pangkat"
@@ -564,6 +649,7 @@ function AddKorpolairud() {
                     </button>
                     <button
                         type="submit"
+                        onClick={onSubmit}
                         className="outline outline-black outline-2 text-base px-6 py-1 font-bold rounded-sm hover:scale-105 duration-200 transition-all bg-blue-500 text-white active:scale-100 active:bg-blue-600"
                     >
                         Submit
