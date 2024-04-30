@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('diklat', '250')->nullable();
             $table->string('dikbangspes', '250')->nullable();
             $table->string('bagian', '250')->nullable();            
+            $table->string('fungsi_poludara', '250')->nullable();
             $table->timestamps();
         });
     }

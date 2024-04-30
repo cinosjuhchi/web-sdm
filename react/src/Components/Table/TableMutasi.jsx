@@ -36,23 +36,75 @@ const sm = [
 ];
 
 export default function TablePerincianKorpolairud() {
-    const [bagian, setBagian] = useState(["KORPOLAIRUD"]);
-    const [divisi] = useState("Korpolairud");
+    const [search, setSearch] = useState();
+    const [member, setMember] = useState([]);
+    const [currPage, setCurr] = useState();
+    const [lastPage, setLast] = useState();
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    
 
-    const fetchData = async () => {
-        const bagianParam = bagian.join(",");
-        console.log(bagianParam);
-        const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagianParam}&dikum=SMA&dikpol=`
-        );
-        console.log(pegawai.data);
-        return pegawai.data;
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
     };
 
-    const { isLoading, isError, data, error } = useQuery({
-        queryKey: ["pegawais"],
+    const fetchData = async () => {
+        let pegawai;
+        if (search) {
+            pegawai = await axiosClient.get(
+                "/data-pegawai?keyword=" + search + "&page=" + currPage
+            );
+        } else {
+            pegawai = await axiosClient.get("/data-pegawai?page=" + currPage);
+        }
+        setMember(pegawai.data.data);
+        setCurr(pegawai.data.meta.current_page);
+        setLast(pegawai.data.meta.last_page);
+
+        return pegawai;
+    };
+
+    const { isPending, isError, data, error } = useQuery({
+        queryKey: ["pegawais-mutasi", currPage, search],
         queryFn: fetchData,
     });
+
+    const handleFirst = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleLast = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(lastPage);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleNext = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage + 1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handlePrev = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage - 1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+
+    if(isError) {
+        return <p>Error fetching...</p>
+    }
+    
 
     return (
         <Card className="h-full w-full grid grid-cols-1">
@@ -66,10 +118,14 @@ export default function TablePerincianKorpolairud() {
                             Halaman mutasi untuk personel
                         </p>
                     </div>
-                    <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+                    <div className="flex shrink-0 gap-2 flex-row justify-end">
                         <div className="w-full md:w-72">
+                            {search}
                             <Input
-                                label="Search"
+                                onChange={handleSearch}
+                                label="Search NRP"
+                                type="number"
+                                value={search}
                                 icon={
                                     <MagnifyingGlassIcon className="h-5 w-5" />
                                 }
@@ -108,8 +164,10 @@ export default function TablePerincianKorpolairud() {
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
-                        {sm.map((pegawai, index) => {
+                    <tbody  className={`${
+                            isPending ? "animate-pulse bg-gray-200" : ""
+                        }`}>
+                        {member.map((pegawai, index) => {
                             const isLast = index === pegawai.length - 1;
                             const classes = isLast
                                 ? "p-4"
@@ -118,7 +176,7 @@ export default function TablePerincianKorpolairud() {
                             return (
                                 <tr key={pegawai.id}>
                                     <td className={classes}>
-                                        <Link to={`/detail?divisi=${divisi}`}>
+                                        <Link to={`/detail`}>
                                             <div className="flex items-center">
                                                 <div className="flex flex-col">
                                                     <p className="font-normal text-sm text-black group-hover:text-white">
@@ -145,12 +203,12 @@ export default function TablePerincianKorpolairud() {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white">
-                                                {pegawai.divisi}
+                                                {pegawai.kantor_bagian}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                        <DialogMutasi></DialogMutasi>
+                                        <DialogMutasi nrp={pegawai.nrp}></DialogMutasi>
                                     </td>
                                 </tr>
                             );
@@ -159,26 +217,26 @@ export default function TablePerincianKorpolairud() {
                 </table>
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <Typography
+            <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal"
                 >
-                    {/* Page {currPage} of {lastPage} */}
+                    Page {currPage} of {lastPage}
                 </Typography>
                 <div className="flex gap-2">
                     <Button
                         variant="outlined"
-                        // onClick={handlePrev}
-                        // disabled={isButtonDisabled || currPage === 1}
+                        onClick={handleFirst}
+                        disabled={isButtonDisabled || currPage === 1}
                         size="sm"
                     >
                         Awal
                     </Button>
                     <Button
                         variant="outlined"
-                        // onClick={handlePrev}
-                        // disabled={isButtonDisabled || currPage === 1}
+                        onClick={handlePrev}
+                        disabled={isButtonDisabled || currPage === 1}
                         size="sm"
                     >
                         Sebelumnya
@@ -186,16 +244,16 @@ export default function TablePerincianKorpolairud() {
 
                     <Button
                         variant="outlined"
-                        // onClick={handleNext}
-                        // disabled={isButtonDisabled || currPage === lastPage}
+                        onClick={handleNext}
+                        disabled={isButtonDisabled || currPage === lastPage}
                         size="sm"
                     >
                         Selanjutnya
                     </Button>
                     <Button
                         variant="outlined"
-                        // onClick={handleNext}
-                        // disabled={isButtonDisabled || currPage === lastPage}
+                        onClick={handleLast}
+                        disabled={isButtonDisabled || currPage === lastPage}
                         size="sm"
                     >
                         Akhir

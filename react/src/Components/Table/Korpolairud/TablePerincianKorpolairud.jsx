@@ -24,18 +24,6 @@ import { Link } from "react-router-dom";
 import { useStateContext } from "../../../Context/FilterContext";
 import Skeleton from "react-loading-skeleton";
 
-const TABLE_HEAD = [
-    "NRP",
-    "Nama",
-    "Pangkat",
-    "Dikum",
-    "Dikpol",
-    "Fungsi Polair",
-    "Diklat",
-    "Dikbangpes",
-    "Aksi",
-];
-
 const sm = [
     {
         id: 1,
@@ -52,8 +40,38 @@ const sm = [
 ];
 
 export default function TablePerincianKorpolairud({ bagian }) {
+    let TABLE_HEAD = [
+        "NRP",
+        "Nama",
+        "Pangkat",
+        "Dikum",
+        "Dikpol",
+        "Fungsi Polair",
+        "Diklat",
+        "Dikbangpes",
+        "Aksi",
+    ];
+
+    if (bagian == "DITPOLUDARA") {
+        TABLE_HEAD = [
+            "NRP",
+            "Nama",
+            "Pangkat",
+            "Dikum",
+            "Dikpol",
+            "Fungsi Poludara",
+            "Diklat",
+            "Dikbangpes",
+            "Aksi",
+        ];
+    }
+
     const [divisi] = useState("Korpolairud");
+    const [search, setSearch] = useState("");
+    const [member, setMember] = useState([]);
     const [currPage, setCurr] = useState();
+    const [lastPage, setLast] = useState();
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const { selectedDikum, selectedDikpol, selectedFungsi, selectedDiklat } =
         useStateContext();
     const fetchData = async () => {
@@ -62,15 +80,15 @@ export default function TablePerincianKorpolairud({ bagian }) {
         const fungsi = selectedFungsi.join(",");
         const diklat = selectedDiklat.join(",");
         const pegawai = await axiosClient.get(
-            `/data-pegawai/filter?bagian=${bagian}&dikum=${dikum}&dikpol=${dikpol}&fungsi=${fungsi}&diklat=${diklat}&page=${currPage}`
+            `/data-pegawai/filter?bagian=${bagian}&dikum=${dikum}&dikpol=${dikpol}&fungsi=${fungsi}&diklat=${diklat}&page=${currPage}&keyword=${search}`
         );
-        console.log(pegawai.data);
-        console.log(selectedDikum);
+        setMember(pegawai.data.data);
         setCurr(pegawai.data.meta.current_page);
+        setLast(pegawai.data.meta.last_page);
         return pegawai.data.data;
     };
 
-    const { isLoading, isError, data, error } = useQuery({
+    const { isPending, isError, data, error } = useQuery({
         queryKey: [
             "filter",
             currPage,
@@ -79,26 +97,67 @@ export default function TablePerincianKorpolairud({ bagian }) {
             selectedDikpol,
             selectedFungsi,
             selectedDiklat,
+            search,
         ],
         queryFn: fetchData,
         initialData: sm,
     });
+
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+    };
+    const handleFirst = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleLast = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(lastPage);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleNext = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage + 1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handlePrev = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage - 1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+
     return (
         <Card className="h-full w-full grid grid-cols-1">
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
                         <h1 className="text-xl font-bold text-black">
-                            Data Perincian Korpolairud
+                            Data Perincian {bagian}
                         </h1>
                         <p color="gray" className="mt-1 font-normal">
-                            Informasi data Personel Korpolairud
+                            Informasi data Personel {bagian}
                         </p>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                         <div className="w-full md:w-72">
                             <Input
-                                label="Search"
+                                onChange={handleSearch}
+                                label="Search NRP"
+                                type="number"
+                                value={search}
                                 icon={
                                     <MagnifyingGlassIcon className="h-5 w-5" />
                                 }
@@ -149,8 +208,12 @@ export default function TablePerincianKorpolairud({ bagian }) {
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
-                        {data.map((pegawai, index) => {
+                    <tbody
+                        className={`${
+                            isPending ? "animate-pulse bg-gray-200" : ""
+                        }`}
+                    >
+                        {member.map((pegawai, index) => {
                             const isLast = index === pegawai.length - 1;
                             const classes = isLast
                                 ? "p-4"
@@ -163,7 +226,7 @@ export default function TablePerincianKorpolairud({ bagian }) {
                                             <div className="flex items-center">
                                                 <div className="flex flex-col">
                                                     <p className="font-normal text-sm text-black group-hover:text-white">
-                                                        {pegawai.nrp}                                                        
+                                                        {pegawai.nrp}
                                                     </p>
                                                 </div>
                                             </div>
@@ -172,40 +235,53 @@ export default function TablePerincianKorpolairud({ bagian }) {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white truncate w-36">
-                                                {pegawai.nama}                                                
+                                                {pegawai.nama}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
-                                                {pegawai.pangkat}                                                
+                                                {pegawai.pangkat}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-20">
-                                            {pegawai.dikum}                                            
+                                            {pegawai.dikum}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.dikpol}                                            
+                                            {pegawai.dikpol}
+                                        </p>
+                                    </td>
+                                    {bagian == "DITPOLUDARA" ? (
+                                        <>
+                                            <td className={classes}>
+                                                <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
+                                                    {pegawai.fungsi_poludara}
+                                                </p>
+                                            </td>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <td className={classes}>
+                                                <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
+                                                    {pegawai.fungsi_polair}
+                                                </p>
+                                            </td>
+                                        </>
+                                    )}
+
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
+                                            {pegawai.diklat}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.fungsi_polair}                                            
-                                        </p>
-                                    </td>
-                                    <td className={classes}>
-                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.diklat}                                            
-                                        </p>
-                                    </td>
-                                    <td className={classes}>
-                                        <p className="font-normal text-sm text-black group-hover:text-white truncate w-32">
-                                            {pegawai.dikbangspes}                                            
+                                            {pegawai.dikbangspes}
                                         </p>
                                     </td>
                                     <td className={classes}>
@@ -239,21 +315,21 @@ export default function TablePerincianKorpolairud({ bagian }) {
                     color="blue-gray"
                     className="font-normal"
                 >
-                    {/* Page {currPage} of {lastPage} */}
+                    Page {currPage} of {lastPage}
                 </Typography>
                 <div className="flex gap-2">
                     <Button
                         variant="outlined"
-                        // onClick={handlePrev}
-                        // disabled={isButtonDisabled || currPage === 1}
+                        onClick={handleFirst}
+                        disabled={isButtonDisabled || currPage === 1}
                         size="sm"
                     >
                         Awal
                     </Button>
                     <Button
                         variant="outlined"
-                        // onClick={handlePrev}
-                        // disabled={isButtonDisabled || currPage === 1}
+                        onClick={handlePrev}
+                        disabled={isButtonDisabled || currPage === 1}
                         size="sm"
                     >
                         Sebelumnya
@@ -261,16 +337,16 @@ export default function TablePerincianKorpolairud({ bagian }) {
 
                     <Button
                         variant="outlined"
-                        // onClick={handleNext}
-                        // disabled={isButtonDisabled || currPage === lastPage}
+                        onClick={handleNext}
+                        disabled={isButtonDisabled || currPage === lastPage}
                         size="sm"
                     >
                         Selanjutnya
                     </Button>
                     <Button
                         variant="outlined"
-                        // onClick={handleNext}
-                        // disabled={isButtonDisabled || currPage === lastPage}
+                        onClick={handleLast}
+                        disabled={isButtonDisabled || currPage === lastPage}
                         size="sm"
                     >
                         Akhir

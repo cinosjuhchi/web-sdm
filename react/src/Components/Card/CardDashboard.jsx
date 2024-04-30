@@ -15,13 +15,13 @@ export function CardDashboard() {
     const [total, setTotal] = useState(100);
     const [korpo, setKorpo] = useState(100);
     const [ditpol, setDitpol] = useState(100);
-    const [polair, setPolair] = useState(100);
+    const [ditpoludara, setDitpoludara] = useState(100);
     const fetchData = async () => {
         const pegawai = await axiosClient.get("/data-pegawai/total");
         setTotal(pegawai.data.all_personel);
         setKorpo(pegawai.data.korpo);
         setDitpol(pegawai.data.ditpol);
-        setPolair(pegawai.data.polair);
+        setDitpoludara(pegawai.data.ditpoludara);
 
         return pegawai.data;
     };
@@ -53,7 +53,7 @@ export function CardDashboard() {
             link: "/rekap-ditpoludara",
             icon: <img src={LogoUdara} className="scale-110" />,
             title: "Total Personel Ditpoludara",
-            desc: polair,
+            desc: ditpoludara,
         },
     ];
 

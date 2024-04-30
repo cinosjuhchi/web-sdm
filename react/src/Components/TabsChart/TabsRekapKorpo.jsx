@@ -5,39 +5,46 @@ import {
     Tab,
     TabPanel,
 } from "@material-tailwind/react";
-import TableRekapKorpolairud from "../Table/Korpolairud/TableRekapDikum";
+import TableRekapDikum from "../Table/Korpolairud/TableRekapDikum";
+import TableRekapDikpol from "../Table/Korpolairud/TableRekapDikpol"
+import TableRekapDiklat from "../Table/Korpolairud/TableRekapDiklat"
+import TableRekapFungsi from "../Table/Korpolairud/TableRekapFungsi"
+import TableRekapLain from "../Table/Korpolairud/TableRekapLain"
+import { useSelectedMonth } from "../../Context/SelectedMonthContext";
 
-export default function TabsRekapKorpo() {
+export default function TabsRekapKorpo({bagian}) {
     const data = [
         {
             label: "Dikum",
             value: "dikum",
-            desc: <TableRekapKorpolairud />,
+            desc: <TableRekapDikum bagian={bagian}/>,
         },
         {
             label: "Dikpol",
             value: "dikpol",
-            desc: <TableRekapKorpolairud />,
+            desc: <TableRekapDikpol bagian={bagian}/>,
         },
         {
-            label: "Fungsi Polair",
+            label: "Fungsi " + bagian,
             value: "fungsi",
-            desc: <TableRekapKorpolairud />,
+            desc: <TableRekapFungsi bagian={bagian}/>,
         },
         {
             label: "Diklat",
             value: "diklat",
-            desc: <TableRekapKorpolairud />,
+            desc: <TableRekapDiklat bagian={bagian}/>,
         },
         {
             label: "Lain-lain",
             value: "lain-lain",
-            desc: <TableRekapKorpolairud />,
+            desc: <TableRekapLain bagian={bagian}/>,
         },
     ];
 
+    const { selectedMonth } = useSelectedMonth(); // Menggunakan useSelectedMonth untuk mendapatkan selectedMonth
+
     return (
-        <Tabs id="custom-animation" value="dikum" className="mt-4">
+        <Tabs id="custom-animation" value="dikum" className="mt-4">            
             <TabsHeader>
                 {data.map(({ label, value }) => (
                     <Tab key={value} value={value}>

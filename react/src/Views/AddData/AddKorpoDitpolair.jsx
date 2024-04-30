@@ -13,7 +13,7 @@ function AddKorpolairud({bagian}) {
     const navigate = useNavigate();
 
     const options = {
-        pangkat: [
+        pangkat: [            
             { value: "IRJEN" },
             { value: "BRIGJEN" },
             { value: "KBP" },
@@ -44,10 +44,7 @@ function AddKorpolairud({bagian}) {
             { value: "SD" },
             { value: "SMP" },
             { value: "SMA" },
-            { value: "D1" },
-            { value: "D2" },
             { value: "D3" },
-            { value: "D4" },
             { value: "S1" },
             { value: "S2" },
             { value: "S3" },
@@ -57,14 +54,14 @@ function AddKorpolairud({bagian}) {
             { value: "ANT II" },
             { value: "ANT III" },
             { value: "ANT V" },
-            { value: "ATT 1" },
-            { value: "ATT 2" },
-            { value: "ATT 3" },
-            { value: "ATT 5" },
-            { value: "DPMKN TK 2" },
-            { value: "DPMKN TK 3" },
-            { value: "DPDKN TK 2" },
-            { value: "DPDKN TK 3" },
+            { value: "ATT I" },
+            { value: "ATT II" },
+            { value: "ATT III" },
+            { value: "ATT V" },
+            { value: "DPMKN II" },
+            { value: "DPMKN III" },
+            { value: "DPDKN II" },
+            { value: "DPDKN III" },
         ],
         dikpol: [
             { value: "SEBA" },
@@ -74,17 +71,18 @@ function AddKorpolairud({bagian}) {
             { value: "SEKBANG TNI" },
             { value: "AKPL" },
             { value: "PTIK" },
-            { value: "SESKOAU" },
-            { value: "SESKOAL" },
+            { value: "SESKO AU" },
+            { value: "SESKO AL" },
             { value: "SESPIMMA" },
-            { value: "SESPMEN" },
-            { value: "PMTIK 1" },
-            { value: "PMTIK 2" },
+            { value: "SESPIMMEN" },
+            { value: "PIM TK I" },
+            { value: "PIM TK II" },
             { value: "PKA" },
-            { value: "SESPATI" },
+            { value: "SESPIMTI" },
             { value: "LEMHANAS" },
             { value: "PAG PA" },
             { value: "PAG BA" },
+            { value: "PAG TA" },
         ],
         fungsi: [
             { value: "SAR" },
@@ -275,11 +273,7 @@ function AddKorpolairud({bagian}) {
             !nama ||
             !nrp ||
             selectedPangkat.length === 0 ||
-            selectedValuesDikum.length === 0 ||
-            selectedValuesDiklat.length === 0 ||
-            selectedValuesDikpol.length === 0 ||
-            selectedValuesFungsi.length === 0 ||
-            selectedValuesLain.length === 0
+            selectedValuesDikum.length === 0       
         ) {
             Toast.fire({
                 icon: "warning",
@@ -296,6 +290,7 @@ function AddKorpolairud({bagian}) {
             diklat: Array.isArray(selectedValuesDiklat) ? selectedValuesDiklat.join(', ') : selectedValuesDiklat,
             dikpol: Array.isArray(selectedValuesDikpol) ? selectedValuesDikpol.join(', ') : selectedValuesDikpol,
             fungsi_polair: Array.isArray(selectedValuesFungsi) ? selectedValuesFungsi.join(', ') : selectedValuesFungsi,
+            fungsi_poludara: '',
             dikbangspes: Array.isArray(selectedValuesLain) ? selectedValuesLain.join(', ') : selectedValuesLain,
             bagian: bagian
         }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Dialog, IconButton } from "@material-tailwind/react";
 import {
     MagnifyingGlassIcon,
@@ -14,6 +14,8 @@ import {
     CardFooter,
     Tooltip,
 } from "@material-tailwind/react";
+import axiosClient from "../../axios";
+import { useQuery } from "@tanstack/react-query";
 
 export default function DialogRiwayat() {
     const TABLE_HEAD = [
@@ -36,9 +38,81 @@ export default function DialogRiwayat() {
             waktu: "4/21/2024 22.40",
         },
     ];
+    const [nrpf, setNrp] = useState();
+    const [nama, setNama] = useState();
+    const [search, setSearch] = useState();
+    const [pangkatLama, setPangkatLama] = useState();
+    const [pangkatBaru, setPangkatBaru] = useState();
+    const [divisi, setDivisi] = useState();
+    const [waktu, setWaktu] = useState();
     const [size, setSize] = React.useState(null);
+    const [member, setMember] = useState([]);
+    const [currPage, setCurr] = useState();
+    const [lastPage, setLast] = useState();
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+    const handleFirst = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleLast = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(lastPage);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleNext = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage + 1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handlePrev = () => {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setCurr(currPage - 1);
+            setIsButtonDisabled(false);
+        }, 1000);
+        return console.log(currPage);
+    };
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+    };
 
     const handleOpen = (value) => setSize(value);
+
+    const fetchData = async () => {
+        let pegawai;
+        if (search) {
+            pegawai = await axiosClient.get(
+                "/data-mutasi?keyword=" + search + "&page=" + currPage
+            );
+        } else {
+            pegawai = await axiosClient.get("/data-mutasi?page=" + currPage);
+        }
+        console.log(pegawai.data);
+        setMember(pegawai.data.data);
+        setCurr(pegawai.data.meta.current_page);
+        setLast(pegawai.data.meta.last_page);
+        return pegawai;
+    };
+
+    const { isPending, isError, data, error } = useQuery({
+        queryKey: ["pegawais", currPage, search],
+        queryFn: fetchData,
+    });
+
+    if (isError) {
+        return <span>Error: {error.message}</span>;
+    }
 
     return (
         <>
@@ -72,7 +146,10 @@ export default function DialogRiwayat() {
                         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                             <div className="w-full flex gap-4">
                                 <Input
-                                    label="Search"
+                                    onChange={handleSearch}
+                                    label="Search NRP"
+                                    type="number"
+                                    value={search}
                                     icon={
                                         <MagnifyingGlassIcon className="h-5 w-5" />
                                     }
@@ -120,8 +197,12 @@ export default function DialogRiwayat() {
                                     ))}
                                 </tr>
                             </thead>
-                            <tbody>
-                                {sm.map((pegawai, index) => {
+                            <tbody
+                                className={`${
+                                    isPending ? "animate-pulse bg-gray-200" : ""
+                                }`}
+                            >
+                                {member.map((pegawai, index) => {
                                     const isLast = index === pegawai.length - 1;
                                     const classes = isLast
                                         ? "p-4"
@@ -148,14 +229,14 @@ export default function DialogRiwayat() {
                                             <td className={classes}>
                                                 <div className="flex flex-col">
                                                     <p className="font-normal text-sm text-black group-hover:text-white">
-                                                        {pegawai.pangkatLama}
+                                                        {pegawai.pangkat_lama}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td className={classes}>
                                                 <div className="flex flex-col">
                                                     <p className="font-normal text-sm text-black group-hover:text-white">
-                                                        {pegawai.pangkatBaru}
+                                                        {pegawai.pangkat_baru}
                                                     </p>
                                                 </div>
                                             </td>
@@ -169,7 +250,7 @@ export default function DialogRiwayat() {
                                             <td className={classes}>
                                                 <div className="flex flex-col">
                                                     <p className="font-normal text-sm text-black group-hover:text-white">
-                                                        {pegawai.waktu}
+                                                        {pegawai.ditambahkan}
                                                     </p>
                                                 </div>
                                             </td>
@@ -185,21 +266,21 @@ export default function DialogRiwayat() {
                             color="blue-gray"
                             className="font-normal"
                         >
-                            {/* Page {currPage} of {lastPage} */}
+                            Page {currPage} of {lastPage}
                         </Typography>
                         <div className="flex gap-2">
                             <Button
                                 variant="outlined"
-                                // onClick={handlePrev}
-                                // disabled={isButtonDisabled || currPage === 1}
+                                onClick={handleFirst}
+                                disabled={isButtonDisabled || currPage === 1}
                                 size="sm"
                             >
                                 Awal
                             </Button>
                             <Button
                                 variant="outlined"
-                                // onClick={handlePrev}
-                                // disabled={isButtonDisabled || currPage === 1}
+                                onClick={handlePrev}
+                                disabled={isButtonDisabled || currPage === 1}
                                 size="sm"
                             >
                                 Sebelumnya
@@ -207,16 +288,20 @@ export default function DialogRiwayat() {
 
                             <Button
                                 variant="outlined"
-                                // onClick={handleNext}
-                                // disabled={isButtonDisabled || currPage === lastPage}
+                                onClick={handleNext}
+                                disabled={
+                                    isButtonDisabled || currPage === lastPage
+                                }
                                 size="sm"
                             >
                                 Selanjutnya
                             </Button>
                             <Button
                                 variant="outlined"
-                                // onClick={handleNext}
-                                // disabled={isButtonDisabled || currPage === lastPage}
+                                onClick={handleLast}
+                                disabled={
+                                    isButtonDisabled || currPage === lastPage
+                                }
                                 size="sm"
                             >
                                 Akhir

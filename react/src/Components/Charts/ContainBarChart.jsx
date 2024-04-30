@@ -4,15 +4,7 @@ import Example from "./PieChart";
 
 function ContainChartRekap({ bagian }) {
     return (
-        <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2 h-72">
-                <Skeleton className="h-full rounded-xl"></Skeleton>
-            </div>
-            <Skeleton className="h-full rounded-xl"></Skeleton>
-
-            <div className="col-span-2">
-                <BarChart></BarChart>
-            </div>
+        <div className="grid grid-cols-3 gap-4">                        
             <Example bagian={bagian}></Example>
         </div>
     );

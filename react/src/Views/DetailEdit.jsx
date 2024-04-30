@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 
 function DetailEdit() {
     const options = {
-        pangkat: [
+        pangkat: [            
             { value: "IRJEN" },
             { value: "BRIGJEN" },
             { value: "KBP" },
@@ -54,14 +54,14 @@ function DetailEdit() {
             { value: "ANT II" },
             { value: "ANT III" },
             { value: "ANT V" },
-            { value: "ATT 1" },
-            { value: "ATT 2" },
-            { value: "ATT 3" },
-            { value: "ATT 5" },
-            { value: "DPMKN TK 2" },
-            { value: "DPMKN TK 3" },
-            { value: "DPDKN TK 2" },
-            { value: "DPDKN TK 3" },
+            { value: "ATT I" },
+            { value: "ATT II" },
+            { value: "ATT III" },
+            { value: "ATT V" },
+            { value: "DPMKN II" },
+            { value: "DPMKN III" },
+            { value: "DPDKN II" },
+            { value: "DPDKN III" },
         ],
         dikpol: [
             { value: "SEBA" },
@@ -71,17 +71,18 @@ function DetailEdit() {
             { value: "SEKBANG TNI" },
             { value: "AKPL" },
             { value: "PTIK" },
-            { value: "SESKOAU" },
-            { value: "SESKOAL" },
+            { value: "SESKO AU" },
+            { value: "SESKO AL" },
             { value: "SESPIMMA" },
-            { value: "SESPMEN" },
-            { value: "PMTIK 1" },
-            { value: "PMTIK 2" },
+            { value: "SESPIMMEN" },
+            { value: "PIM TK I" },
+            { value: "PIM TK II" },
             { value: "PKA" },
-            { value: "SESPATI" },
+            { value: "SESPIMTI" },
             { value: "LEMHANAS" },
             { value: "PAG PA" },
             { value: "PAG BA" },
+            { value: "PAG TA" },
         ],
         fungsi: [
             { value: "SAR" },
@@ -338,7 +339,7 @@ function DetailEdit() {
     };
 
     const { data, isPending, isError } = useQuery({
-        queryKey: ["detailPegawai", nama],
+        queryKey: ["detailPegawai"],
         queryFn: fetchData,
     });
 
@@ -347,7 +348,7 @@ function DetailEdit() {
             nama: "Muhammad Cino",
             nrp: "1234567",
             pangkat: "Siswa PKL",
-            dikum: "SMK 12",
+            dikum: "SMK 12",            
             dikpol: "Unknown",
             fungsi: "Unknown",
             diklat: "Unknown",
@@ -364,6 +365,7 @@ function DetailEdit() {
             id: id,
             nama: nama,
             nrp: nrp,
+            pangkat: pangkat,
             dikum: Array.isArray(selectedValuesDikum)
                 ? selectedValuesDikum.join(", ")
                 : selectedValuesDikum,

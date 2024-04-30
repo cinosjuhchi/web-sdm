@@ -7,13 +7,22 @@ import { useSelectedMonth } from "../../../Context/SelectedMonthContext";
 
 const TABLE_HEAD = [
     "PANGKAT",
-    "SMP",
-    "SMA/SMK/STM",
-    "D3",
-    "D4",
-    "S1",
-    "S2",
-    "S3",
+    "INTEL",
+    "SERSE",
+    "PROPAM",
+    "LOGISTIK",
+    "KEUANGAN",
+    "BHS INGGRIS",
+    "BHS FRANCIS",
+    "BHS ARAB",
+    "BHS MANDARIN",
+    "BARANG DAN JASA",
+    "SATPAM GADA PRATAMA",
+    "SDM",
+    "TP. LUNDUP",
+    "TP. KORUPSI",
+    "TP. ILLEGAL FISHING",
+    "TP. ILLEGAL NARKOBA",
 ];
 
 export default function TableRekapKorpolairud({ bagian }) {
@@ -28,7 +37,7 @@ export default function TableRekapKorpolairud({ bagian }) {
     };
 
     const { isPending, isError, data, error } = useQuery({
-        queryKey: ["pegawais-rekap-dikum", selectedMonth, selectedYear],
+        queryKey: ["pegawais-rekap-lain", selectedMonth, selectedYear],
         queryFn: fetchData,
     });
     return (
@@ -41,10 +50,10 @@ export default function TableRekapKorpolairud({ bagian }) {
                 <div className="flex items-center justify-between gap-8">
                     <div>
                         <h1 className="text-xl font-bold text-black">
-                            Data Rekapitulasi Dikum
+                            Data Rekapitulasi Lain-Lain
                         </h1>
                         <p color="gray" className="mt-1 font-normal">
-                            Informasi data rekapitulasi dikum
+                            Informasi data rekapitulasi lain-lain
                         </p>
                     </div>
                     <button
@@ -121,40 +130,85 @@ export default function TableRekapKorpolairud({ bagian }) {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white">
-                                                {pegawai.SMP}
+                                                {pegawai.INTEL}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white">
-                                                {pegawai.SMA}
+                                                {pegawai.SERSE}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white ">
-                                            {pegawai.D3}
+                                            {pegawai.PROPAM}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.D4}
+                                            {pegawai.LOGISTIK}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.S1}
+                                            {pegawai.KEUANGAN}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.S2}
+                                            {pegawai.BHS_INGGRIS}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.S3}
+                                            {pegawai.BHS_FRANCIS}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.BHS_ARAB}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.BHS_MANDARIN}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.BARANG_DAN_JASA}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.SATPAM_GADA_PRATAMA}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.SDM}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.TP_LUNDUP}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.TP_KORUPSI}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.TP_ILLEGAL_FISHING}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.TP_ILLEGAL_NARKOBA}
                                         </p>
                                     </td>
                                     <td className={classes}>

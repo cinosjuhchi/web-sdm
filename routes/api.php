@@ -20,4 +20,8 @@ Route::get('/data-pegawai/piechart', [PegawaiController::class, 'piechart'])->mi
 Route::get('/detail-pegawai/{nrp}', [PegawaiController::class, 'show'])->middleware(['auth:sanctum']);
 Route::get('/rekap-pegawai', [PegawaiController::class, 'getTotalByPangkat'])->middleware(['auth:sanctum']);
 Route::post('/detail-pegawai/store', [PegawaiController::class, 'store'])->middleware(['auth:sanctum']);
+Route::post('/detail-pegawai/mutasi', [PegawaiController::class, 'mutasi'])->middleware(['auth:sanctum']);
 Route::post('/detail-pegawai/update', [PegawaiController::class, 'update'])->middleware(['auth:sanctum']);
+Route::get('/data-mutasi', [PegawaiController::class, 'dataMutasi'])->middleware(['auth:sanctum']);
+Route::get('/pegawai/export', [PegawaiController::class, 'export'])->middleware(['auth:sanctum']);
+

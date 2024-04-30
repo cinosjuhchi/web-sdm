@@ -36,31 +36,31 @@ const router = createBrowserRouter([
             // Korpolairud
             {
                 path: "/perincian-korpolairud",
-                element: <PerincianKorpolairud />,
+                element: <PerincianKorpolairud bagian="KORPOLAIRUD"/>,
             },
             {
                 path: "/rekap-korpolairud",
-                element: <RekapKorpolairud />,
+                element: <RekapKorpolairud bagian="KORPOLAIRUD"/>,
             },
 
             // Ditpolairud
             {
                 path: "/perincian-ditpolairud",
-                element: <PerincianDitpolairud />,
+                element: <PerincianKorpolairud bagian="DITPOLAIR"/>,
             },
             {
                 path: "/rekap-ditpolairud",
-                element: <RekapDitpolairud />,
+                element: <RekapKorpolairud bagian="DITPOLAIR"/>,
             },
 
             // Ditpoludara
             {
                 path: "/perincian-ditpoludara",
-                element: <PerincianDitpolaudara />,
+                element: <PerincianKorpolairud bagian="DITPOLUDARA"/>,
             },
             {
                 path: "/rekap-ditpoludara",
-                element: <RekapDitpoludara />,
+                element: <RekapKorpolairud bagian="DITPOLUDARA"/>,
             },
 
             // Mutasi
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/tambah-data-ditpoludara",
-                element: <AddDitpoludara />,
+                element: <AddDitpoludara bagian="DITPOLUDARA"/>,
             },
             {
                 path: "/detail",

@@ -24,7 +24,8 @@ const TABLE_HEAD = [
     "Pangkat",
     "Dikum",
     "Dikpol",
-    "Fungsi",
+    "Fungsi Polair",
+    "Fungsi Poludara",
     "Diklat",
     "Lain-lain",
 ];
@@ -114,8 +115,7 @@ export default function TableDashboard() {
                         </p>
                     </div>
                     <div className="flex shrink-0 gap-2 flex-row justify-end">
-                        <div className="w-full md:w-72">
-                            {search}
+                        <div className="w-full md:w-72">                            
                             <Input
                                 onChange={handleSearch}
                                 label="Search NRP"
@@ -199,7 +199,12 @@ export default function TableDashboard() {
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black">
-                                            {pegawai.fungsi}                                            
+                                            {pegawai.fungsi_polair}                                            
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black">
+                                            {pegawai.fungsi_poludara}                                            
                                         </p>
                                     </td>
                                     <td className={classes}>

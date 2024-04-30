@@ -6,17 +6,29 @@ import { useState } from "react";
 import { useSelectedMonth } from "../../../Context/SelectedMonthContext";
 
 const TABLE_HEAD = [
-    "PANGKAT",
-    "SMP",
-    "SMA/SMK/STM",
-    "D3",
-    "D4",
-    "S1",
-    "S2",
-    "S3",
+     "Pangkat",
+     "SEBA",
+     "SBP",
+     "SETUKPA",
+     "SEPA",
+     "SEKBANG TNI",
+     "AKPL",
+     "PTIK",
+     "SESKO AU",
+     "SESKO AL",
+     "SESPIMMA",
+     "SESPIMMEN",
+     "PIM TK I",
+     "PIM TK II",
+     "PKA",
+     "SESPIMTI",
+     "LEMHANAS",
+     "PAG PA",
+     "PAG BA",
+     "PAG TA",
 ];
 
-export default function TableRekapKorpolairud({ bagian }) {
+export default function TableRekapKorpolairud({bagian}) {
     const [member, setMember] = useState([]);
     const { selectedMonth, selectedYear } = useSelectedMonth(); // Menggunakan useSelectedMonth untuk mendapatkan selectedMonth
     const fetchData = async () => {
@@ -28,7 +40,7 @@ export default function TableRekapKorpolairud({ bagian }) {
     };
 
     const { isPending, isError, data, error } = useQuery({
-        queryKey: ["pegawais-rekap-dikum", selectedMonth, selectedYear],
+        queryKey: ["pegawais-rekap-dikpol", selectedMonth, selectedYear],
         queryFn: fetchData,
     });
     return (
@@ -38,24 +50,7 @@ export default function TableRekapKorpolairud({ bagian }) {
                 shadow={false}
                 className="rounded-none font-jakarta"
             >
-                <div className="flex items-center justify-between gap-8">
-                    <div>
-                        <h1 className="text-xl font-bold text-black">
-                            Data Rekapitulasi Dikum
-                        </h1>
-                        <p color="gray" className="mt-1 font-normal">
-                            Informasi data rekapitulasi dikum
-                        </p>
-                    </div>
-                    <button
-                        onClick={() => window.print()}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    >
-                        Print
-                    </button>
-                </div>
-            </CardHeader>
-            <style>
+                <style>
                 {`
                 @media print {
                     /* Rules for printing */
@@ -74,6 +69,23 @@ export default function TableRekapKorpolairud({ bagian }) {
                   }
                 `}
             </style>
+                <div className="flex items-center justify-between gap-8">
+                    <div>
+                        <h1 className="text-xl font-bold text-black">
+                            Data Rekapitulasi Dikum
+                        </h1>
+                        <p color="gray" className="mt-1 font-normal">
+                            Informasi data rekapitulasi dikpol
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => window.print()}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    >
+                        Print
+                    </button>
+                </div>
+            </CardHeader>
             <CardBody className="overflow-auto px-0">
                 <table className="w-full table-auto text-center printable-area">
                     <thead>
@@ -121,40 +133,100 @@ export default function TableRekapKorpolairud({ bagian }) {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white">
-                                                {pegawai.SMP}
+                                                {pegawai.SEBA}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <p className="font-normal text-sm text-black group-hover:text-white">
-                                                {pegawai.SMA}
+                                                {pegawai.SBP}
                                             </p>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white ">
-                                            {pegawai.D3}
+                                            {pegawai.SETUKPA}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.D4}
+                                            {pegawai.SEPA}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.S1}
+                                            {pegawai.SEKBANG_TNI}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.S2}
+                                            {pegawai.AKPL}
                                         </p>
                                     </td>
                                     <td className={classes}>
                                         <p className="font-normal text-sm text-black group-hover:text-white  ">
-                                            {pegawai.S3}
+                                            {pegawai.PTIK}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.SESKOAU}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.SESKOAL}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.SESPIMMA}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.SESPIMMEN}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.PIM_TK_I}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.PIM_TK_II}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.PKA}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.SESPIMTI}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.LEMHANAS}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.PAGPA}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.PAGBA}
+                                        </p>
+                                    </td>
+                                    <td className={classes}>
+                                        <p className="font-normal text-sm text-black group-hover:text-white  ">
+                                            {pegawai.PAGTA}
                                         </p>
                                     </td>
                                     <td className={classes}>
