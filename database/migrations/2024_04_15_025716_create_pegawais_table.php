@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pegawais', function (Blueprint $table) {
             $table->id();
             $table->string('pangkat', 250)->nullable();
-            $table->integer('nrp', false)->nullable();
+            $table->bigInteger('nrp')->nullable();
             $table->string('nama', 250)->nullable();
             $table->string('dikum', '250')->nullable();
             $table->string('dikpol', '250')->nullable();

@@ -394,7 +394,7 @@ function AddKorpolairud({bagian}) {
                                     name="nrp"
                                     id="nrp"
                                     required
-                                    max="10000000"
+                                    max="10000000000000000000"
                                     value={nrp}
                                     onChange={(ev) => setNrp(ev.target.value)}
                                     placeholder="Masukkan NRP"

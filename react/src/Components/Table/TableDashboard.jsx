@@ -118,7 +118,7 @@ export default function TableDashboard() {
                         <div className="w-full md:w-72">                            
                             <Input
                                 onChange={handleSearch}
-                                label="Search NRP"
+                                label="Search NRP / NIP"
                                 type="number"
                                 value={search}
                                 icon={

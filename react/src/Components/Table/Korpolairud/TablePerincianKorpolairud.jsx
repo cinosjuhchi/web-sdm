@@ -2,8 +2,10 @@ import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
     ArrowTopRightOnSquareIcon,
+    TrashIcon,
 } from "@heroicons/react/24/outline";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
+import Swal from "sweetalert2";
 import {
     Card,
     CardHeader,
@@ -88,7 +90,7 @@ export default function TablePerincianKorpolairud({ bagian }) {
         return pegawai.data.data;
     };
 
-    const { isPending, isError, data, error } = useQuery({
+    const { isPending, isError, data, error, refetch } = useQuery({
         queryKey: [
             "filter",
             currPage,
@@ -101,6 +103,7 @@ export default function TablePerincianKorpolairud({ bagian }) {
         ],
         queryFn: fetchData,
         initialData: sm,
+        refetchOnWindowFocus: false, // Tambahkan ini
     });
 
     const handleSearch = (event) => {
@@ -138,6 +141,35 @@ export default function TablePerincianKorpolairud({ bagian }) {
         }, 1000);
         return console.log(currPage);
     };
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        iconColor: "green",
+        customClass: {
+            popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    });
+
+
+    const hapusData = (nrp) => {
+        confirm('Yakin ingin menghapus')
+        axiosClient.post("/pegawai/delete", {nrp: nrp}).then(() => {
+            Toast.fire({
+                icon: "success",
+                title: "Data berhasil dihapus",
+            })
+            refetch()
+
+        }).catch(error => {
+            Toast.fire({
+                icon: "warning",
+                title: error,
+            });        
+        })
+    }
 
     return (
         <Card className="h-full w-full grid grid-cols-1">
@@ -300,6 +332,18 @@ export default function TablePerincianKorpolairud({ bagian }) {
                                                         <ArrowTopRightOnSquareIcon className="h-6 w-6" />
                                                     </IconButton>
                                                 </Link>
+                                            </Tooltip>
+                                            <Tooltip
+                                                content="Hapus Data"
+                                                placement="top-end"                                            
+                                            >                                                
+                                                    <IconButton
+                                                    onClick={() => hapusData(pegawai.nrp)}
+                                                        variant="text"
+                                                        className="group-hover:bg-white"
+                                                    >
+                                                        <TrashIcon className="h-6 w-6" />
+                                                    </IconButton>                                             
                                             </Tooltip>
                                         </div>
                                     </td>

@@ -172,6 +172,28 @@ class PegawaiController extends Controller
         return response()->json($bagian);
     }
 
+    public function synchrone(){
+        $pegawai = Pegawai::all();
+
+        // Looping untuk setiap pegawai dan masukkan ke dalam tabel rekaps
+        foreach ($pegawai as $peg) {
+            Rekap::create([
+                'pangkat' => $peg->pangkat,
+                'nama' => $peg->nama,
+                'nrp' => $peg->nrp,
+                'dikum' => $peg->dikum,
+                'diklat' => $peg->diklat,
+                'dikpol' => $peg->dikpol,
+                'dikbangspes' => $peg->dikbangspes,
+                'fungsi_polair' => $peg->fungsi_polair,
+                'bagian' => $peg->bagian,
+                'fungsi_poludara' => $peg->fungsi_poludara,
+                // Tambahkan field lainnya sesuai kebutuhan
+            ]);
+        }
+        return response()->json(['message' => 'Data berhasil disinkronkan'], 200);
+    }
+
     public function getTotalByPangkat(Request $request)
     {
     $bulanIni = date('m');
@@ -507,8 +529,17 @@ class PegawaiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pegawai $pegawai)
+    public function destroy(Request $request)
     {
-        //
+        $nrp = $request->nrp;
+        $pegawai = Pegawai::where('nrp', $nrp)->first(); // Mencari data pegawai berdasarkan nrp
+        $rekap = Rekap::where('nrp', $nrp)->first();
+        if ($pegawai) {
+            $pegawai->delete(); // Menghapus data jika ditemukan
+            $rekap->delete();
+            return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
     }
 }

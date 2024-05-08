@@ -24,4 +24,6 @@ Route::post('/detail-pegawai/mutasi', [PegawaiController::class, 'mutasi'])->mid
 Route::post('/detail-pegawai/update', [PegawaiController::class, 'update'])->middleware(['auth:sanctum']);
 Route::get('/data-mutasi', [PegawaiController::class, 'dataMutasi'])->middleware(['auth:sanctum']);
 Route::get('/pegawai/export', [PegawaiController::class, 'export'])->middleware(['auth:sanctum']);
+Route::post('/pegawai/delete', [PegawaiController::class, 'destroy'])->middleware(['auth:sanctum']);
+Route::get('/pegawai/sinkron-rekap', [PegawaiController::class, 'synchrone'])->middleware(['auth:sanctum']);
 
